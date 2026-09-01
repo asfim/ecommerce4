@@ -227,6 +227,10 @@
     window.DISCOUNT_PRODUCTS = [
         @foreach($discountedProducts as $product)
         @php
+            $dType = $product->discount_type ?? '';
+            $dVal = $product->discount_value ?? 0;
+            if ($dVal <= 0) continue;
+            
             $displayImage = $product->image;
             if(empty($displayImage)) {
                 $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
@@ -243,12 +247,16 @@
             $desc = mb_substr(strip_tags($product->description), 0, 100);
             
             $calcPrice = $product->price;
-            $dType = $product->discount_type ?? '';
-            $dVal = $product->discount_value ?? 0;
-            if ($dType == 'percent' && $dVal > 0) {
-                $calcPrice = $product->price - ($product->price * ($dVal / 100));
-            } else if ($dType == 'flat' && $dVal > 0) {
-                $calcPrice = $product->price - $dVal;
+            $dType = '';
+            $dVal = 0;
+            if ($product->has_active_discount) {
+                $dType = $product->discount_type ?? '';
+                $dVal = $product->discount_value ?? 0;
+                if ($dType == 'percent' && $dVal > 0) {
+                    $calcPrice = $product->price - ($product->price * ($dVal / 100));
+                } else if (($dType == 'flat' || $dType == 'fixed') && $dVal > 0) {
+                    $calcPrice = $product->price - $dVal;
+                }
             }
         @endphp
         {
@@ -286,12 +294,16 @@
             $desc = mb_substr(strip_tags($product->description), 0, 100);
             
             $calcPrice = $product->price;
-            $dType = $product->discount_type ?? '';
-            $dVal = $product->discount_value ?? 0;
-            if ($dType == 'percent' && $dVal > 0) {
-                $calcPrice = $product->price - ($product->price * ($dVal / 100));
-            } else if ($dType == 'flat' && $dVal > 0) {
-                $calcPrice = $product->price - $dVal;
+            $dType = '';
+            $dVal = 0;
+            if ($product->has_active_discount) {
+                $dType = $product->discount_type ?? '';
+                $dVal = $product->discount_value ?? 0;
+                if ($dType == 'percent' && $dVal > 0) {
+                    $calcPrice = $product->price - ($product->price * ($dVal / 100));
+                } else if (($dType == 'flat' || $dType == 'fixed') && $dVal > 0) {
+                    $calcPrice = $product->price - $dVal;
+                }
             }
         @endphp
         {

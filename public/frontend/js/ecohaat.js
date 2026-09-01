@@ -284,7 +284,7 @@ function productCardHTML(p) {
   let discountBadgeText = '';
   if (p.discountType === 'percent' && p.discountValue > 0) {
       discountBadgeText = `-${p.discountValue.toLocaleString("bn-BD")}%`;
-  } else if (p.discountType === 'flat' && p.discountValue > 0) {
+  } else if ((p.discountType === 'flat' || p.discountType === 'fixed') && p.discountValue > 0) {
       discountBadgeText = `-${formatTaka(p.discountValue)}`;
   } else if (p.oldPrice > p.price) {
       discountBadgeText = `-${discountPct(p).toLocaleString("bn-BD")}%`;
