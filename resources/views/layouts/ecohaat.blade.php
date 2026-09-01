@@ -298,7 +298,7 @@
 <!-- ================= TOAST ================= -->
 <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-<script src="{{ asset('frontend/js/ecohaat.js') }}?v={{ time() }}"></script>
 @stack('scripts')
+<script src="{{ asset('frontend/js/ecohaat.js') }}?v={{ time() }}"></script>
 </body>
 </html>

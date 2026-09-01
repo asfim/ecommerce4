@@ -121,6 +121,84 @@ function renderCategories() {
   });
 }
 
+function initCategorySlider() {
+  const grid = document.getElementById("categoryGrid");
+  const prevBtn = document.getElementById("catPrev");
+  const nextBtn = document.getElementById("catNext");
+  if (!grid || !prevBtn || !nextBtn) return;
+
+  const cards = grid.querySelectorAll(".category-card");
+  if (cards.length === 0) return;
+
+  let currentIndex = 0;
+  let interval;
+
+  function updateSlider() {
+    const containerWidth = grid.parentElement.offsetWidth;
+    const cardWidth = cards[0].offsetWidth;
+    const visibleCards = Math.floor(containerWidth / (cardWidth + 22)) || 1;
+    const maxIndex = Math.max(0, cards.length - visibleCards);
+
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+    if (currentIndex < 0) currentIndex = 0;
+
+    const translate = currentIndex * (cardWidth + 22);
+    grid.style.transform = `translateX(-${translate}px)`;
+
+    prevBtn.style.display = "flex";
+    nextBtn.style.display = "flex";
+  }
+
+  function nextSlide() {
+    const containerWidth = grid.parentElement.offsetWidth;
+    const cardWidth = cards[0].offsetWidth;
+    const visibleCards = Math.floor(containerWidth / (cardWidth + 22)) || 1;
+    const maxIndex = Math.max(0, cards.length - visibleCards);
+
+    if (currentIndex < maxIndex) {
+      currentIndex++;
+    } else {
+      currentIndex = 0; // loop back
+    }
+    updateSlider();
+  }
+
+  function prevSlide() {
+    if (currentIndex > 0) {
+      currentIndex--;
+    } else {
+      const containerWidth = grid.parentElement.offsetWidth;
+      const cardWidth = cards[0].offsetWidth;
+      const visibleCards = Math.floor(containerWidth / (cardWidth + 22)) || 1;
+      currentIndex = Math.max(0, cards.length - visibleCards);
+    }
+    updateSlider();
+  }
+
+  nextBtn.addEventListener("click", () => {
+    nextSlide();
+    resetInterval();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    prevSlide();
+    resetInterval();
+  });
+
+  function startInterval() {
+    interval = setInterval(nextSlide, 3000);
+  }
+
+  function resetInterval() {
+    clearInterval(interval);
+    startInterval();
+  }
+
+  window.addEventListener("resize", updateSlider);
+  updateSlider();
+  startInterval();
+}
+
 /* =========================================================
    RENDER: COLLECTIONS
    ========================================================= */
@@ -749,38 +827,7 @@ if(hamburgerBtn) {
 if(navOverlay) navOverlay.addEventListener("click", closeMobileNav);
 if(mainNav) mainNav.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMobileNav));
 
-/* =========================================================
-   HERO SLIDER
-   ========================================================= */
-const heroTrack = document.getElementById("heroTrack");
-const heroSlides = document.querySelectorAll(".hero-slide");
-const heroDotsEl = document.getElementById("heroDots");
-let heroIndex = 0;
-let heroTimer = null;
 
-if(heroDotsEl && heroSlides.length > 0) {
-    heroDotsEl.innerHTML = Array.from(heroSlides).map((_, i) => `<button aria-label="স্লাইড ${i + 1}" class="${i === 0 ? "is-active" : ""}"></button>`).join("");
-}
-
-function goToHeroSlide(i) {
-  if(!heroTrack || heroSlides.length === 0) return;
-  heroIndex = (i + heroSlides.length) % heroSlides.length;
-  heroTrack.style.transform = `translateX(-${heroIndex * 100}%)`;
-  document.querySelectorAll("#heroDots button").forEach((b, idx) => b.classList.toggle("is-active", idx === heroIndex));
-}
-function startHeroAutoplay() {
-  heroTimer = setInterval(() => goToHeroSlide(heroIndex + 1), 4500);
-}
-function stopHeroAutoplay() { clearInterval(heroTimer); }
-
-if(document.getElementById("heroPrev")) document.getElementById("heroPrev").addEventListener("click", () => { goToHeroSlide(heroIndex - 1); });
-if(document.getElementById("heroNext")) document.getElementById("heroNext").addEventListener("click", () => { goToHeroSlide(heroIndex + 1); });
-if(heroDotsEl) heroDotsEl.querySelectorAll("button").forEach((btn, i) => btn.addEventListener("click", () => goToHeroSlide(i)));
-if(document.getElementById("heroSlider")) {
-    document.getElementById("heroSlider").addEventListener("mouseenter", stopHeroAutoplay);
-    document.getElementById("heroSlider").addEventListener("mouseleave", startHeroAutoplay);
-    startHeroAutoplay();
-}
 
 /* =========================================================
    NEWSLETTER
@@ -834,6 +881,7 @@ window.addEventListener("scroll", () => {
    ========================================================= */
 function init() {
   renderCategories();
+  initCategorySlider();
   renderCollections();
   renderWhyUs();
   renderTestimonials();

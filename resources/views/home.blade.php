@@ -7,40 +7,89 @@
   <div class="hero-slider" id="heroSlider">
     <div class="hero-track" id="heroTrack">
 
-      <article class="hero-slide is-active">
-        <div class="hero-grid">
-          <div class="hero-panel hero-panel--main">
-            <img src="{{ !empty($heroBanners) ? asset('storage/' . $heroBanners[0]) : 'https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=1000&q=80' }}" alt="Hero Banner" loading="eager">
-          </div>
-          <div class="hero-panel hero-panel--sub">
-            <img src="{{ !empty($heroBanners) && isset($heroBanners[1]) ? asset('storage/' . $heroBanners[1]) : 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=700&q=80' }}" alt="Banner Sub" loading="eager">
-          </div>
-          <div class="hero-panel hero-panel--sub2">
-            <img src="{{ !empty($heroBanners) && isset($heroBanners[2]) ? asset('storage/' . $heroBanners[2]) : 'https://images.unsplash.com/photo-1618221639031-8f0f0dfd0a83?auto=format&fit=crop&w=700&q=80' }}" alt="Banner Sub 2" loading="eager">
-          </div>
-          <div class="hero-panel hero-panel--story">
-            <div class="hero-story-content">
-              <span class="hero-eyebrow">{{ \App\Models\HomepageSetting::get('hero_badge', '১০০% হাতে তৈরি') }}</span>
-              <h1>{!! nl2br(\App\Models\HomepageSetting::get('hero_title', "ঐতিহ্যবাহী বাংলাদেশ\nআপনার ঘরে আনুন")) !!}</h1>
-              <p>{!! nl2br(\App\Models\HomepageSetting::get('hero_subtitle', "কারিগরের হাতে তৈরি বাংলার অনন্য সব পণ্য, সরাসরি পৌঁছে যাক আপনার দোরগোড়ায়।")) !!}</p>
-              <div class="hero-cta-group">
-                <a href="#products" class="btn btn-primary">শপ নাও</a>
-                <a href="#collections" class="btn btn-outline">সংগ্রহ দেখুন</a>
+      @if(!empty($heroBanners) && count($heroBanners) > 0)
+        @php
+            $index = 0;
+            $banner = $heroBanners[0];
+        @endphp
+        <article class="hero-slide is-active">
+          <div class="hero-grid">
+            <div class="hero-panel hero-panel--main">
+              <img src="{{ asset('storage/' . str_replace('\\', '/', $banner)) }}" alt="Hero Banner {{ $index + 1 }}" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
+            </div>
+            <div class="hero-panel hero-panel--sub">
+              <img src="{{ asset('storage/' . str_replace('\\', '/', $heroBanners[($index + 1) % count($heroBanners)])) }}" alt="Banner Sub" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
+            </div>
+            <div class="hero-panel hero-panel--sub2">
+              <img src="{{ asset('storage/' . str_replace('\\', '/', $heroBanners[($index + 2) % count($heroBanners)])) }}" alt="Banner Sub 2" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
+            </div>
+            <div class="hero-panel hero-panel--story">
+              <div class="hero-story-content">
+                <span class="hero-eyebrow">{{ \App\Models\HomepageSetting::get('hero_badge', '১০০% হাতে তৈরি') }}</span>
+                <h1>{!! nl2br(\App\Models\HomepageSetting::get('hero_title', "ঐতিহ্যবাহী বাংলাদেশ\nআপনার ঘরে আনুন")) !!}</h1>
+                <p>{!! nl2br(\App\Models\HomepageSetting::get('hero_subtitle', "কারিগরের হাতে তৈরি বাংলার অনন্য সব পণ্য, সরাসরি পৌঁছে যাক আপনার দোরগোড়ায়।")) !!}</p>
+                <div class="hero-cta-group">
+                  <a href="#products" class="btn btn-primary">শপ নাও</a>
+                  <a href="#collections" class="btn btn-outline">সংগ্রহ দেখুন</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      @else
+        <!-- Fallback if no banners are set -->
+        <article class="hero-slide is-active">
+          <div class="hero-grid">
+            <div class="hero-panel hero-panel--main">
+              <img src="https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=1000&q=80" alt="Hero Banner" loading="eager">
+            </div>
+            <div class="hero-panel hero-panel--sub">
+              <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=700&q=80" alt="Banner Sub" loading="eager">
+            </div>
+            <div class="hero-panel hero-panel--sub2">
+              <img src="https://images.unsplash.com/photo-1618221639031-8f0f0dfd0a83?auto=format&fit=crop&w=700&q=80" alt="Banner Sub 2" loading="eager">
+            </div>
+            <div class="hero-panel hero-panel--story">
+              <div class="hero-story-content">
+              <span class="hero-eyebrow">কারিগরের হাতে ঐতিহ্যের সেরা ঠিকানা</span>
+              <h1>বিশ্বাসে, মানে আমরাই আপনার আপনজন</h1>
+              
+              <div class="hero-story-features">
+                <div class="hero-feature-item">
+                  <div class="hero-feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M12 11a4 4 0 100-8 4 4 0 000 8zM18 21a6 6 0 00-12 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="hero-feature-text">
+                    <h4>৫০০+ শিল্পী</h4>
+                    <p>আমাদের সাথে যুক্ত</p>
+                  </div>
+                </div>
+                <div class="hero-feature-item">
+                  <div class="hero-feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="hero-feature-text">
+                    <h4>১০০% হ্যান্ডমেড</h4>
+                    <p>হ্যান্ডমেড পণ্য</p>
+                  </div>
+                </div>
+                <div class="hero-feature-item">
+                  <div class="hero-feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="hero-feature-text">
+                    <h4>ফ্রি ডেলিভারি</h4>
+                    <p>সারা বাংলাদেশে</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </article>
+      @endif
 
     </div>
-
-    <button class="slider-arrow slider-arrow--prev" id="heroPrev" aria-label="আগের স্লাইড" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <button class="slider-arrow slider-arrow--next" id="heroNext" aria-label="পরের স্লাইড" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="slider-dots" id="heroDots" role="tablist" aria-label="স্লাইড নির্বাচন" style="display:none;"></div>
   </div>
 
   <div class="hero-strip">
@@ -63,7 +112,15 @@
       <h2 class="reveal">শপ বাই ক্যাটাগরি</h2>
       <p class="section-sub reveal">আপনার পছন্দের ঐতিহ্যবাহী পণ্য খুঁজে নিন</p>
     </div>
-    <div class="category-grid" id="categoryGrid"></div>
+    <div class="category-slider-container" style="position: relative;">
+      <button class="slider-arrow slider-arrow--prev" id="catPrev" aria-label="আগের" style="left: 10px; display: flex;">
+        <svg viewBox="0 0 24 24" fill="none"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="category-grid" id="categoryGrid"></div>
+      <button class="slider-arrow slider-arrow--next" id="catNext" aria-label="পরের" style="right: 10px; display: flex;">
+        <svg viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -89,7 +146,7 @@
     <div class="product-toolbar">
       <div class="filter-chips" id="filterChips">
         <button class="chip is-active" data-filter="সব">সব</button>
-        @foreach($categories->take(6) as $cat)
+        @foreach($categories as $cat)
         <button class="chip" data-filter="{{ $cat->name }}">{{ $cat->name }}</button>
         @endforeach
       </div>
@@ -168,7 +225,7 @@
 <script>
     // Map Laravel database variables to the JS variables
     window.PRODUCTS = [
-        @foreach($bestSellingProducts as $product)
+        @foreach(\App\Models\Product::frontendActive()->with('category')->orderBy('sales_count', 'desc')->take(100)->get() as $product)
         @php
             $displayImage = $product->image;
             if(empty($displayImage)) {
@@ -182,7 +239,7 @@
                     }
                 }
             }
-            $imageUrl = $displayImage ? asset('storage/' . str_replace('\\', '/', $displayImage)) : 'https://images.unsplash.com/photo-1610652492500-ded49ceeb378';
+            $imageUrl = $displayImage ? asset('storage/' . str_replace('\\', '/', $displayImage)) : asset('frontend/img/placeholder.png');
             $desc = mb_substr(strip_tags($product->description), 0, 100);
         @endphp
         {
@@ -200,14 +257,27 @@
     ];
 
     window.CATEGORIES = [
-        @foreach($categories->take(8) as $category)
+        @foreach($categories as $category)
         @php
-            $catImageUrl = $category->image ? asset('storage/' . str_replace('\\', '/', $category->image)) : 'https://images.unsplash.com/photo-1610030181087-540f1495ea89';
+            $catImageUrl = $category->image ? asset('storage/' . str_replace('\\', '/', $category->image)) : asset('frontend/img/placeholder.png');
         @endphp
         {
             name: {!! json_encode($category->name) !!},
             filter: {!! json_encode($category->name) !!},
             image: {!! json_encode($catImageUrl) !!}
+        },
+        @endforeach
+    ];
+
+    window.COLLECTIONS = [
+        @foreach($homeCategories ?? $categories->take(4) as $collection)
+        @php
+            $colImageUrl = $collection->image ? asset('storage/' . str_replace('\\', '/', $collection->image)) : asset('frontend/img/placeholder.png');
+        @endphp
+        {
+            name: {!! json_encode($collection->name) !!},
+            desc: {!! json_encode("Our exclusive " . $collection->name . " collection") !!},
+            image: {!! json_encode($colImageUrl) !!}
         },
         @endforeach
     ];
