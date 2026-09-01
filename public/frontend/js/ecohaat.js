@@ -202,17 +202,10 @@ function initCategorySlider() {
 /* =========================================================
    RENDER: COLLECTIONS
    ========================================================= */
-function renderCollections() {
-  const grid = document.getElementById("collectionGrid");
+function renderDiscountProducts() {
+  const grid = document.getElementById("discountGrid");
   if (!grid) return;
-  grid.innerHTML = COLLECTIONS.map(c => `
-    <div class="collection-card">
-      <img src="${c.image}" alt="${c.name}" loading="lazy">
-      <div class="collection-overlay">
-        <h3>${c.name}</h3>
-        <p>${c.desc}</p>
-      </div>
-    </div>`).join("");
+  grid.innerHTML = DISCOUNT_PRODUCTS.map(p => productCardHTML(p)).join("");
 }
 
 /* =========================================================
@@ -287,10 +280,21 @@ function discountPct(p) {
 function productCardHTML(p) {
   const isWished = wishlist.includes(p.id);
   const inCart = cart.some(i => i.id === p.id);
+  
+  let discountBadgeText = '';
+  if (p.discountType === 'percent' && p.discountValue > 0) {
+      discountBadgeText = `-${p.discountValue.toLocaleString("bn-BD")}%`;
+  } else if (p.discountType === 'flat' && p.discountValue > 0) {
+      discountBadgeText = `-${formatTaka(p.discountValue)}`;
+  } else if (p.oldPrice > p.price) {
+      discountBadgeText = `-${discountPct(p).toLocaleString("bn-BD")}%`;
+  }
+  const discountHTML = discountBadgeText ? `<span class="product-discount">${discountBadgeText}</span>` : '';
+
   return `
     <div class="product-card" data-id="${p.id}">
       <div class="product-media">
-        <span class="product-discount">-${discountPct(p)}%</span>
+        ${discountHTML}
         <button class="wishlist-toggle ${isWished ? "is-active" : ""}" aria-label="পছন্দ তালিকায় যোগ করুন" data-action="wishlist" data-id="${p.id}">
           <svg viewBox="0 0 24 24" fill="${isWished ? "currentColor" : "none"}"><path d="M12 20.5s-7.5-4.7-9.8-9.4C.6 7.6 2.3 4 6 4c2.1 0 3.6 1.1 4.5 2.4.3.4.9.4 1.2 0C12.6 5.1 14.1 4 16.2 4c3.7 0 5.4 3.6 3.8 7.1C17.5 15.8 12 20.5 12 20.5Z" stroke="currentColor" stroke-width="1.7"/></svg>
         </button>
@@ -303,7 +307,7 @@ function productCardHTML(p) {
         <div class="product-rating"><span class="stars">${starString(p.rating)}</span><span>${p.rating} (${p.reviews})</span></div>
         <div class="product-price-row">
           <span class="price-current">${formatTaka(p.price)}</span>
-          <span class="price-old">${formatTaka(p.oldPrice)}</span>
+          ${p.price < p.oldPrice ? `<span class="price-old">${formatTaka(p.oldPrice)}</span>` : ''}
         </div>
         <div class="product-actions">
           <button class="add-to-cart-btn ${inCart ? "is-added" : ""}" data-action="add-cart" data-id="${p.id}">
@@ -882,7 +886,7 @@ window.addEventListener("scroll", () => {
 function init() {
   renderCategories();
   initCategorySlider();
-  renderCollections();
+  renderDiscountProducts();
   renderWhyUs();
   renderTestimonials();
   renderProducts();

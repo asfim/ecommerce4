@@ -128,10 +128,10 @@
 <section class="section collection-section" id="collections">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">বৈশিষ্ট্যপূর্ণ সংগ্রহ</h2>
-      <p class="section-sub reveal">কিউরেট করা কালেকশনে খুঁজে নিন আপনার পছন্দ</p>
+      <h2 class="reveal">ফ্ল্যাশ সেল</h2>
+      <p class="section-sub reveal">অবিশ্বাস্য ডিসকাউন্টে সেরা পণ্যগুলো লুফে নিন</p>
     </div>
-    <div class="collection-grid" id="collectionGrid"></div>
+    <div class="product-grid" id="discountGrid"></div>
   </div>
 </section>
 
@@ -224,6 +224,49 @@
 @push('scripts')
 <script>
     // Map Laravel database variables to the JS variables
+    window.DISCOUNT_PRODUCTS = [
+        @foreach($discountedProducts as $product)
+        @php
+            $displayImage = $product->image;
+            if(empty($displayImage)) {
+                $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
+                if(!empty($variants) && is_array($variants)) {
+                    foreach($variants as $v) {
+                        if(!empty($v['image'])) {
+                            $displayImage = $v['image'];
+                            break;
+                        }
+                    }
+                }
+            }
+            $imageUrl = $displayImage ? asset('storage/' . str_replace('\\', '/', $displayImage)) : asset('frontend/img/placeholder.png');
+            $desc = mb_substr(strip_tags($product->description), 0, 100);
+            
+            $calcPrice = $product->price;
+            $dType = $product->discount_type ?? '';
+            $dVal = $product->discount_value ?? 0;
+            if ($dType == 'percent' && $dVal > 0) {
+                $calcPrice = $product->price - ($product->price * ($dVal / 100));
+            } else if ($dType == 'flat' && $dVal > 0) {
+                $calcPrice = $product->price - $dVal;
+            }
+        @endphp
+        {
+            id: {{ $product->id }},
+            name: {!! json_encode($product->name) !!},
+            category: {!! json_encode($product->category->name ?? 'Uncategorized') !!},
+            price: {{ $calcPrice }},
+            oldPrice: {{ $product->price }},
+            discountType: {!! json_encode($dType) !!},
+            discountValue: {{ $dVal }},
+            rating: 5,
+            reviews: 10,
+            image: {!! json_encode($imageUrl) !!},
+            desc: {!! json_encode($desc) !!}
+        },
+        @endforeach
+    ];
+
     window.PRODUCTS = [
         @foreach(\App\Models\Product::frontendActive()->with('category')->orderBy('sales_count', 'desc')->take(100)->get() as $product)
         @php
@@ -241,13 +284,24 @@
             }
             $imageUrl = $displayImage ? asset('storage/' . str_replace('\\', '/', $displayImage)) : asset('frontend/img/placeholder.png');
             $desc = mb_substr(strip_tags($product->description), 0, 100);
+            
+            $calcPrice = $product->price;
+            $dType = $product->discount_type ?? '';
+            $dVal = $product->discount_value ?? 0;
+            if ($dType == 'percent' && $dVal > 0) {
+                $calcPrice = $product->price - ($product->price * ($dVal / 100));
+            } else if ($dType == 'flat' && $dVal > 0) {
+                $calcPrice = $product->price - $dVal;
+            }
         @endphp
         {
             id: {{ $product->id }},
             name: {!! json_encode($product->name) !!},
             category: {!! json_encode($product->category->name ?? 'Uncategorized') !!},
-            price: {{ $product->price - ($product->discount_value ?? 0) }},
+            price: {{ $calcPrice }},
             oldPrice: {{ $product->price }},
+            discountType: {!! json_encode($dType) !!},
+            discountValue: {{ $dVal }},
             rating: 5,
             reviews: 10,
             image: {!! json_encode($imageUrl) !!},
