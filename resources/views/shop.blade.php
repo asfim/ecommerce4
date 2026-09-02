@@ -3,12 +3,13 @@
 @section('title', 'Shop')
 
 @section('content')
-<div class="page-head py-4" style="background: #f8f9fa;">
+
+<div class="page-head py-4" style="background: var(--cream-deep);">
   <div class="container-fluid px-2 px-md-4">
     <nav class="breadcrumb-nav mb-2">
         <a href="{{ route('home') }}" class="text-decoration-none text-muted">Home</a> / <span class="text-dark fw-semibold">Shop</span>
     </nav>
-    <h1 class="fw-bold mb-0" style="font-size: 2rem;">Shop All Products</h1>
+    <h1 class="fw-bold mb-0" style="font-size: 2rem; color: var(--green);">Shop All Products</h1>
   </div>
 </div>
 
@@ -83,7 +84,7 @@
         </div>
       @else
         <!-- Products Grid -->
-        <div class="row g-3" id="product-grid">
+        <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-4 align-items-stretch" id="product-grid">
           @foreach($products as $product)
               @include('frontend.partials.product_card', ['product' => $product])
           @endforeach
@@ -144,7 +145,7 @@
 </form>
 
 <style>
-    /* Colorful Price Range Slider */
+    /* Price Range Slider – theme green */
     input[type="range"] {
         -webkit-appearance: none;
         width: 100%;
@@ -157,7 +158,7 @@
         width: 100%;
         height: 6px;
         cursor: pointer;
-        background: linear-gradient(90deg, #ff5521 0%, #ffc107 100%);
+        background: linear-gradient(90deg, var(--green) 0%, var(--gold) 100%);
         border-radius: 4px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1) inset;
     }
@@ -165,16 +166,60 @@
         height: 20px;
         width: 20px;
         border-radius: 50%;
-        background: #ff5521;
+        background: var(--green);
         cursor: pointer;
         -webkit-appearance: none;
         margin-top: -7px;
         border: 2px solid #fff;
-        box-shadow: 0 2px 5px rgba(255,85,33,0.4);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.25);
         transition: transform 0.1s ease;
     }
     input[type="range"]::-webkit-slider-thumb:active {
         transform: scale(1.2);
+    }
+    /* Fix Bootstrap btn-outline-primary → green */
+    .btn-outline-primary {
+        color: var(--green);
+        border-color: var(--green);
+    }
+    .btn-outline-primary:hover {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+    }
+    .btn-primary {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+    }
+    .btn-primary:hover {
+        background: var(--green-deep);
+        border-color: var(--green-deep);
+    }
+    .text-primary { color: var(--green) !important; }
+    .price-range-out { color: var(--green) !important; }
+    /* Filter sidebar cards */
+    .filter-box {
+        border-color: var(--line) !important;
+        border-radius: 12px !important;
+    }
+    .filter-box h6 {
+        color: var(--ink);
+    }
+    /* Ensure card cols stretch to equal height */
+    #product-grid > div {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    /* Toolbar */
+    .toolbar {
+        border-color: var(--line) !important;
+        border-radius: 12px !important;
+    }
+    /* page head */
+    .page-head {
+        background: var(--cream-deep) !important;
+        border-bottom: 1px solid var(--line);
     }
 </style>
 <script>
