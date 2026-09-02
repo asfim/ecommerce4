@@ -284,7 +284,7 @@
         @if($companyLogo)
           <img src="{{ asset('storage/' . $companyLogo) }}" alt="{{ $companyName }}" style="max-height: 45px; border-radius: 4px;">
         @else
-          <span class="logo-box" style="width:36px;height:36px;background:#1a73e8;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;">{{ strtoupper(substr($companyName, 0, 1)) }}</span>
+          <span class="logo-box" style="width:36px;height:36px;background:var(--green);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;">{{ strtoupper(substr($companyName, 0, 1)) }}</span>
         @endif
         <div>
           <h1 class="inv-title">{{ $companyName }}</h1>

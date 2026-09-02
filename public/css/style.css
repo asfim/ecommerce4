@@ -2,12 +2,24 @@
    GLOBAL VARIABLES & BASICS
    ========================================================================== */
 :root {
-    --blue: #E0471B;
-    --blue-hover: #c83b14;
-    --dark: #1c1c1c;
-    --muted: #8a8a8a;
-    --line: #eee;
-    --ink: #1c1c1c;
+  --cream: #FAF6ED;
+  --cream-deep: #F1E9D6;
+  --paper: #FFFDF8;
+  --navy: #17242C;
+  --green: #1E4A3B;
+  --green-deep: #143329;
+  --green-soft: #E4EDE6;
+  --gold: #B8874A;
+  --gold-soft: #EADFC4;
+  --terracotta-line: #C97D5D;
+  --ink: #24211B;
+  --ink-muted: #6E6659;
+  --line: #E4DAC5;
+  --white: #FFFFFF;
+  --blue: var(--green);
+  --blue-hover: var(--green-deep);
+  --dark: var(--ink);
+  --font-body: 'Hind Siliguri', 'Inter', sans-serif;
 }
 
 html, body {
@@ -16,10 +28,10 @@ html, body {
 }
 
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #222;
+    font-family: var(--font-body);
+    color: var(--ink);
     font-size: 14px;
-    background: #fff;
+    background: var(--cream);
 }
 
 a {
@@ -75,7 +87,7 @@ a {
     position: sticky;
     top: 0;
     z-index: 1020;
-    background: #fff;
+    background: var(--paper);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -88,7 +100,7 @@ a {
 
 .hero-cat-sidebar {
     width: 100%;
-    background: #fff;
+    background: var(--paper);
     border: 1px solid #eee;
     border-radius: 8px;
     overflow-y: auto;
@@ -790,7 +802,7 @@ a {
     top: 100%;
     left: 0;
     width: 640px;
-    background: #fff;
+    background: var(--paper);
     border: 1px solid var(--line);
     border-top: none;
     box-shadow: 0 16px 32px rgba(0, 0, 0, .08);
@@ -878,7 +890,7 @@ a {
     top: 100%;
     left: 0;
     min-width: 200px;
-    background: #fff;
+    background: var(--paper);
     border: 1px solid var(--line);
     box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
     border-radius: 8px;
@@ -934,7 +946,7 @@ a {
     top: 0;
     width: 290px;
     height: 100vh;
-    background: #fff;
+    background: var(--paper);
     z-index: 10060;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1113,7 +1125,7 @@ a {
 }
 
 .btn.hero-btn-shop {
-    background: #fff;
+    background: var(--paper);
     border: none;
     color: #111;
     font-weight: 700;
@@ -1223,7 +1235,7 @@ a {
 }
 
 .featured-strip {
-    background: #fff;
+    background: var(--paper);
     border-radius: 10px;
     padding: 16px 18px;
     margin-top: 16px;
@@ -1334,7 +1346,7 @@ a {
 }
 
 .todaydeal-panel {
-    background: #fff;
+    background: var(--paper);
     border: 1px solid #eee;
     border-radius: 6px;
 }
@@ -1480,7 +1492,7 @@ a {
     gap: 10px;
     align-items: center;
     padding: 8px;
-    background: #fff;
+    background: var(--paper);
     border-radius: 6px;
     margin-bottom: 8px;
 }
@@ -1550,7 +1562,7 @@ a {
 }
 
 .classified-card {
-    background: #fff;
+    background: var(--paper);
     border: 1px solid #eee;
     border-radius: 6px;
     padding: 10px;
@@ -1884,7 +1896,7 @@ a {
 }
 
 .footlinks {
-    background: #fff;
+    background: var(--paper);
     padding: 20px 0;
     border-top: 1px solid #eee;
 }
@@ -1963,7 +1975,7 @@ footer.main-footer h6 {
     position: fixed;
     bottom: 24px;
     right: -350px;
-    background: #fff;
+    background: var(--paper);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     padding: 12px 18px;
@@ -2045,7 +2057,7 @@ footer.main-footer h6 {
 }
 
 .checkout-modal {
-    background: #fff;
+    background: var(--paper);
     border-radius: 12px;
     width: 90%;
     max-width: 450px;
@@ -2141,7 +2153,7 @@ footer.main-footer h6 {
    CUSTOMER DASHBOARD SPECIFIC
    ========================================================================== */
 .stat-card {
-    background: #fff;
+    background: var(--paper);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
@@ -2414,7 +2426,7 @@ input[type="submit"]:hover {
 }
 
 .related-card {
-    background: #fff;
+    background: var(--paper);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);

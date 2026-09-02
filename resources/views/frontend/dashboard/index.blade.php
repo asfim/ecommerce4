@@ -69,12 +69,12 @@
                 datasets: [{
                     label: 'Orders Placed',
                     data: {!! json_encode($monthlyOrderCounts) !!},
-                    borderColor: '#1a73e8',
-                    backgroundColor: 'rgba(26, 115, 232, 0.08)',
+                    borderColor: 'var(--green)',
+                    backgroundColor: 'rgba(30, 74, 59, 0.08)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.3,
-                    pointBackgroundColor: '#1a73e8',
+                    pointBackgroundColor: 'var(--green)',
                     pointBorderColor: '#fff',
                     pointHoverRadius: 6,
                     pointRadius: 4

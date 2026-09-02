@@ -23,7 +23,7 @@
         }
 
         .filter-head {
-            background: #1a73e8;
+            background: var(--green);
             color: #fff;
             padding: 12px 16px;
             font-size: 14px;
@@ -104,7 +104,7 @@
 
         .price-input-box:focus {
             outline: none;
-            border-color: #1a73e8;
+            border-color: var(--green);
         }
 
         .price-slider {
@@ -122,16 +122,16 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: #1a73e8;
+            background: var(--green);
             cursor: pointer;
             border: 2px solid #fff;
-            box-shadow: 0 1px 5px rgba(26, 115, 232, .5);
+            box-shadow: 0 1px 5px rgba(30, 74, 59, .5);
         }
 
         .btn-price-go {
             width: 100%;
             margin-top: 10px;
-            background: #1a73e8;
+            background: var(--green);
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -166,7 +166,7 @@
         .brand-item input[type="checkbox"] {
             width: 15px;
             height: 15px;
-            accent-color: #1a73e8;
+            accent-color: var(--green);
             cursor: pointer;
         }
 
@@ -191,7 +191,7 @@
         }
 
         .prod-count span {
-            color: #1a73e8;
+            color: var(--green);
             font-weight: 700;
         }
 
@@ -207,7 +207,7 @@
 
         .sort-select:focus {
             outline: none;
-            border-color: #1a73e8;
+            border-color: var(--green);
         }
 
         .view-toggle {
@@ -232,9 +232,9 @@
 
         .view-btn.active,
         .view-btn:hover {
-            background: #1a73e8;
+            background: var(--green);
             color: #fff;
-            border-color: #1a73e8;
+            border-color: var(--green);
         }
 
         /* ── Product Grid Card ───────────────────────── */
@@ -318,7 +318,7 @@
         }
 
         .pcat-name:hover {
-            color: #1a73e8;
+            color: var(--green);
         }
 
         .pcat-price {
@@ -362,7 +362,7 @@
 
         .pcat-btn-cart {
             flex: 1;
-            background: #1a73e8;
+            background: var(--green);
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -454,7 +454,7 @@
         }
 
         .lvc-name:hover {
-            color: #1a73e8;
+            color: var(--green);
         }
 
         .lvc-price {
@@ -487,7 +487,7 @@
 
         .filter-pill {
             background: #e8f0fe;
-            color: #1a73e8;
+            color: var(--green);
             border-radius: 20px;
             padding: 3px 10px;
             font-size: 12px;
@@ -526,7 +526,7 @@
             width: 38px;
             height: 38px;
             border: 4px solid #eee;
-            border-top-color: #1a73e8;
+            border-top-color: var(--green);
             border-radius: 50%;
             animation: spin .7s linear infinite;
         }
@@ -542,7 +542,7 @@
             display: none;
             align-items: center;
             gap: 6px;
-            background: #1a73e8;
+            background: var(--green);
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -1030,7 +1030,7 @@
                 if (!slider) return;
                 const pct = ((parseFloat(slider.value) - sMin) / (sMax - sMin)) * 100;
                 slider.style.background =
-                    `linear-gradient(to right,#1a73e8 0%,#1a73e8 ${pct}%,#e0e0e0 ${pct}%,#e0e0e0 100%)`;
+                    `linear-gradient(to right,var(--green) 0%,var(--green) ${pct}%,#e0e0e0 ${pct}%,#e0e0e0 100%)`;
             }
         })();
     </script>

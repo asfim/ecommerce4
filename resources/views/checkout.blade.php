@@ -5,14 +5,14 @@
 @push('styles')
     <style>
         :root {
-            --ink: #111b16;
-            --paper: #f6f4ee;
-            --panel: #ffffff;
-            --line: #e4e1d7;
-            --signal: #2c56d6;
-            --signal-dark: #1f3fa8;
-            --moss: #3c6e47;
-            --muted: #767066;
+            --ink: var(--ink);
+            --paper: var(--cream);
+            --panel: var(--white);
+            --line: var(--line);
+            --signal: var(--green);
+            --signal-dark: var(--green-deep);
+            --moss: var(--gold);
+            --muted: var(--ink-muted);
             --danger: #c0432e;
         }
 

@@ -11,7 +11,7 @@
     border-radius: 12px;
     position: relative;
     cursor: crosshair;
-    background: #fff;
+    background: var(--paper);
     border: 1px solid #eee;
     display: flex;
     align-items: center;
@@ -38,7 +38,7 @@
     height: 420px;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
-    background-color: #fff;
+    background-color: var(--paper);
     background-repeat: no-repeat;
     box-shadow: 0 8px 40px rgba(0,0,0,0.18);
     z-index: 200;
@@ -50,8 +50,8 @@
 #zoomLens {
     display: none;
     position: absolute;
-    border: 2px solid #1a73e8;
-    background: rgba(26,115,232,0.10);
+    border: 2px solid var(--green);
+    background: rgba(30, 74, 59,0.10);
     pointer-events: none;
     cursor: crosshair;
     z-index: 10;
@@ -77,7 +77,7 @@
     width: 80px;
     height: 80px;
     object-fit: contain;
-    background: #fff;
+    background: var(--paper);
     border-radius: 8px;
     cursor: pointer;
     border: 2px solid transparent;
@@ -86,19 +86,19 @@
 }
 
 .thumb:hover {
-    border-color: #1a73e8;
+    border-color: var(--green);
     opacity: 1;
     transform: scale(1.05);
 }
 
 .thumb.active {
-    border-color: #1a73e8;
+    border-color: var(--green);
     opacity: 1;
-    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.25);
+    box-shadow: 0 0 0 2px rgba(30, 74, 59, 0.25);
 }
 
 .description {
-    background: #fff;
+    background: var(--paper);
     padding: 30px;
     border-radius: 12px;
     border: 1px solid #eee;
@@ -208,9 +208,9 @@
 }
 
 .color-btn.active {
-    background-color: #1a73e8 !important;
+    background-color: var(--green) !important;
     color: #fff;
-    border-color: #1a73e8;
+    border-color: var(--green);
 }
 
 .variant-btn {
@@ -227,9 +227,9 @@
 }
 
 .variant-btn.active {
-    background-color: #1a73e8 !important;
+    background-color: var(--green) !important;
     color: #ffffff !important;
-    border-color: #1a73e8 !important;
+    border-color: var(--green) !important;
 }
 
 .variant-btn.active:hover {
@@ -252,7 +252,7 @@
 .tab-content-panel {
     display: none;
     padding: 20px;
-    background: #fff;
+    background: var(--paper);
     border: 1px solid #dee2e6;
     border-top: none;
     border-radius: 0 0 8px 8px;
@@ -293,14 +293,14 @@
 }
 
 #productDetailTabs button.nav-link:hover {
-    background-color: #1a73e8 !important;
+    background-color: var(--green) !important;
     color: #ffffff !important;
     border: none !important;
     transform: none !important;
 }
 
 #productDetailTabs button.nav-link.active {
-    background-color: #1a73e8 !important;
+    background-color: var(--green) !important;
     color: #ffffff !important;
     font-weight: 600 !important;
     border: none !important;
@@ -323,7 +323,7 @@
 .related-card .card-img-top {
     height: 180px;
     object-fit: contain;
-    background: #fff;
+    background: var(--paper);
 }
 
 .cart-btn {
