@@ -4,7 +4,7 @@
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/style.css') . '?v=' . time() }}">
 <style>
 .main-image {
     overflow: hidden;
@@ -214,28 +214,28 @@
 }
 
 .variant-btn {
-    background-color: #ffffff !important;
+    background-color: var(--paper) !important;
     color: #000000 !important;
     border-color: #000000 !important;
     transition: all 0.2s ease-in-out;
 }
 
 .variant-btn:hover {
-    background-color: #f8f9fa !important;
+    background-color: var(--cream-deep) !important;
     color: #000000 !important;
     border-color: #000000 !important;
 }
 
 .variant-btn.active {
     background-color: var(--green) !important;
-    color: #ffffff !important;
+    color: var(--paper) !important;
     border-color: var(--green) !important;
 }
 
 .variant-btn.active:hover {
-    background-color: #155cb0 !important;
-    color: #ffffff !important;
-    border-color: #155cb0 !important;
+    background-color: var(--green-deep) !important;
+    color: var(--paper) !important;
+    border-color: var(--green-deep) !important;
 }
 
 .variant-btn.variant-disabled,
@@ -294,14 +294,14 @@
 
 #productDetailTabs button.nav-link:hover {
     background-color: var(--green) !important;
-    color: #ffffff !important;
+    color: var(--paper) !important;
     border: none !important;
     transform: none !important;
 }
 
 #productDetailTabs button.nav-link.active {
     background-color: var(--green) !important;
-    color: #ffffff !important;
+    color: var(--paper) !important;
     font-weight: 600 !important;
     border: none !important;
     transform: none !important;
@@ -646,7 +646,7 @@
     <div class="container">
         <div class="d-flex align-items-center gap-3 mb-4">
             <div class="related-section-bar"></div>
-            <h4 class="fw-bold mb-0">Best Selling Products</h4>
+            <h4 class="fw-bold mb-0">Related Products</h4>
         </div>
         <div class="row g-4">
             @foreach($relatedProducts as $rp)

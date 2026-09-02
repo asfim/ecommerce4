@@ -217,6 +217,7 @@ class HomeController extends Controller
     {
         $product = Product::frontendActive()->with('reviews')->where('slug', $slug)->firstOrFail();
         $relatedProducts = Product::frontendActive()
+            ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
