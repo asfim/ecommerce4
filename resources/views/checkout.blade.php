@@ -863,13 +863,26 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Force clear the entire cart upon successful order
-                            localStorage.removeItem('checkout_items');
-                            localStorage.setItem('ecohaat_cart', '[]');
+                            // Remove only the purchased items from the main cart
+                            let mainCart = JSON.parse(localStorage.getItem('ecohaat_cart') || '[]');
+                            const checkoutItemsStr = localStorage.getItem('checkout_items');
                             
-                            // Also clear memory cart if ecohaat.js is loaded
+                            if (checkoutItemsStr && checkoutItemsStr !== '[]' && checkoutItemsStr !== null) {
+                                // "Buy Now" flow - only remove purchased items
+                                const purchasedItems = JSON.parse(checkoutItemsStr);
+                                purchasedItems.forEach(pi => {
+                                    mainCart = mainCart.filter(mi => parseInt(mi.id) !== parseInt(pi.id));
+                                });
+                                localStorage.setItem('ecohaat_cart', JSON.stringify(mainCart));
+                                localStorage.removeItem('checkout_items');
+                            } else {
+                                // "Checkout All" flow - clear entire cart
+                                localStorage.setItem('ecohaat_cart', '[]');
+                            }
+                            
+                            // Also update memory cart if ecohaat.js is loaded
                             if (typeof window.cart !== 'undefined') {
-                                window.cart = [];
+                                window.cart = JSON.parse(localStorage.getItem('ecohaat_cart') || '[]');
                                 if (typeof window.updateCartUI === 'function') {
                                     window.updateCartUI();
                                 }

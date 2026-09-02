@@ -84,7 +84,21 @@ function saveState() {
   localStorage.setItem("ecohaat_wishlist", JSON.stringify(wishlist));
 }
 function findProduct(id) {
-  return PRODUCTS.find(p => p.id === id);
+  const p = typeof PRODUCTS !== 'undefined' ? PRODUCTS.find(p => p.id === id) : null;
+  if (p) return p;
+  
+  // Fallback for pages like invoice where PRODUCTS isn't fully populated
+  const cartItem = cart.find(i => i.id === id);
+  if (cartItem) {
+      return {
+          id: cartItem.id,
+          name: cartItem.name || ("পণ্য #" + cartItem.id),
+          price: cartItem.price || 0,
+          image: cartItem.image || "https://placehold.co/100x100/eee/aaa?text=No+Img",
+          oldPrice: cartItem.oldPrice || cartItem.price || 0
+      };
+  }
+  return null;
 }
 function starString(rating) {
   const full = Math.round(rating);
@@ -343,18 +357,55 @@ function renderProducts(searchTerm = "") {
 }
 function bindProductCardEvents() {
   document.querySelectorAll('[data-action="buy-now"]').forEach(btn => {
+    if (btn.dataset.boundBuyNow) return;
+    btn.dataset.boundBuyNow = "true";
     btn.addEventListener("click", () => buyNow(parseInt(btn.dataset.id)));
   });
   
   // Removed PHP rendered buy now button listener to allow standard anchor link behavior
 
+  document.querySelectorAll('[data-action="add-cart"]').forEach(btn => {
+    if (btn.dataset.boundAddCart) return;
+    btn.dataset.boundAddCart = "true";
+    btn.addEventListener("click", function() {
+      const id = parseInt(this.dataset.id);
+      const existing = cart.find(i => i.id === id);
+      if (existing) existing.qty++;
+      else {
+        const p = findProduct(id);
+        cart.push({ 
+          id, 
+          qty: 1,
+          name: p ? p.name : "",
+          price: p ? p.price : 0,
+          image: p ? p.image : "",
+          oldPrice: p ? (p.oldPrice || p.price) : 0
+        });
+      }
+      saveState();
+      updateCartUI();
+      showToast("পণ্যটি কার্টে যোগ করা হয়েছে");
+      
+      const searchInput = document.getElementById("searchInput");
+      if (typeof renderProducts === 'function') {
+          renderProducts(searchInput ? searchInput.value : "");
+      }
+    });
+  });
+
   document.querySelectorAll(".wishlist-btn").forEach(btn => {
+    if (btn.dataset.boundWishlistBtn) return;
+    btn.dataset.boundWishlistBtn = "true";
     btn.addEventListener("click", () => toggleWishlist(parseInt(btn.dataset.id)));
   });
   document.querySelectorAll('[data-action="wishlist"]').forEach(btn => {
+    if (btn.dataset.boundWishlist) return;
+    btn.dataset.boundWishlist = "true";
     btn.addEventListener("click", () => toggleWishlist(parseInt(btn.dataset.id)));
   });
   document.querySelectorAll('[data-action="quickview"]').forEach(btn => {
+    if (btn.dataset.boundQuickview) return;
+    btn.dataset.boundQuickview = "true";
     btn.addEventListener("click", () => openQuickView(parseInt(btn.dataset.id)));
   });
 }
@@ -379,7 +430,15 @@ function addToCart(id) {
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ id, qty: 1 });
+    const p = findProduct(id);
+    cart.push({ 
+      id, 
+      qty: 1,
+      name: p ? p.name : "",
+      price: p ? p.price : 0,
+      image: p ? p.image : "",
+      oldPrice: p ? (p.oldPrice || p.price) : 0
+    });
   }
   saveState();
   updateCartUI();
@@ -389,17 +448,6 @@ function addToCart(id) {
 }
 
 function buyNow(id) {
-  const existing = cart.find(i => i.id === id);
-  if (!existing) {
-    cart.push({ id, qty: 1 });
-    saveState();
-    updateCartUI();
-    const searchInput = document.getElementById("searchInput");
-    if (typeof renderProducts === 'function') {
-        renderProducts(searchInput ? searchInput.value : "");
-    }
-  }
-  
   // Redirect to checkout page
   const p = findProduct(id);
   if (p) {
@@ -409,7 +457,7 @@ function buyNow(id) {
           price: p.price,
           original_price: p.oldPrice || p.price,
           image: p.image,
-          quantity: existing ? existing.qty : 1,
+          quantity: 1,
           variants: {}
       };
       localStorage.setItem('checkout_items', JSON.stringify([checkoutItem]));
@@ -423,9 +471,49 @@ function removeFromCart(id) {
   saveState();
   updateCartUI();
   const searchInput = document.getElementById("searchInput");
-  renderProducts(searchInput ? searchInput.value : "");
+  if (typeof renderProducts === 'function') {
+      renderProducts(searchInput ? searchInput.value : "");
+  }
   showToast("পণ্যটি কার্ট থেকে সরানো হয়েছে");
 }
+
+// Global functions for Product Details Page
+window.addToCartGlobal = function(id, name, price, image, qty, variants, originalPrice) {
+  id = parseInt(id);
+  const existing = cart.find(i => i.id === id);
+  if (existing) {
+    existing.qty += parseInt(qty);
+  } else {
+    cart.push({ 
+      id, 
+      qty: parseInt(qty),
+      name: name,
+      price: parseFloat(price),
+      image: image,
+      oldPrice: originalPrice ? parseFloat(originalPrice) : parseFloat(price)
+    });
+  }
+  saveState();
+  updateCartUI();
+  showToast("পণ্যটি কার্টে যোগ করা হয়েছে");
+};
+
+window.checkoutSingleItemGlobal = function(id, name, price, image, qty, variants, originalPrice) {
+  id = parseInt(id);
+  
+  const checkoutItem = {
+      id: id,
+      name: name,
+      price: parseFloat(price),
+      original_price: parseFloat(originalPrice),
+      image: image,
+      quantity: parseInt(qty),
+      variants: variants || {}
+  };
+  localStorage.setItem('checkout_items', JSON.stringify([checkoutItem]));
+  window.location.href = "/checkout?product_id=" + id;
+};
+
 function changeQty(id, delta) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
@@ -444,7 +532,10 @@ function cartSubtotal() {
   }, 0);
 }
 function cartCount() {
-  return cart.reduce((sum, i) => sum + i.qty, 0);
+  return cart.reduce((sum, item) => {
+    const p = findProduct(item.id);
+    return sum + (p ? item.qty : 0);
+  }, 0);
 }
 function updateCartUI() {
   const countEl = document.getElementById("cartCount");
@@ -944,6 +1035,30 @@ window.addEventListener("scroll", () => {
    INIT & SYNC
    ========================================================= */
 function init() {
+  // Migrate old cart items that are missing details (if PRODUCTS is available)
+  let migrated = false;
+  if (typeof PRODUCTS !== 'undefined' && PRODUCTS.length > 0) {
+    cart = cart.map(item => {
+      if (!item.name) {
+        const p = PRODUCTS.find(x => x.id === item.id);
+        if (p) {
+          migrated = true;
+          return {
+            ...item,
+            name: p.name,
+            price: p.price,
+            image: p.image,
+            oldPrice: p.oldPrice || p.price
+          };
+        }
+      }
+      return item;
+    });
+    if (migrated) {
+      localStorage.setItem('ecohaat_cart', JSON.stringify(cart));
+    }
+  }
+
   renderCategories();
   initCategorySlider();
   renderDiscountProducts();
@@ -957,6 +1072,31 @@ function init() {
 
 function syncState() {
   cart = JSON.parse(localStorage.getItem('ecohaat_cart') || '[]');
+  
+  // Migrate old cart items that are missing details (if PRODUCTS is available)
+  let migrated = false;
+  if (typeof PRODUCTS !== 'undefined' && PRODUCTS.length > 0) {
+    cart = cart.map(item => {
+      if (!item.name) {
+        const p = PRODUCTS.find(x => x.id === item.id);
+        if (p) {
+          migrated = true;
+          return {
+            ...item,
+            name: p.name,
+            price: p.price,
+            image: p.image,
+            oldPrice: p.oldPrice || p.price
+          };
+        }
+      }
+      return item;
+    });
+    if (migrated) {
+      localStorage.setItem('ecohaat_cart', JSON.stringify(cart));
+    }
+  }
+  
   wishlist = JSON.parse(localStorage.getItem('ecohaat_wishlist') || '[]');
   updateCartUI();
   updateWishlistUI();
