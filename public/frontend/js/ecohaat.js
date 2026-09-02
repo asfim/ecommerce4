@@ -310,9 +310,13 @@ function productCardHTML(p) {
           ${p.price < p.oldPrice ? `<span class="price-old">${formatTaka(p.oldPrice)}</span>` : ''}
         </div>
         <div class="product-actions">
-          <button class="add-to-cart-btn ${inCart ? "is-added" : ""}" data-action="add-cart" data-id="${p.id}">
+          <button class="add-to-cart-btn ${inCart ? "is-added" : ""}" data-action="add-cart" data-id="${p.id}" title="কার্টে যোগ করুন">
             <svg viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            ${inCart ? "কার্টে যোগ হয়েছে" : "কার্টে যোগ করুন"}
+            <span>${inCart ? "যোগ হয়েছে" : "কার্টে যোগ"}</span>
+          </button>
+          <button class="buy-now-btn" data-action="buy-now" data-id="${p.id}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span>অর্ডার করুন</span>
           </button>
         </div>
       </div>
@@ -340,6 +344,9 @@ function renderProducts(searchTerm = "") {
 function bindProductCardEvents() {
   document.querySelectorAll('[data-action="add-cart"]').forEach(btn => {
     btn.addEventListener("click", () => addToCart(parseInt(btn.dataset.id)));
+  });
+  document.querySelectorAll('[data-action="buy-now"]').forEach(btn => {
+    btn.addEventListener("click", () => buyNow(parseInt(btn.dataset.id)));
   });
   document.querySelectorAll('[data-action="wishlist"]').forEach(btn => {
     btn.addEventListener("click", () => toggleWishlist(parseInt(btn.dataset.id)));
@@ -376,6 +383,35 @@ function addToCart(id) {
   const searchInput = document.getElementById("searchInput");
   renderProducts(searchInput ? searchInput.value : "");
   showToast("পণ্যটি কার্টে যোগ করা হয়েছে");
+}
+
+function buyNow(id) {
+  const existing = cart.find(i => i.id === id);
+  if (!existing) {
+    cart.push({ id, qty: 1 });
+    saveState();
+    updateCartUI();
+    const searchInput = document.getElementById("searchInput");
+    if (typeof renderProducts === 'function') {
+        renderProducts(searchInput ? searchInput.value : "");
+    }
+  }
+  
+  // Redirect to checkout page
+  const p = findProduct(id);
+  if (p) {
+      const checkoutItem = {
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          original_price: p.oldPrice || p.price,
+          image: p.image,
+          quantity: existing ? existing.qty : 1,
+          variants: {}
+      };
+      localStorage.setItem('checkout_items', JSON.stringify([checkoutItem]));
+  }
+  window.location.href = "/checkout?product_id=" + id;
 }
 function removeFromCart(id) {
   cart = cart.filter(i => i.id !== id);
@@ -536,9 +572,10 @@ function openQuickView(id) {
           <button id="qvPlus" aria-label="বাড়ান">+</button>
         </div>
       </div>
-      <div class="qv-actions">
-        <button class="btn btn-primary" id="qvAddCart">কার্টে যোগ করুন</button>
-        <button class="btn btn-outline" id="qvWishlist">${isWished ? "পছন্দ থেকে সরান" : "পছন্দে যোগ করুন"}</button>
+      <div class="qv-actions" style="display:flex;gap:8px;">
+        <button class="btn btn-primary" id="qvAddCart" style="flex:1;">কার্টে যোগ করুন</button>
+        <button class="btn btn-primary" id="qvBuyNow" style="flex:1;">অর্ডার করুন</button>
+        <button class="btn btn-outline" id="qvWishlist" style="flex:1;">${isWished ? "পছন্দ থেকে সরান" : "পছন্দে যোগ করুন"}</button>
       </div>
     </div>`;
 
@@ -547,6 +584,11 @@ function openQuickView(id) {
   document.getElementById("qvMinus").addEventListener("click", () => { if (qty > 1) qty--; document.getElementById("qvQty").textContent = qty; });
   document.getElementById("qvAddCart").addEventListener("click", () => {
     for (let i = 0; i < qty; i++) addToCart(id);
+    closeModal("quickViewOverlay");
+  });
+  document.getElementById("qvBuyNow").addEventListener("click", () => {
+    for (let i = 0; i < qty - 1; i++) addToCart(id);
+    buyNow(id);
     closeModal("quickViewOverlay");
   });
   document.getElementById("qvWishlist").addEventListener("click", () => {
@@ -640,11 +682,24 @@ if (document.getElementById("checkoutBtn")) {
         showToast("আপনার কার্ট খালি, প্রথমে পণ্য যোগ করুন");
         return;
     }
-    closeCartDrawer();
-    document.getElementById("checkoutBody").hidden = false;
-    document.getElementById("orderSuccess").hidden = true;
-    renderCheckoutSummary();
-    openModal("checkoutOverlay");
+    
+    // Prepare checkout items with full details
+    const fullCart = cart.map(item => {
+        const p = findProduct(item.id);
+        if (!p) return null;
+        return {
+            id: p.id,
+            name: p.name,
+            price: p.price,
+            original_price: p.oldPrice || p.price,
+            image: p.image,
+            quantity: item.qty,
+            variants: {}
+        };
+    }).filter(i => i !== null);
+    
+    localStorage.setItem('checkout_items', JSON.stringify(fullCart));
+    window.location.href = "/checkout";
     });
 }
 

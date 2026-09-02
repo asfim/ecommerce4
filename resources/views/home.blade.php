@@ -1,4 +1,4 @@
-@extends('layouts.ecohaat')
+@extends('layouts.app')
 
 @section('content')
 
@@ -53,7 +53,7 @@
               <div class="hero-story-content">
               <span class="hero-eyebrow">কারিগরের হাতে ঐতিহ্যের সেরা ঠিকানা</span>
               <h1>বিশ্বাসে, মানে আমরাই আপনার আপনজন</h1>
-              
+
               <div class="hero-story-features">
                 <div class="hero-feature-item">
                   <div class="hero-feature-icon">
@@ -230,7 +230,7 @@
             $dType = $product->discount_type ?? '';
             $dVal = $product->discount_value ?? 0;
             if ($dVal <= 0) continue;
-            
+
             $displayImage = $product->image;
             if(empty($displayImage)) {
                 $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
@@ -245,7 +245,7 @@
             }
             $imageUrl = $displayImage ? asset('storage/' . str_replace('\\', '/', $displayImage)) : asset('frontend/img/placeholder.png');
             $desc = mb_substr(strip_tags($product->description), 0, 100);
-            
+
             $calcPrice = $product->price;
             $dType = '';
             $dVal = 0;
@@ -292,7 +292,7 @@
             }
             $imageUrl = $displayImage ? asset('storage/' . str_replace('\\', '/', $displayImage)) : asset('frontend/img/placeholder.png');
             $desc = mb_substr(strip_tags($product->description), 0, 100);
-            
+
             $calcPrice = $product->price;
             $dType = '';
             $dVal = 0;

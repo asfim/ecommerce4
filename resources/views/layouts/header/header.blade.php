@@ -1,231 +1,77 @@
-@php
-    $companySettings = \App\Models\HomepageSetting::get('company_settings', []);
-    $companyName = $companySettings['name'] ?? 'eCommerce';
-    $companyLogo = $companySettings['logo'] ?? null;
-    $maxDiscountPercent = \App\Models\Product::where('discount_type', 'percent')->where('discount_value', '>', 0)->frontendActive()->max('discount_value') ?? 0;
-    $maxDiscountPercent = round($maxDiscountPercent);
-@endphp
-
-<!-- TOP BAR -->
-<div class="top-bar">
-    <div class="container">
-        <div class="d-flex justify-content-between">
-            <div>
-                🇧🇩 সারাদেশে ডেলিভারি
-                <strong>Cash on Delivery Available</strong>
-            </div>
-            <div class="d-none d-md-block">
-                Hotline: 01XXXXXXXXX
-            </div>
-        </div>
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="topbar-item topbar-location">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 1 0 5 9.5C5 14.8 12 21 12 21Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>
+        ঢাকা, বাংলাদেশ
+      </span>
+      <nav class="topbar-links" aria-label="অ্যাকাউন্ট মেনু">
+        <a href="#" class="topbar-link" data-modal="loginModal">লগইন</a>
+        <a href="#" class="topbar-link" data-modal="loginModal">রেজিস্টার</a>
+        <a href="#footer">সহায়তা</a>
+        <a href="#story">আমাদের সম্পর্কে</a>
+      </nav>
     </div>
-</div>
+  </div>
 
-<!-- HEADER -->
-<header class="main-header">
-    <div class="container">
-        <div class="row align-items-center g-3">
-            <div class="col-6 col-lg-2">
-                <a href="{{ route('home') }}" class="brand" style="text-decoration:none;">
-                    @if($companyLogo)
-                        <img src="{{ asset('storage/' . $companyLogo) }}" alt="{{ $companyName }}" style="max-height: 55px; border-radius: 6px;">
-                    @else
-                        RONG<span>DHONU</span>
-                        <small>FASHION & LIFESTYLE</small>
-                    @endif
-                </a>
-            </div>
+  <div class="main-header">
+    <div class="main-header-inner">
+      <button class="hamburger" id="hamburgerBtn" aria-label="মেনু খুলুন" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-            <!-- DESKTOP MENU -->
-            <div class="col-lg-5 d-none d-lg-block">
-                <ul class="navbar-nav flex-row justify-content-center gap-4 fw-semibold" style="font-size: 15px; margin: 0; padding: 0;">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark {{ request()->routeIs('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-danger {{ request()->routeIs('flash-sale') ? 'active' : '' }}" href="{{ route('flash-sale') }}">🔥 Sale</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark {{ request()->routeIs('blogs.*') ? 'active' : '' }}" href="{{ route('blogs.index') }}">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
-                    </li>
-                </ul>
-            </div>
+      <a href="{{ route('home') }}" class="logo" aria-label="EcoHaat হোম">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M20 4C11 9 6 16 6 23a14 14 0 0 0 28 0c0-7-5-14-14-19Z" stroke="currentColor" stroke-width="2"/><path d="M20 12v22M20 12c-5 3-8 7-8 11M20 12c5 3 8 7 8 11" stroke="currentColor" stroke-width="1.4"/></svg>
+        </span>
+        <span class="logo-text">Eco<em>Haat</em></span>
+      </a>
 
-            <!-- SEARCH -->
-            <div class="col-lg-3 d-none d-lg-block">
-                <form action="{{ route('home') }}" method="GET" class="search-wrapper m-0">
-                    <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') }}" class="search-input-field" autocomplete="off" style="padding-left:15px;">
-                    <button type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <div class="search-results-dropdown d-none position-absolute w-100 bg-white border rounded shadow mt-1 p-2" style="z-index: 1050; top: 100%; left: 0; max-height: 350px; overflow-y: auto;"></div>
-                </form>
-            </div>
-            <!-- ICONS & MOBILE TOGGLE -->
-            <div class="col-6 col-lg-2">
-                <div class="d-flex justify-content-end gap-2 align-items-center">
-                    
-                    @if (auth()->guard('admin')->check())
-                        <div class="dropdown">
-                            <a class="head-icon dropdown-toggle no-arrow" href="#" data-bs-toggle="dropdown" style="text-decoration:none;">
-                                <img src="https://placehold.co/26x26/ff5521/fff?text={{ strtoupper(substr(auth()->guard('admin')->user()->email, 0, 1)) }}" class="rounded-circle" style="width: 26px; height: 26px; object-fit: cover;">
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end mt-2">
-                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li>
-                                    <form method="POST" action="{{ route('admin.logout') }}">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    @elseif(auth()->guard('web')->check())
-                        <div class="dropdown">
-                            <a class="head-icon dropdown-toggle no-arrow" href="#" data-bs-toggle="dropdown" style="text-decoration:none;">
-                                <img src="https://placehold.co/26x26/ff5521/fff?text={{ strtoupper(substr(auth()->user()->name, 0, 1)) }}" class="rounded-circle" style="width: 26px; height: 26px; object-fit: cover;">
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end mt-2">
-                                <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                                <li>
-                                    <form method="POST" action="{{ route('user.logout') }}">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    @else
-                        <a class="head-icon" href="{{ route('user.login') }}" style="text-decoration:none;">
-                            <i class="bi bi-person"></i>
-                        </a>
-                    @endif
+      <div class="header-search" role="search">
+        <input type="search" id="searchInput" placeholder="পণ্য, ক্যাটাগরি খুঁজুন..." aria-label="পণ্য খুঁজুন" autocomplete="off">
+        <button class="search-btn" id="searchBtn" aria-label="খুঁজুন">
+          <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="m21 21-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <div class="search-results" id="searchResults" hidden></div>
+      </div>
 
-                    
-                    <div class="dropdown">
-                        <a class="head-icon dropdown-toggle no-arrow" href="#" data-bs-toggle="dropdown" id="cartDropdownDesktop" style="text-decoration:none;">
-                            <i class="bi bi-bag"></i>
-                            <span class="counter badge-num cart-count-badge">0</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end p-3 cart-dropdown-menu" aria-labelledby="cartDropdownDesktop" style="width: 320px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.08);">
-                            <!-- Dynamically rendered cart items -->
-                        </ul>
-                    </div>
-                    
-                    <!-- MOBILE MENU TOGGLER -->
-                    <button class="navbar-toggler d-lg-none border-0 bg-transparent ms-1 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu">
-                        <i class="bi bi-list fs-2 text-dark"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- MOBILE SEARCH -->
-            <div class="col-12 d-lg-none">
-                <form action="{{ route('home') }}" method="GET" class="search-wrapper">
-                    <input type="text" name="search" placeholder="Search products..." value="{{ request()->query('search') }}" class="search-input-field" autocomplete="off">
-                    <button type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <div class="search-results-dropdown d-none position-absolute w-100 bg-white border rounded shadow mt-1 p-2" style="z-index: 1050; top: 100%; left: 0; max-height: 350px; overflow-y: auto;"></div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MOBILE MENU COLLAPSE -->
-        <div class="collapse d-lg-none" id="mobileMenu">
-            <ul class="navbar-nav pb-3 pt-2">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-danger {{ request()->routeIs('flash-sale') ? 'active' : '' }}" href="{{ route('flash-sale') }}">🔥 Sale ({{ $maxDiscountPercent }}% OFF)</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('blogs.*') ? 'active' : '' }}" href="{{ route('blogs.index') }}">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
-                </li>
-            </ul>
-        </div>
+      <div class="header-actions">
+        <button class="icon-btn mobile-search-toggle" id="mobileSearchToggle" aria-label="খুঁজুন">
+          <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="m21 21-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn" id="wishlistBtn" aria-label="পছন্দ তালিকা">
+          <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.5-4.7-9.8-9.4C.6 7.6 2.3 4 6 4c2.1 0 3.6 1.1 4.5 2.4.3.4.9.4 1.2 0C12.6 5.1 14.1 4 16.2 4c3.7 0 5.4 3.6 3.8 7.1C17.5 15.8 12 20.5 12 20.5Z" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span class="badge" id="wishlistCount" hidden>0</span>
+        </button>
+        <button class="icon-btn" id="accountBtn" aria-label="অ্যাকাউন্ট" data-modal="loginModal">
+          <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn cart-btn" id="cartBtn" aria-label="কার্ট">
+          <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20.5" r="1.4" fill="currentColor"/><circle cx="17.5" cy="20.5" r="1.4" fill="currentColor"/></svg>
+          <span class="badge" id="cartCount" hidden>0</span>
+        </button>
+      </div>
     </div>
+
+    <div class="mobile-search-bar" id="mobileSearchBar" hidden>
+      <input type="search" id="mobileSearchInput" placeholder="পণ্য খুঁজুন..." aria-label="পণ্য খুঁজুন">
+    </div>
+  </div>
+
+  <nav class="main-nav" id="mainNav" aria-label="প্রধান মেনু">
+    <ul>
+      <li><a href="#home" class="active">হোম</a></li>
+      <li><a href="#products">শপ</a></li>
+      <li><a href="#" data-filter="শাড়ি">শাড়ি</a></li>
+      <li><a href="#" data-filter="হস্তশিল্প">হস্তশিল্প</a></li>
+      <li><a href="#" data-filter="মাটির পণ্য">মাটির পণ্য</a></li>
+      <li><a href="#" data-filter="পাট">পাট ও বাঁশ</a></li>
+      <li><a href="#" data-filter="গয়না">গয়না</a></li>
+      <li><a href="#" data-filter="ঘর সাজানো">ঘর সাজানো</a></li>
+      <li><a href="#offers" class="nav-offer">অফার</a></li>
+    </ul>
+  </nav>
 </header>
 
-<style>
-    .main-header { padding: 15px 0; }
-
-<style>
-    .search-results-dropdown { border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 1px solid rgba(0, 0, 0, 0.08); }
-    .search-item-link:hover { background-color: #f8f9fa; }
-</style>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInputs = document.querySelectorAll('.search-input-field');
-        searchInputs.forEach(input => {
-            const form = input.closest('form');
-            const dropdown = form.querySelector('.search-results-dropdown');
-            let debounceTimer;
-
-            input.addEventListener('input', function() {
-                clearTimeout(debounceTimer);
-                const query = input.value.trim();
-
-                if (query.length < 2) {
-                    dropdown.innerHTML = '';
-                    dropdown.classList.add('d-none');
-                    return;
-                }
-
-                debounceTimer = setTimeout(() => {
-                    fetch(`/products/search-api?q=${encodeURIComponent(query)}`)
-                        .then(res => res.json())
-                        .then(products => {
-                            dropdown.innerHTML = '';
-
-                            if (products.length === 0) {
-                                dropdown.innerHTML = '<div class="text-muted text-center py-3 small">No products found</div>';
-                                dropdown.classList.remove('d-none');
-                                return;
-                            }
-
-                            products.forEach(product => {
-                                const itemHtml = `
-                                    <a href="${product.url}" class="d-flex align-items-center gap-3 p-2 mb-1 text-decoration-none text-dark rounded search-item-link">
-                                        <img src="${product.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;" alt="">
-                                        <div class="flex-grow-1 min-w-0">
-                                            <div class="fw-semibold text-truncate small">${product.name}</div>
-                                            <div class="text-danger small">৳${product.price}</div>
-                                        </div>
-                                    </a>
-                                `;
-                                dropdown.insertAdjacentHTML('beforeend', itemHtml);
-                            });
-                            dropdown.classList.remove('d-none');
-                        })
-                        .catch(err => console.error('Error fetching live search results:', err));
-                }, 300);
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!form.contains(e.target)) {
-                    dropdown.classList.add('d-none');
-                }
-            });
-
-            input.addEventListener('focus', function() {
-                if (dropdown.children.length > 0) {
-                    dropdown.classList.remove('d-none');
-                }
-            });
-        });
-    });
-</script>
+<div class="nav-overlay" id="navOverlay"></div>
