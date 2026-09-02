@@ -590,7 +590,7 @@
             // Determine checkout source items
             let checkoutItems = JSON.parse(localStorage.getItem('checkout_items') || '[]');
             if (checkoutItems.length === 0) {
-                checkoutItems = JSON.parse(localStorage.getItem('cart') || '[]');
+                checkoutItems = JSON.parse(localStorage.getItem('ecohaat_cart') || '[]');
             }
 
             const itemsContainer = document.querySelector('.summary-items');
@@ -863,21 +863,21 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Clear checkout and cart items
+                            // Force clear the entire cart upon successful order
                             localStorage.removeItem('checkout_items');
-                            const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-
-                            // Keep items that were NOT checked out
-                            const remainingCart = cartItems.filter(cartItem => {
-                                return !checkoutItems.some(chkItem => {
-                                    return chkItem.id == cartItem.id;
-                                });
-                            });
-
-                            // If it was a checkout from the cart drawer, checkoutItems will contain everything in the cart.
-                            // In that case, remainingCart will be empty.
-                            localStorage.setItem('cart', JSON.stringify(remainingCart));
-
+                            localStorage.setItem('ecohaat_cart', '[]');
+                            
+                            // Also clear memory cart if ecohaat.js is loaded
+                            if (typeof window.cart !== 'undefined') {
+                                window.cart = [];
+                                if (typeof window.updateCartUI === 'function') {
+                                    window.updateCartUI();
+                                }
+                            }
+                            
+                            // Trigger storage event for other tabs/bfcache manually
+                            window.dispatchEvent(new Event('storage'));
+                            
                             // Redirect to invoice page
                             window.location.href = data.redirect;
                         } else {

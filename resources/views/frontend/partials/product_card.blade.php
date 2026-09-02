@@ -3,7 +3,7 @@
     $discountedPrice = $product->price;
     $displayDiscountType = $product->discount_type;
     $displayDiscountValue = $product->discount_value;
-    
+
     if ($hasDiscount) {
         if ($product->discount_type === 'percent') {
             $discountedPrice = $product->price - ($product->price * $product->discount_value) / 100;
@@ -21,7 +21,7 @@
     $hasMultiplePrices = false;
     $hasMultipleOriginalPrices = false;
     $hasVariantDiscount = false;
-    
+
     if (!empty($product->variants) && is_array($product->variants)) {
         $prices = [];
         $originalPrices = [];
@@ -33,48 +33,53 @@
                 if (isset($v['price']) && $v['price'] > 0) {
                     $originalP = (float) $v['price'];
                     $p = $originalP;
-                    
+
                     // Check for variant discount
                     if (!empty($v['discount_type']) && isset($v['discount']) && $v['discount'] > 0) {
                         $isActive = true;
                         $startDate = !empty($v['discount_start']) ? \Carbon\Carbon::parse($v['discount_start']) : null;
                         $endDate = !empty($v['discount_end']) ? \Carbon\Carbon::parse($v['discount_end']) : null;
-                        if ($startDate && $startDate->gt($now)) $isActive = false;
-                        if ($endDate && $endDate->lt($now)) $isActive = false;
-                        
+                        if ($startDate && $startDate->gt($now)) {
+                            $isActive = false;
+                        }
+                        if ($endDate && $endDate->lt($now)) {
+                            $isActive = false;
+                        }
+
                         if ($isActive) {
                             $hasVariantDiscount = true;
                             if ($v['discount_type'] === 'percent') {
-                                $p = $p - ($p * $v['discount'] / 100);
+                                $p = $p - ($p * $v['discount']) / 100;
                             } else {
                                 $p = $p - $v['discount'];
                             }
-                            
+
                             // For badge display, if the main product doesn't have a discount, we show the highest variant discount
-                            if (!$hasDiscount) {
-                                if ($v['discount_type'] === 'percent') {
-                                    if ($displayDiscountType !== 'percent' || $v['discount'] > $displayDiscountValue) {
-                                        $displayDiscountType = 'percent';
-                                        $displayDiscountValue = $v['discount'];
-                                    }
-                                } else if ($displayDiscountType !== 'percent') { // Prefer percent over fixed for badge, or max fixed
-                                    if ($v['discount'] > $displayDiscountValue) {
-                                        $displayDiscountType = 'fixed';
-                                        $displayDiscountValue = $v['discount'];
-                                    }
+                        if (!$hasDiscount) {
+                            if ($v['discount_type'] === 'percent') {
+                                if ($displayDiscountType !== 'percent' || $v['discount'] > $displayDiscountValue) {
+                                    $displayDiscountType = 'percent';
+                                    $displayDiscountValue = $v['discount'];
+                                }
+                            } elseif ($displayDiscountType !== 'percent') {
+                                // Prefer percent over fixed for badge, or max fixed
+                                if ($v['discount'] > $displayDiscountValue) {
+                                    $displayDiscountType = 'fixed';
+                                    $displayDiscountValue = $v['discount'];
                                 }
                             }
                         }
                     }
-                    $prices[] = $p;
-                    $originalPrices[] = $originalP;
                 }
-                if (!$firstVariantImage && isset($v['image']) && !empty($v['image'])) {
-                    $firstVariantImage = $v['image'];
+                $prices[] = $p;
+                $originalPrices[] = $originalP;
+            }
+            if (!$firstVariantImage && isset($v['image']) && !empty($v['image'])) {
+                $firstVariantImage = $v['image'];
                 }
             }
         }
-        
+
         if ($hasVariantDiscount && !$hasDiscount) {
             $hasDiscount = true;
         }
@@ -82,7 +87,7 @@
         if ($firstVariantImage) {
             $displayImage = $firstVariantImage;
         }
-        
+
         if (count($prices) > 0) {
             $minPrice = min($prices);
             $maxPrice = max($prices);
@@ -126,12 +131,13 @@
                 @endif
 
                 @if ($displayImage)
-                    <img src="{{ asset('storage/' . $displayImage) }}" alt="{{ $product->name }}" class="prod-product-img" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                    <img src="{{ asset('storage/' . $displayImage) }}" alt="{{ $product->name }}"
+                        class="prod-product-img"
+                        style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 @else
-                    <img
-                        src="https://placehold.co/240x240/eee/aaa?text={{ urlencode(Str::limit($product->name, 8, '')) }}"
-                        alt="{{ $product->name }}"
-                        class="prod-product-img" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                    <img src="https://placehold.co/240x240/eee/aaa?text={{ urlencode(Str::limit($product->name, 8, '')) }}"
+                        alt="{{ $product->name }}" class="prod-product-img"
+                        style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 @endif
             </div>
         </a>
@@ -144,15 +150,20 @@
                 <div class="p">
                     @if ($hasMultiplePrices)
                         @if ($hasDiscount)
-                            <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }} - {{ number_format($maxPrice, 0) }}
-                            <span class="old"><span style="font-size: 1.2em;">৳</span> {{ number_format($originalMinPrice, 0) }} - {{ number_format($originalMaxPrice, 0) }}</span>
+                            <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }} -
+                            {{ number_format($maxPrice, 0) }}
+                            <span class="old"><span style="font-size: 1.2em;">৳</span>
+                                {{ number_format($originalMinPrice, 0) }} -
+                                {{ number_format($originalMaxPrice, 0) }}</span>
                         @else
-                            <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }} - {{ number_format($maxPrice, 0) }}
+                            <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }} -
+                            {{ number_format($maxPrice, 0) }}
                         @endif
                     @else
                         @if ($hasDiscount)
                             <span style="font-size: 1.2em;">৳</span> {{ number_format($discountedPrice, 0) }}
-                            <span class="old"><span style="font-size: 1.2em;">৳</span> {{ number_format($isVariant ? $originalMinPrice : $product->price, 0) }}</span>
+                            <span class="old"><span style="font-size: 1.2em;">৳</span>
+                                {{ number_format($isVariant ? $originalMinPrice : $product->price, 0) }}</span>
                         @else
                             <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }}
                         @endif
@@ -170,12 +181,10 @@
             <div class="mt-2 d-flex gap-2 justify-content-center align-items-center product-card-actions">
                 <a href="#"
                     class="btn btn-buy-now w-100 py-2 d-inline-flex align-items-center justify-content-center gap-1 btn-bid"
-                    data-id="{{ $product->id }}" 
-                    data-name="{{ $product->name }}" 
-                    data-price="{{ $hasDiscount ? $discountedPrice : $minPrice }}" 
+                    data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                    data-price="{{ $hasDiscount ? $discountedPrice : $minPrice }}"
                     data-original-price="{{ $hasDiscount ? $originalMinPrice : $product->price }}"
-                    data-image="{{ $displayImage }}"
-                    style="font-size: 11px; font-weight: 600; border-radius: 6px;"
+                    data-image="{{ $displayImage }}" style="font-size: 11px; font-weight: 600; border-radius: 6px;"
                     title="Buy Now">
                     <i class="bi bi-lightning-fill"></i><span> Buy Now</span>
                 </a>

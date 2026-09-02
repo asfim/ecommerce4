@@ -36,6 +36,7 @@
    RESET
    ========================================================= */
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -324,17 +325,17 @@ input, select, textarea { font-family: inherit; }
 .price-current { font-size: 18px; font-weight: 700; color: var(--green-deep); }
 .price-old { font-size: 13.5px; color: var(--ink-muted); text-decoration: line-through; }
 .product-actions { margin-top: auto; padding-top: 10px; display: flex; gap: 8px; }
-.add-to-cart-btn, .buy-now-btn {
+.add-to-cart-btn, .buy-now-btn, .btn-buy-now {
   flex: 1; padding: 11px; border-radius: 999px; border: 1.5px solid var(--green); background: transparent;
   color: var(--green); font-weight: 600; font-size: 14px; transition: all .2s ease;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
 }
-.buy-now-btn {
+.buy-now-btn, .btn-buy-now {
   background: var(--green); color: var(--white);
 }
-.buy-now-btn:hover { background: var(--green-deep); }
+.buy-now-btn:hover, .btn-buy-now:hover { background: var(--green-deep); color: var(--white); }
 .add-to-cart-btn:hover { background: var(--green); color: var(--white); }
-.add-to-cart-btn svg, .buy-now-btn svg { width: 17px; height: 17px; }
+.add-to-cart-btn svg, .buy-now-btn svg, .btn-buy-now i { width: 17px; height: 17px; }
 .add-to-cart-btn.is-added { background: var(--green); color: var(--white); }
 
 .no-results { text-align: center; color: var(--ink-muted); padding: 50px 0; font-size: 16px; }

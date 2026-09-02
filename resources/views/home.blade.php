@@ -261,6 +261,7 @@
         @endphp
         {
             id: {{ $product->id }},
+            slug: {!! json_encode($product->slug) !!},
             name: {!! json_encode($product->name) !!},
             category: {!! json_encode($product->category->name ?? 'Uncategorized') !!},
             price: {{ $calcPrice }},
@@ -308,6 +309,7 @@
         @endphp
         {
             id: {{ $product->id }},
+            slug: {!! json_encode($product->slug) !!},
             name: {!! json_encode($product->name) !!},
             category: {!! json_encode($product->category->name ?? 'Uncategorized') !!},
             price: {{ $calcPrice }},

@@ -314,10 +314,10 @@ function productCardHTML(p) {
             <svg viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>${inCart ? "যোগ হয়েছে" : "কার্টে যোগ"}</span>
           </button>
-          <button class="buy-now-btn" data-action="buy-now" data-id="${p.id}">
+          <a href="/product/${p.slug || p.id}" class="buy-now-btn" style="text-decoration: none;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             <span>অর্ডার করুন</span>
-          </button>
+          </a>
         </div>
       </div>
     </div>`;
@@ -342,11 +342,14 @@ function renderProducts(searchTerm = "") {
   bindProductCardEvents();
 }
 function bindProductCardEvents() {
-  document.querySelectorAll('[data-action="add-cart"]').forEach(btn => {
-    btn.addEventListener("click", () => addToCart(parseInt(btn.dataset.id)));
-  });
   document.querySelectorAll('[data-action="buy-now"]').forEach(btn => {
     btn.addEventListener("click", () => buyNow(parseInt(btn.dataset.id)));
+  });
+  
+  // Removed PHP rendered buy now button listener to allow standard anchor link behavior
+
+  document.querySelectorAll(".wishlist-btn").forEach(btn => {
+    btn.addEventListener("click", () => toggleWishlist(parseInt(btn.dataset.id)));
   });
   document.querySelectorAll('[data-action="wishlist"]').forEach(btn => {
     btn.addEventListener("click", () => toggleWishlist(parseInt(btn.dataset.id)));
@@ -413,6 +416,8 @@ function buyNow(id) {
   }
   window.location.href = "/checkout?product_id=" + id;
 }
+
+
 function removeFromCart(id) {
   cart = cart.filter(i => i.id !== id);
   saveState();
@@ -936,7 +941,7 @@ window.addEventListener("scroll", () => {
 });
 
 /* =========================================================
-   INIT
+   INIT & SYNC
    ========================================================= */
 function init() {
   renderCategories();
@@ -949,4 +954,26 @@ function init() {
   updateWishlistUI();
   initReveal();
 }
+
+function syncState() {
+  cart = JSON.parse(localStorage.getItem('ecohaat_cart') || '[]');
+  wishlist = JSON.parse(localStorage.getItem('ecohaat_wishlist') || '[]');
+  updateCartUI();
+  updateWishlistUI();
+}
+
+// Sync when returning via back button (bfcache)
+window.addEventListener("pageshow", e => {
+  if (e.persisted || (window.performance && window.performance.navigation.type === 2)) {
+    syncState();
+  }
+});
+
+// Sync when localStorage changes in another tab or window
+window.addEventListener("storage", e => {
+  if (e.key === 'ecohaat_cart' || e.key === 'ecohaat_wishlist') {
+    syncState();
+  }
+});
+
 document.addEventListener("DOMContentLoaded", init);
