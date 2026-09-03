@@ -57,6 +57,9 @@ body {
     color: var(--ink);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+}
+
+main {
     overflow-x: hidden;
 }
 
@@ -395,7 +398,7 @@ textarea {
     color: var(--green);
 }
 
-.header-action-btn .badge {
+.header-actions .badge {
     position: absolute;
     top: 2px;
     right: 2px;
