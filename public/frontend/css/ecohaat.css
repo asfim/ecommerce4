@@ -395,7 +395,7 @@ textarea {
     color: var(--green);
 }
 
-.badge {
+.header-action-btn .badge {
     position: absolute;
     top: 2px;
     right: 2px;
@@ -410,6 +410,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 5px rgba(212, 175, 55, 0.3);
 }
 
 .mobile-search-toggle,

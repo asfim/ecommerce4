@@ -13,15 +13,15 @@
     </nav>
 
     <!-- Blog Header Banner -->
-    <div class="p-5 text-white mb-5 rounded-4 shadow-sm position-relative overflow-hidden" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7);">
+    <div class="p-4 p-md-5 text-white mb-4 mb-md-5 rounded-4 shadow-sm position-relative overflow-hidden" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7);">
         <div class="position-absolute" style="right: -50px; bottom: -50px; opacity: 0.1; font-size: 200px; font-weight: 900; line-height: 1;">
             <i class="bi bi-journal-text"></i>
         </div>
         <div class="row align-items-center position-relative">
             <div class="col-lg-8">
-                <span class="badge bg-white text-primary mb-2 px-3 py-2 rounded-pill fw-bold text-uppercase" style="font-size: 11px; letter-spacing: 1px;">Insights & Guides</span>
-                <h1 class="fw-bold display-5 mb-2">The eCommerce Blog</h1>
-                <p class="lead text-white-50 mb-0">Learn tips, industry secrets, and trends to scale your online shopping experiences.</p>
+                <span class="badge bg-white text-primary mb-2 px-2 px-md-3 py-1 py-md-2 rounded-pill fw-bold text-uppercase" style="font-size: 11px; letter-spacing: 1px;">Insights & Guides</span>
+                <h1 class="fw-bold fs-2 fs-md-1 mb-2 text-white" style="line-height: 1.2;">The eCommerce Blog</h1>
+                <p class="lead text-white-50 mb-0 fs-6 fs-md-5">Learn tips, industry secrets, and trends to scale your online shopping experiences.</p>
             </div>
         </div>
     </div>
@@ -106,7 +106,7 @@
         top: 1rem;
     }
     .start-3 {
-        start: 1rem;
+        left: 1rem;
     }
 </style>
 @endsection
