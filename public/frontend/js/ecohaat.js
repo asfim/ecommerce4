@@ -272,6 +272,7 @@ function getFilteredProducts(searchTerm = "") {
   return list;
 }
 function discountPct(p) {
+  if (!p.oldPrice || p.oldPrice <= 0) return 0;
   return Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
 }
 function productCardHTML(p) {
