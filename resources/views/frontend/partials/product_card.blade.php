@@ -150,7 +150,7 @@
         <div class="prod-info d-flex flex-column flex-grow-1">
             <div class="flex-grow-1">
                 <a href="{{ route('product.details', $product->slug) }}" class="text-decoration-none">
-                    <div class="t text-dark hover-blue" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 42px;">{{ Str::limit($product->name, 35) }}</div>
+                    <div class="t text-dark hover-blue" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 40px; line-height: 20px;">{{ Str::limit($product->name, 35) }}</div>
                 </a>
                 <div class="p">
                     @if ($hasMultiplePrices)

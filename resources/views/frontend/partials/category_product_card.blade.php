@@ -125,7 +125,7 @@
 
         {{-- Name --}}
         <a href="{{ route('product.details', $product->slug) }}" class="text-decoration-none">
-            <div class="rcat-name" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 42px;">{{ Str::limit($product->name, 60) }}</div>
+            <div class="rcat-name" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 40px; line-height: 20px;">{{ Str::limit($product->name, 60) }}</div>
         </a>
 
         {{-- Stock badge --}}

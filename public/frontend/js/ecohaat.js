@@ -299,9 +299,9 @@ function productCardHTML(p) {
         <img src="${p.image}" alt="${p.name}" loading="lazy">
         <button class="quick-view-btn" data-action="quickview" data-id="${p.id}">কুইক ভিউ</button>
       </div>
-      <div class="product-info">
+      <div class="product-info d-flex flex-column flex-grow-1">
         <span class="product-cat">${p.category}</span>
-        <h3 class="product-name">${p.name}</h3>
+        <h3 class="product-name" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 40px; line-height: 20px;">${p.name}</h3>
         <div class="product-rating"><span class="stars">${starString(p.rating)}</span><span>${p.rating} (${p.reviews})</span></div>
         <div class="product-price-row">
           <span class="price-current">${formatTaka(p.price)}</span>
