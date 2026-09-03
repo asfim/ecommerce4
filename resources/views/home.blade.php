@@ -3,124 +3,59 @@
 @section('content')
     <!-- ================= HERO ================= -->
     <section class="hero" id="home">
-        <div class="hero-slider" id="heroSlider">
-            <div class="hero-track" id="heroTrack">
-
-                @if (!empty($heroBanners) && count($heroBanners) > 0)
-                    @php
-                        $index = 0;
-                        $banner = $heroBanners[0];
-                    @endphp
-                    <article class="hero-slide is-active">
-                        <div class="hero-grid">
-                            <div class="hero-panel hero-panel--main">
-                                <img src="{{ asset('storage/' . str_replace('\\', '/', $banner)) }}"
-                                    alt="Hero Banner {{ $index + 1 }}" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
-                            </div>
-                            <div class="hero-panel hero-panel--sub">
-                                <img src="{{ asset('storage/' . str_replace('\\', '/', $heroBanners[($index + 1) % count($heroBanners)])) }}"
-                                    alt="Banner Sub" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
-                            </div>
-                            <div class="hero-panel hero-panel--sub2">
-                                <img src="{{ asset('storage/' . str_replace('\\', '/', $heroBanners[($index + 2) % count($heroBanners)])) }}"
-                                    alt="Banner Sub 2" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
-                            </div>
-                            <div class="hero-panel hero-panel--story">
-                                <div class="hero-story-content">
-                                    <span
-                                        class="hero-eyebrow">{{ \App\Models\HomepageSetting::get('hero_badge', '১০০% হাতে তৈরি') }}</span>
-                                    <h1>{!! nl2br(\App\Models\HomepageSetting::get('hero_title', "ঐতিহ্যবাহী বাংলাদেশ\nআপনার ঘরে আনুন")) !!}</h1>
-                                    <p>{!! nl2br(
-                                        \App\Models\HomepageSetting::get(
-                                            'hero_subtitle',
-                                            'কারিগরের হাতে তৈরি বাংলার অনন্য সব পণ্য, সরাসরি পৌঁছে যাক আপনার দোরগোড়ায়।',
-                                        ),
-                                    ) !!}</p>
-                                    <div class="hero-cta-group">
-                                        @if(\App\Models\HomepageSetting::get('hero_btn1_text'))
-                                            <a href="{{ \App\Models\HomepageSetting::get('hero_btn1_link', '#products') }}" class="btn btn-primary">{{ \App\Models\HomepageSetting::get('hero_btn1_text', 'শপ নাও') }}</a>
-                                        @endif
-                                        @if(\App\Models\HomepageSetting::get('hero_btn2_text'))
-                                            <a href="{{ \App\Models\HomepageSetting::get('hero_btn2_link', '#collections') }}" class="btn btn-outline">{{ \App\Models\HomepageSetting::get('hero_btn2_text', 'সংগ্রহ দেখুন') }}</a>
-                                        @endif
+        <article class="hero-slide is-active">
+            <div class="hero-grid">
+                <div class="hero-panel hero-panel--main" style="flex: 2.8; position: relative; overflow: hidden;">
+                    <div class="hero-slider" id="heroSlider" style="height: 100%;">
+                        <div class="hero-track" id="heroTrack" style="height: 100%;">
+                            @if (!empty($heroBanners) && count($heroBanners) > 0)
+                                @foreach (array_slice($heroBanners, 0, 3) as $index => $banner)
+                                    <div class="hero-slide {{ $index == 0 ? 'is-active' : '' }}" style="min-width: 100%; height: 100%;">
+                                        <img src="{{ asset('storage/' . str_replace('\\', '/', $banner)) }}"
+                                            alt="Hero Banner {{ $index + 1 }}" loading="{{ $index == 0 ? 'eager' : 'lazy' }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     </div>
+                                @endforeach
+                            @else
+                                <div class="hero-slide is-active" style="min-width: 100%; height: 100%;">
+                                    <img src="{{ asset('frontend/images/hero-banner.png') }}"
+                                        alt="Hero Banner" loading="eager" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
-                            </div>
+                            @endif
                         </div>
-                    </article>
-                @else
-                    <!-- Fallback if no banners are set -->
-                    <article class="hero-slide is-active">
-                        <div class="hero-grid">
-                            <div class="hero-panel hero-panel--main">
-                                <img src="https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=1000&q=80"
-                                    alt="Hero Banner" loading="eager">
-                            </div>
-                            <div class="hero-panel hero-panel--sub">
-                                <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=700&q=80"
-                                    alt="Banner Sub" loading="eager">
-                            </div>
-                            <div class="hero-panel hero-panel--sub2">
-                                <img src="https://images.unsplash.com/photo-1618221639031-8f0f0dfd0a83?auto=format&fit=crop&w=700&q=80"
-                                    alt="Banner Sub 2" loading="eager">
-                            </div>
-                            <div class="hero-panel hero-panel--story">
-                                <div class="hero-story-content">
-                                    <span class="hero-eyebrow">কারিগরের হাতে ঐতিহ্যের সেরা ঠিকানা</span>
-                                    <h1>বিশ্বাসে, মানে আমরাই আপনার আপনজন</h1>
-
-                                    <div class="hero-story-features">
-                                        <div class="hero-feature-item">
-                                            <div class="hero-feature-icon">
-                                                <svg viewBox="0 0 24 24" fill="none">
-                                                    <path d="M12 11a4 4 0 100-8 4 4 0 000 8zM18 21a6 6 0 00-12 0"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </div>
-                                            <div class="hero-feature-text">
-                                                <h4>৫০০+ শিল্পী</h4>
-                                                <p>আমাদের সাথে যুক্ত</p>
-                                            </div>
-                                        </div>
-                                        <div class="hero-feature-item">
-                                            <div class="hero-feature-icon">
-                                                <svg viewBox="0 0 24 24" fill="none">
-                                                    <path
-                                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </div>
-                                            <div class="hero-feature-text">
-                                                <h4>১০০% হ্যান্ডমেড</h4>
-                                                <p>হ্যান্ডমেড পণ্য</p>
-                                            </div>
-                                        </div>
-                                        <div class="hero-feature-item">
-                                            <div class="hero-feature-icon">
-                                                <svg viewBox="0 0 24 24" fill="none">
-                                                    <rect x="2" y="3" width="20" height="14" rx="2"
-                                                        stroke="currentColor" stroke-width="1.5" />
-                                                    <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" />
-                                                </svg>
-                                            </div>
-                                            <div class="hero-feature-text">
-                                                <h4>ফ্রি ডেলিভারি</h4>
-                                                <p>সারা বাংলাদেশে</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    
+                    <button id="heroPrevBtn" class="hero-arrow hero-arrow-left" aria-label="Previous slide">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button id="heroNextBtn" class="hero-arrow hero-arrow-right" aria-label="Next slide">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+                <div class="hero-panel hero-panel--story">
+                    <div class="hero-story-content">
+                        <span class="hero-eyebrow">{{ \App\Models\HomepageSetting::get('hero_badge', '১০০% হাতে তৈরি') }}</span>
+                        <h1>{!! nl2br(\App\Models\HomepageSetting::get('hero_title', "ঐতিহ্যবাহী বাংলাদেশ\nআপনার ঘরে আনুন")) !!}</h1>
+                        <p>{!! nl2br(
+                            \App\Models\HomepageSetting::get(
+                                'hero_subtitle',
+                                'কারিগরের হাতে তৈরি বাংলার অনন্য সব পণ্য, সরাসরি পৌঁছে যাক আপনার দোরগোড়ায়।',
+                            ),
+                        ) !!}</p>
+                        <div class="hero-cta-group">
+                            @if (\App\Models\HomepageSetting::get('hero_btn1_text'))
+                                <a href="{{ \App\Models\HomepageSetting::get('hero_btn1_link', '#products') }}"
+                                    class="btn btn-primary">{{ \App\Models\HomepageSetting::get('hero_btn1_text', 'শপ নাও') }}</a>
+                            @endif
+                            @if (\App\Models\HomepageSetting::get('hero_btn2_text'))
+                                <a href="{{ \App\Models\HomepageSetting::get('hero_btn2_link', '#collections') }}"
+                                    class="btn btn-outline">{{ \App\Models\HomepageSetting::get('hero_btn2_text', 'সংগ্রহ দেখুন') }}</a>
+                            @endif
                         </div>
-                    </article>
-                @endif
-
+                    </div>
+                </div>
             </div>
-        </div>
-
+        </article>
+    </section>
         <div class="hero-strip">
             <div class="hero-strip-inner">
                 <span>৫০০+ শিল্পী</span>
@@ -170,7 +105,8 @@
             </div>
             <div class="product-grid" id="discountGrid"></div>
             <div class="text-center" style="margin-top: 30px;">
-                <button class="btn btn-outline" id="loadMoreDiscountBtn" style="display: none; margin: 0 auto; padding: 10px 24px;">আরও দেখুন</button>
+                <button class="btn btn-outline" id="loadMoreDiscountBtn"
+                    style="display: none; margin: 0 auto; padding: 10px 24px;">আরও দেখুন</button>
             </div>
         </div>
     </section>
@@ -191,13 +127,19 @@
                     @endforeach
                 </div>
                 <div class="mobile-filter custom-mobile-dropdown d-block d-md-none w-100 mb-3 dropdown">
-                    <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="mobileFilterBtn" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; background: white; text-align: left;">
+                    <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center"
+                        type="button" id="mobileFilterBtn" data-bs-toggle="dropdown" aria-expanded="false"
+                        style="border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; background: white; text-align: left;">
                         <span id="mobileFilterSelectedText">সব ক্যাটাগরি</span>
                     </button>
-                    <ul class="dropdown-menu w-100 shadow-sm border-0" aria-labelledby="mobileFilterBtn" style="border-radius: 8px; max-height: 250px; overflow-y: auto;">
-                        <li><button class="dropdown-item active" data-filter="সব" onclick="handleMobileFilterClick(event, 'সব')">সব ক্যাটাগরি</button></li>
+                    <ul class="dropdown-menu w-100 shadow-sm border-0" aria-labelledby="mobileFilterBtn"
+                        style="border-radius: 8px; max-height: 250px; overflow-y: auto;">
+                        <li><button class="dropdown-item active" data-filter="সব"
+                                onclick="handleMobileFilterClick(event, 'সব')">সব ক্যাটাগরি</button></li>
                         @foreach ($categories as $cat)
-                            <li><button class="dropdown-item" data-filter="{{ $cat->name }}" onclick="handleMobileFilterClick(event, '{{ $cat->name }}')">{{ $cat->name }}</button></li>
+                            <li><button class="dropdown-item" data-filter="{{ $cat->name }}"
+                                    onclick="handleMobileFilterClick(event, '{{ $cat->name }}')">{{ $cat->name }}</button>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -212,14 +154,14 @@
                     </select>
                 </label>
             </div>
-            
+
             @push('scripts')
-            <script>
-            function handleMobileFilterClick(event, filterVal) {
-                event.preventDefault();
-                applyFilter(filterVal, false);
-            }
-            </script>
+                <script>
+                    function handleMobileFilterClick(event, filterVal) {
+                        event.preventDefault();
+                        applyFilter(filterVal, false);
+                    }
+                </script>
             @endpush
 
             <div class="product-grid" id="productGrid"></div>
@@ -239,14 +181,30 @@
                     $features = \App\Models\HomepageSetting::get('features', []);
                     if (empty($features)) {
                         $features = [
-                            ['icon' => 'bi-hand-thumbs-up', 'title' => '১০০% হ্যান্ডমেড', 'subtitle' => 'প্রতিটি পণ্য কারিগরের হাতে তৈরি, কোনো মেশিন প্রোডাকশন নয়।'],
-                            ['icon' => 'bi-patch-check', 'title' => 'যাচাইকৃত কারিগর', 'subtitle' => 'আমরা সরাসরি যাচাইকৃত কারিগর পরিবারের সাথে কাজ করি।'],
-                            ['icon' => 'bi-shield-check', 'title' => 'নিরাপদ পেমেন্ট', 'subtitle' => 'ক্যাশ অন ডেলিভারি, bKash, Nagad ও কার্ডে নিরাপদ পেমেন্ট।'],
-                            ['icon' => 'bi-truck', 'title' => 'দ্রুত ডেলিভারি', 'subtitle' => 'সারাদেশে দ্রুত ও নির্ভরযোগ্য হোম ডেলিভারি সুবিধা।'],
+                            [
+                                'icon' => 'bi-hand-thumbs-up',
+                                'title' => '১০০% হ্যান্ডমেড',
+                                'subtitle' => 'প্রতিটি পণ্য কারিগরের হাতে তৈরি, কোনো মেশিন প্রোডাকশন নয়।',
+                            ],
+                            [
+                                'icon' => 'bi-patch-check',
+                                'title' => 'যাচাইকৃত কারিগর',
+                                'subtitle' => 'আমরা সরাসরি যাচাইকৃত কারিগর পরিবারের সাথে কাজ করি।',
+                            ],
+                            [
+                                'icon' => 'bi-shield-check',
+                                'title' => 'নিরাপদ পেমেন্ট',
+                                'subtitle' => 'ক্যাশ অন ডেলিভারি, bKash, Nagad ও কার্ডে নিরাপদ পেমেন্ট।',
+                            ],
+                            [
+                                'icon' => 'bi-truck',
+                                'title' => 'দ্রুত ডেলিভারি',
+                                'subtitle' => 'সারাদেশে দ্রুত ও নির্ভরযোগ্য হোম ডেলিভারি সুবিধা।',
+                            ],
                         ];
                     }
                 @endphp
-                @foreach($features as $feature)
+                @foreach ($features as $feature)
                     <div class="why-card reveal">
                         <div class="why-icon">
                             <i class="bi {{ $feature['icon'] ?? 'bi-star' }}" style="font-size: 24px;"></i>
@@ -272,18 +230,47 @@
                         $testimonials = \App\Models\HomepageSetting::get('testimonials', []);
                         if (empty($testimonials)) {
                             $testimonials = [
-                                ['name' => 'ফারজানা আক্তার', 'role' => 'ঢাকা', 'rating' => 5, 'text' => 'জামদানি শাড়িটা হাতে পেয়ে সত্যিই মুগ্ধ হয়েছি। কাপড়ের মান এবং কাজ দুটোই অসাধারণ।', 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80'],
-                                ['name' => 'রাকিবুল হাসান', 'role' => 'চট্টগ্রাম', 'rating' => 5, 'text' => 'মাটির চায়ের সেটটা দেখতে যেমন সুন্দর, ব্যবহার করেও তেমনই আরামদায়ক। ডেলিভারিও দ্রুত ছিল।', 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'],
-                                ['name' => 'নুসরাত জাহান', 'role' => 'সিলেট', 'rating' => 4, 'text' => 'নকশি কাঁথাটা উপহার হিসেবে দিয়েছিলাম, সবাই খুব পছন্দ করেছে। প্যাকেজিংও চমৎকার ছিল।', 'avatar' => 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=150&q=80'],
+                                [
+                                    'name' => 'ফারজানা আক্তার',
+                                    'role' => 'ঢাকা',
+                                    'rating' => 5,
+                                    'text' =>
+                                        'জামদানি শাড়িটা হাতে পেয়ে সত্যিই মুগ্ধ হয়েছি। কাপড়ের মান এবং কাজ দুটোই অসাধারণ।',
+                                    'avatar' =>
+                                        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
+                                ],
+                                [
+                                    'name' => 'রাকিবুল হাসান',
+                                    'role' => 'চট্টগ্রাম',
+                                    'rating' => 5,
+                                    'text' =>
+                                        'মাটির চায়ের সেটটা দেখতে যেমন সুন্দর, ব্যবহার করেও তেমনই আরামদায়ক। ডেলিভারিও দ্রুত ছিল।',
+                                    'avatar' =>
+                                        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80',
+                                ],
+                                [
+                                    'name' => 'নুসরাত জাহান',
+                                    'role' => 'সিলেট',
+                                    'rating' => 4,
+                                    'text' =>
+                                        'নকশি কাঁথাটা উপহার হিসেবে দিয়েছিলাম, সবাই খুব পছন্দ করেছে। প্যাকেজিংও চমৎকার ছিল।',
+                                    'avatar' =>
+                                        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=150&q=80',
+                                ],
                             ];
                         }
                     @endphp
-                    @foreach($testimonials as $t)
+                    @foreach ($testimonials as $t)
                         <div class="testimonial-card">
-                            <img class="testimonial-avatar" src="{{ !empty($t['avatar']) ? (str_starts_with($t['avatar'], 'http') ? $t['avatar'] : asset('storage/' . $t['avatar'])) : 'https://placehold.co/150x150/eee/aaa?text=User' }}" alt="{{ $t['name'] ?? '' }}" loading="lazy">
+                            <img class="testimonial-avatar"
+                                src="{{ !empty($t['avatar']) ? (str_starts_with($t['avatar'], 'http') ? $t['avatar'] : asset('storage/' . $t['avatar'])) : 'https://placehold.co/150x150/eee/aaa?text=User' }}"
+                                alt="{{ $t['name'] ?? '' }}" loading="lazy">
                             <div class="testimonial-stars">
-                                @for($i = 0; $i < ($t['rating'] ?? 5); $i++)
-                                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                @for ($i = 0; $i < ($t['rating'] ?? 5); $i++)
+                                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                                        <path
+                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                    </svg>
                                 @endfor
                             </div>
                             <p class="testimonial-text">"{{ $t['text'] ?? '' }}"</p>
@@ -293,13 +280,44 @@
                     @endforeach
                 </div>
                 <div class="slider-dots" id="testimonialDots" role="tablist" aria-label="মতামত নির্বাচন">
-                    @foreach($testimonials as $index => $t)
-                        <button aria-label="মতামত {{ $index + 1 }}" class="{{ $index === 0 ? 'is-active' : '' }}"></button>
+                    @foreach ($testimonials as $index => $t)
+                        <button aria-label="মতামত {{ $index + 1 }}"
+                            class="{{ $index === 0 ? 'is-active' : '' }}"></button>
                     @endforeach
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+        .hero-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            color: var(--primary);
+        }
+        .hero-arrow:hover {
+            background: var(--primary);
+            color: white;
+        }
+        .hero-arrow-left { left: 15px; }
+        .hero-arrow-right { right: 15px; }
+        .hero-track {
+            display: flex;
+            transition: transform .6s cubic-bezier(.65, 0, .35, 1);
+        }
+    </style>
 
     @push('scripts')
         <script>
@@ -352,10 +370,56 @@
                         rating: 5,
                         reviews: 10,
                         image: {!! json_encode($imageUrl) !!},
-                        desc: {!! json_encode($desc) !!}
+                        desc: {!! json_encode($desc) !!},
+                        variants: {!! json_encode($variants ?: []) !!}
                     },
                 @endforeach
             ];
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const track = document.getElementById('heroTrack');
+                const slides = document.querySelectorAll('.hero-slide');
+                const prevBtn = document.getElementById('heroPrevBtn');
+                const nextBtn = document.getElementById('heroNextBtn');
+                
+                if (slides.length > 1 && track) {
+                    let currentSlide = 0;
+                    let slideInterval;
+
+                    function goToSlide(index) {
+                        if (index < 0) index = slides.length - 1;
+                        if (index >= slides.length) index = 0;
+                        currentSlide = index;
+                        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                        slides.forEach((slide, idx) => {
+                            if(idx === currentSlide) {
+                                slide.classList.add('is-active');
+                            } else {
+                                slide.classList.remove('is-active');
+                            }
+                        });
+                    }
+
+                    function nextSlide() { goToSlide(currentSlide + 1); }
+                    function prevSlide() { goToSlide(currentSlide - 1); }
+
+                    function startInterval() {
+                        slideInterval = setInterval(nextSlide, 5000);
+                    }
+                    function resetInterval() {
+                        clearInterval(slideInterval);
+                        startInterval();
+                    }
+
+                    if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+                    if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+
+                    startInterval();
+                } else {
+                    if (prevBtn) prevBtn.style.display = 'none';
+                    if (nextBtn) nextBtn.style.display = 'none';
+                }
+            });
 
             window.PRODUCTS = [
                 @foreach (\App\Models\Product::frontendActive()->with('category')->orderBy('sales_count', 'desc')->take(100)->get() as $product)
@@ -399,7 +463,8 @@
                         rating: 5,
                         reviews: 10,
                         image: {!! json_encode($imageUrl) !!},
-                        desc: {!! json_encode($desc) !!}
+                        desc: {!! json_encode($desc) !!},
+                        variants: {!! json_encode($variants ?: []) !!}
                     },
                 @endforeach
             ];

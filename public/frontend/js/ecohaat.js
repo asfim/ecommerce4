@@ -241,6 +241,10 @@ function renderDiscountProducts() {
           loadMoreBtn.dataset.listenerAttached = "true";
       }
   }
+  
+  if (typeof bindEvents === 'function') {
+      bindEvents();
+  }
 }
 
 /* =========================================================
@@ -314,9 +318,7 @@ function productCardHTML(p) {
     <div class="product-card" data-id="${p.id}">
       <div class="product-media">
         ${discountHTML}
-        <button class="wishlist-toggle ${isWished ? "is-active" : ""}" aria-label="পছন্দ তালিকায় যোগ করুন" data-action="wishlist" data-id="${p.id}">
-          <svg viewBox="0 0 24 24" fill="${isWished ? "currentColor" : "none"}"><path d="M12 20.5s-7.5-4.7-9.8-9.4C.6 7.6 2.3 4 6 4c2.1 0 3.6 1.1 4.5 2.4.3.4.9.4 1.2 0C12.6 5.1 14.1 4 16.2 4c3.7 0 5.4 3.6 3.8 7.1C17.5 15.8 12 20.5 12 20.5Z" stroke="currentColor" stroke-width="1.7"/></svg>
-        </button>
+
         <img src="${p.image}" alt="${p.name}" loading="lazy">
         <button class="quick-view-btn" data-action="quickview" data-id="${p.id}">কুইক ভিউ</button>
       </div>
@@ -662,6 +664,34 @@ function openQuickView(id) {
   const p = findProduct(id);
   if (!p) return;
   const isWished = wishlist.includes(id);
+  
+  let variantsHTML = '';
+  let variantGroups = {};
+
+  if (p.variants && Array.isArray(p.variants)) {
+    p.variants.forEach(v => {
+       if (v.combo) {
+          for (let key in v.combo) {
+             if (!variantGroups[key]) variantGroups[key] = new Set();
+             variantGroups[key].add(v.combo[key]);
+          }
+       } else if (v.label && v.value) {
+          if (!variantGroups[v.label]) variantGroups[v.label] = new Set();
+          variantGroups[v.label].add(v.value);
+       }
+    });
+
+    for (let label in variantGroups) {
+      variantsHTML += `<div class="variant-group qv-variant-group" data-label="${label.toLowerCase().trim()}">
+        <label>${label}:</label>
+        <div class="variant-options">`;
+      variantGroups[label].forEach(val => {
+        variantsHTML += `<button class="variant-btn qv-variant-btn" data-value="${val}">${val}</button>`;
+      });
+      variantsHTML += `</div></div>`;
+    }
+  }
+
   document.getElementById("quickViewBody").innerHTML = `
     <div class="qv-image"><img src="${p.image}" alt="${p.name}"></div>
     <div class="qv-info">
@@ -674,6 +704,7 @@ function openQuickView(id) {
         <span class="product-discount" style="position:static;">-${discountPct(p)}%</span>
       </div>
       <p class="qv-desc">${p.desc}</p>
+      ${variantsHTML}
       <div class="qv-qty-row">
         <span>পরিমাণ:</span>
         <div class="qty-control">
@@ -689,16 +720,50 @@ function openQuickView(id) {
       </div>
     </div>`;
 
+  // Init variants
+  document.querySelectorAll('.qv-variant-group').forEach(group => {
+     const btns = group.querySelectorAll('.qv-variant-btn');
+     if (btns.length > 0) btns[0].classList.add('active'); // auto select first
+     btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+           btns.forEach(b => b.classList.remove('active'));
+           e.target.classList.add('active');
+        });
+     });
+  });
+
+  function getQvVariants() {
+    let selected = {};
+    document.querySelectorAll('.qv-variant-group').forEach(group => {
+       const label = group.dataset.label;
+       const activeBtn = group.querySelector('.qv-variant-btn.active');
+       if (label && activeBtn) {
+          selected[label] = activeBtn.dataset.value;
+       }
+    });
+    return selected;
+  }
+
   let qty = 1;
   document.getElementById("qvPlus").addEventListener("click", () => { qty++; document.getElementById("qvQty").textContent = qty; });
   document.getElementById("qvMinus").addEventListener("click", () => { if (qty > 1) qty--; document.getElementById("qvQty").textContent = qty; });
   document.getElementById("qvAddCart").addEventListener("click", () => {
-    for (let i = 0; i < qty; i++) addToCart(id);
+    const vars = getQvVariants();
+    if (window.addToCartGlobal) {
+        window.addToCartGlobal(id, p.name, p.price, p.image, qty, vars, p.oldPrice);
+    } else {
+        for (let i = 0; i < qty; i++) addToCart(id);
+    }
     closeModal("quickViewOverlay");
   });
   document.getElementById("qvBuyNow").addEventListener("click", () => {
-    for (let i = 0; i < qty - 1; i++) addToCart(id);
-    buyNow(id);
+    const vars = getQvVariants();
+    if (window.checkoutSingleItemGlobal) {
+        window.checkoutSingleItemGlobal(id, p.name, p.price, p.image, qty, vars, p.oldPrice);
+    } else {
+        for (let i = 0; i < qty - 1; i++) addToCart(id);
+        buyNow(id);
+    }
     closeModal("quickViewOverlay");
   });
   document.getElementById("qvWishlist").addEventListener("click", () => {
