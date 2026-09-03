@@ -972,6 +972,8 @@ if(hamburgerBtn) {
     mainNav.classList.contains("is-open") ? closeMobileNav() : openMobileNav();
     });
 }
+const mobileNavCloseBtn = document.getElementById("mobileNavCloseBtn");
+if(mobileNavCloseBtn) mobileNavCloseBtn.addEventListener("click", closeMobileNav);
 if(navOverlay) navOverlay.addEventListener("click", closeMobileNav);
 if(mainNav) mainNav.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMobileNav));
 

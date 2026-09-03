@@ -222,7 +222,7 @@ textarea {
 .site-header {
     position: sticky;
     top: 0;
-    z-index: 60;
+    z-index: 70;
     background: var(--paper);
     box-shadow: 0 1px 0 var(--line);
 }
@@ -2187,12 +2187,14 @@ textarea {
     }
 
     .main-nav {
+        display: block;
         position: fixed;
         top: 0;
         left: -84%;
         width: 84%;
         height: 100%;
-        z-index: 65;
+        z-index: 1050;
+        background-color: var(--paper, #fff);
         overflow-y: auto;
         box-shadow: 8px 0 30px rgba(0, 0, 0, .2);
         transition: left .3s ease;
@@ -2204,7 +2206,7 @@ textarea {
 
     .main-nav ul {
         flex-direction: column;
-        padding: 90px 26px 26px;
+        padding: 0 16px 26px;
         gap: 4px;
     }
 

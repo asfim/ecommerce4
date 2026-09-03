@@ -70,6 +70,10 @@
             </a>
 
             <nav class="main-nav" id="mainNav" aria-label="প্রধান মেনু">
+                <div class="mobile-nav-header d-flex justify-content-between align-items-center d-md-none p-3 border-bottom mb-2">
+                    <span class="fs-5 fw-bold text-dark">মেনু</span>
+                    <button class="btn-close" id="mobileNavCloseBtn" aria-label="Close"></button>
+                </div>
                 <ul>
                     <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
                     <li><a href="{{ route('shop') }}" class="{{ request()->routeIs('shop') ? 'active' : '' }}">Shop</a></li>
