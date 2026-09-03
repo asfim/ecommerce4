@@ -242,8 +242,8 @@ function renderDiscountProducts() {
       }
   }
   
-  if (typeof bindEvents === 'function') {
-      bindEvents();
+  if (typeof bindProductCardEvents === 'function') {
+      bindProductCardEvents();
   }
 }
 
@@ -320,7 +320,6 @@ function productCardHTML(p) {
         ${discountHTML}
 
         <img src="${p.image}" alt="${p.name}" loading="lazy">
-        <button class="quick-view-btn" data-action="quickview" data-id="${p.id}">কুইক ভিউ</button>
       </div>
       <div class="product-info d-flex flex-column flex-grow-1">
         <span class="product-cat">${p.category}</span>

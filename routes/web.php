@@ -208,3 +208,13 @@ Route::get('/clear-cache', function() {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
     return "All cache cleared successfully!";
 });
+
+// Storage link route for live server
+Route::get('/storage-link', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        return "Storage link created successfully!";
+    } catch (\Exception $e) {
+        return "Error creating storage link: " . $e->getMessage();
+    }
+});
