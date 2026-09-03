@@ -412,29 +412,12 @@ class HomeController extends Controller
     public function flashSale(): View
     {
         $products = Product::frontendActive()
+            ->whereNotNull('discount_type')
+            ->where('discount_value', '>', 0)
             ->where(function ($q) {
-                $q->where(function($sq) {
-                    $sq->whereNotNull('discount_type')
-                       ->where('discount_value', '>', 0);
-                })
-                ->orWhere('variants', 'LIKE', '%"discount":"1%')
-                ->orWhere('variants', 'LIKE', '%"discount":"2%')
-                ->orWhere('variants', 'LIKE', '%"discount":"3%')
-                ->orWhere('variants', 'LIKE', '%"discount":"4%')
-                ->orWhere('variants', 'LIKE', '%"discount":"5%')
-                ->orWhere('variants', 'LIKE', '%"discount":"6%')
-                ->orWhere('variants', 'LIKE', '%"discount":"7%')
-                ->orWhere('variants', 'LIKE', '%"discount":"8%')
-                ->orWhere('variants', 'LIKE', '%"discount":"9%')
-                ->orWhere('variants', 'LIKE', '%"discount":1%')
-                ->orWhere('variants', 'LIKE', '%"discount":2%')
-                ->orWhere('variants', 'LIKE', '%"discount":3%')
-                ->orWhere('variants', 'LIKE', '%"discount":4%')
-                ->orWhere('variants', 'LIKE', '%"discount":5%')
-                ->orWhere('variants', 'LIKE', '%"discount":6%')
-                ->orWhere('variants', 'LIKE', '%"discount":7%')
-                ->orWhere('variants', 'LIKE', '%"discount":8%')
-                ->orWhere('variants', 'LIKE', '%"discount":9%');
+                $q->whereNull('variants')
+                  ->orWhere('variants', '[]')
+                  ->orWhere('variants', '');
             })
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')

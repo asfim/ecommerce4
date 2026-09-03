@@ -307,6 +307,38 @@
     transform: none !important;
 }
 
+/* FIX: Button colors and hover states to match the homepage */
+#minus.btn-outline-dark, #plus.btn-outline-dark {
+    color: var(--green) !important;
+    border-color: var(--green) !important;
+    background-color: transparent !important;
+}
+#minus.btn-outline-dark:hover, #plus.btn-outline-dark:hover {
+    background-color: var(--green) !important;
+    color: var(--white) !important;
+    border-color: var(--green) !important;
+}
+
+.add-to-cart-detail {
+    background-color: transparent !important;
+    color: var(--green) !important;
+    border: 1.5px solid var(--green) !important;
+}
+.add-to-cart-detail:hover {
+    background-color: var(--green) !important;
+    color: var(--white) !important;
+}
+
+.buy-now-detail {
+    background-color: var(--green) !important;
+    color: var(--white) !important;
+    border: 1.5px solid var(--green) !important;
+}
+.buy-now-detail:hover {
+    background-color: var(--green-deep) !important;
+    color: var(--white) !important;
+}
+
 .related-card {
     border: 1px solid #eee;
     border-radius: 12px;
@@ -487,7 +519,7 @@
 
                 <!-- Cart Actions -->
                 <div class="d-flex gap-2 align-items-center details-actions">
-                    <button type="button" class="btn btn-custom-cart btn-lg flex-fill add-to-cart-detail d-inline-flex align-items-center justify-content-center"
+                    <button type="button" class="btn btn-outline btn-lg flex-fill add-to-cart-detail d-inline-flex align-items-center justify-content-center"
                         data-id="{{ $product->id }}"
                         data-name="{{ $product->name }}"
                         data-price="{{ $finalPrice }}"
@@ -497,7 +529,7 @@
                         title="Add to Cart">
                         <i class="bi bi-cart3 me-md-2"></i><span>Add To Cart</span>
                     </button>
-                    <button type="button" class="btn btn-custom-buy btn-lg flex-fill buy-now-detail d-inline-flex align-items-center justify-content-center"
+                    <button type="button" class="btn btn-primary btn-lg flex-fill buy-now-detail d-inline-flex align-items-center justify-content-center"
                         data-id="{{ $product->id }}"
                         data-name="{{ $product->name }}"
                         data-price="{{ $finalPrice }}"
