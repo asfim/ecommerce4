@@ -108,8 +108,8 @@
         }
     }
 @endphp
-<div class="col-6 col-sm-6 col-md-4 col-lg-3">
-    <div class="prod-card">
+<div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
+    <div class="prod-card h-100 d-flex flex-column">
         <a href="{{ route('product.details', $product->slug) }}" class="text-decoration-none">
             <div class="prod-img-wrap">
                 @if ($hasDiscount && $displayDiscountValue > 0)
@@ -147,10 +147,10 @@
             </div>
         </a>
 
-        <div class="prod-info">
-            <div>
+        <div class="prod-info d-flex flex-column flex-grow-1">
+            <div class="flex-grow-1">
                 <a href="{{ route('product.details', $product->slug) }}" class="text-decoration-none">
-                    <div class="t text-dark hover-blue">{{ Str::limit($product->name, 35) }}</div>
+                    <div class="t text-dark hover-blue" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 42px;">{{ Str::limit($product->name, 35) }}</div>
                 </a>
                 <div class="p">
                     @if ($hasMultiplePrices)
@@ -183,7 +183,7 @@
                 </div>
             </div>
 
-            <div class="mt-2 d-flex gap-2 justify-content-center align-items-center product-card-actions">
+            <div class="mt-auto pt-2 d-flex gap-2 justify-content-center align-items-center product-card-actions">
                 <a href="#"
                     class="btn btn-buy-now w-100 py-2 d-inline-flex align-items-center justify-content-center gap-1 btn-bid"
                     data-id="{{ $product->id }}" data-name="{{ $product->name }}"

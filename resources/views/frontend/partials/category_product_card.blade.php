@@ -95,36 +95,37 @@
     }
 @endphp
 
-<div class="rcat-card">
+<div class="rcat-card h-100 d-flex flex-column">
 
     {{-- Discount ribbon --}}
     @if ($hasDiscount && $displayDiscountValue > 0)
-        <div class="rcat-ribbon">
-            @if ($displayDiscountType === 'percent')
-                {{ round($displayDiscountValue) }}% OFF
-            @else
-                ৳{{ round($displayDiscountValue) }} OFF
-            @endif
-        </div>
+        @php
+            $bnNumbers = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            $enNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            $bnDiscount = str_replace($enNumbers, $bnNumbers, round($displayDiscountValue));
+        @endphp
+        @if ($displayDiscountType === 'percent')
+            <span class="rcat-badge-discount">-{{ $bnDiscount }}%</span>
+        @else
+            <span class="rcat-badge-discount">-৳{{ $bnDiscount }}</span>
+        @endif
     @endif
 
-    {{-- Image area --}}
-    <a href="{{ route('product.details', $product->slug) }}" class="rcat-img-link">
-        <div class="rcat-img-wrap">
-            @if ($displayImage)
-                <img src="{{ asset('storage/' . $displayImage) }}" alt="{{ $product->name }}" class="rcat-img">
-            @else
-                <img src="https://placehold.co/260x220/f8f9fa/bbb?text={{ urlencode(Str::limit($product->name, 8, '')) }}" alt="{{ $product->name }}" class="rcat-img">
-            @endif
-        </div>
+    {{-- Image --}}
+    <a href="{{ route('product.details', $product->slug) }}" class="rcat-img-wrap text-decoration-none">
+        @if ($displayImage)
+            <img src="{{ asset('storage/' . $displayImage) }}" alt="{{ $product->name }}" loading="lazy">
+        @else
+            <img src="https://placehold.co/400x400/f8f9fa/6c757d?text={{ urlencode(Str::limit($product->name, 10, '')) }}" alt="{{ $product->name }}" loading="lazy">
+        @endif
     </a>
 
     {{-- Card body --}}
-    <div class="rcat-body">
+    <div class="rcat-body flex-grow-1 d-flex flex-column">
 
         {{-- Name --}}
         <a href="{{ route('product.details', $product->slug) }}" class="text-decoration-none">
-            <div class="rcat-name">{{ Str::limit($product->name, 60) }}</div>
+            <div class="rcat-name" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 42px;">{{ Str::limit($product->name, 60) }}</div>
         </a>
 
         {{-- Stock badge --}}
