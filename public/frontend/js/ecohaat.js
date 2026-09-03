@@ -216,10 +216,31 @@ function initCategorySlider() {
 /* =========================================================
    RENDER: COLLECTIONS
    ========================================================= */
+let currentDiscountVisible = 8;
 function renderDiscountProducts() {
   const grid = document.getElementById("discountGrid");
   if (!grid) return;
-  grid.innerHTML = DISCOUNT_PRODUCTS.map(p => productCardHTML(p)).join("");
+  
+  const visibleProducts = DISCOUNT_PRODUCTS.slice(0, currentDiscountVisible);
+  grid.innerHTML = visibleProducts.map(p => productCardHTML(p)).join("");
+  
+  const loadMoreBtn = document.getElementById("loadMoreDiscountBtn");
+  if (loadMoreBtn) {
+      if (currentDiscountVisible < DISCOUNT_PRODUCTS.length) {
+          loadMoreBtn.style.display = "inline-flex";
+      } else {
+          loadMoreBtn.style.display = "none";
+      }
+      
+      // Ensure we don't attach multiple listeners if re-rendered
+      if (!loadMoreBtn.dataset.listenerAttached) {
+          loadMoreBtn.addEventListener("click", () => {
+              currentDiscountVisible += 4;
+              renderDiscountProducts();
+          });
+          loadMoreBtn.dataset.listenerAttached = "true";
+      }
+  }
 }
 
 /* =========================================================

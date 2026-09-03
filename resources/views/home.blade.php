@@ -169,6 +169,9 @@
                 <p class="section-sub reveal">অবিশ্বাস্য ডিসকাউন্টে সেরা পণ্যগুলো লুফে নিন</p>
             </div>
             <div class="product-grid" id="discountGrid"></div>
+            <div class="text-center" style="margin-top: 30px;">
+                <button class="btn btn-outline" id="loadMoreDiscountBtn" style="display: none; margin: 0 auto; padding: 10px 24px; border-color: var(--terracotta-line); color: var(--terracotta-line);">আরও দেখুন</button>
+            </div>
         </div>
     </section>
 
