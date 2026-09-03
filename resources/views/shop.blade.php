@@ -35,7 +35,7 @@
       </div>
 
       <div class="filter-box mb-4 bg-white p-3 rounded shadow-sm border">
-        <h6 class="fw-bold mb-3 border-bottom pb-2">ব্র্যান্ড (Brands)</h6>
+        <h6 class="fw-bold mb-3 border-bottom pb-2">Brands</h6>
         @foreach($brands as $brand)
         <div class="form-check mb-2">
             <input class="form-check-input auto-submit" type="checkbox" name="brands[]" value="{{ $brand->id }}" id="brand{{ $brand->id }}" {{ in_array($brand->id, request('brands', [])) ? 'checked' : '' }}>
@@ -45,10 +45,10 @@
       </div>
 
       <div class="filter-box mb-4 bg-white p-3 rounded shadow-sm border">
-        <h6 class="fw-bold mb-3 border-bottom pb-2">প্রাপ্যতা (Availability)</h6>
+        <h6 class="fw-bold mb-3 border-bottom pb-2">Availability</h6>
         <div class="form-check mb-2">
             <input class="form-check-input auto-submit" type="checkbox" name="availability[]" value="in_stock" id="avail1" {{ in_array('in_stock', request('availability', [])) ? 'checked' : '' }}>
-            <label class="form-check-label text-muted" for="avail1" style="font-size: 14px;">স্টকে আছে (In Stock)</label>
+            <label class="form-check-label text-muted" for="avail1" style="font-size: 14px;">In Stock</label>
         </div>
       </div>
 
@@ -125,7 +125,7 @@
     </div>
 
     <div class="filter-box mb-4">
-      <h6 class="fw-bold mb-3 border-bottom pb-2">ব্র্যান্ড (Brands)</h6>
+      <h6 class="fw-bold mb-3 border-bottom pb-2">Brands</h6>
       @foreach($brands as $brand)
       <div class="form-check mb-2">
           <input class="form-check-input auto-submit" type="checkbox" name="brands[]" value="{{ $brand->id }}" id="m_brand{{ $brand->id }}" {{ in_array($brand->id, request('brands', [])) ? 'checked' : '' }}>
@@ -135,8 +135,8 @@
     </div>
 
     <div class="filter-box mb-4">
-      <h6 class="fw-bold mb-3 border-bottom pb-2">প্রাপ্যতা (Availability)</h6>
-      <div class="form-check mb-2"><input class="form-check-input auto-submit" type="checkbox" name="availability[]" value="in_stock" id="m_avail1" {{ in_array('in_stock', request('availability', [])) ? 'checked' : '' }}><label class="form-check-label text-muted" for="m_avail1">স্টকে আছে</label></div>
+      <h6 class="fw-bold mb-3 border-bottom pb-2">Availability</h6>
+      <div class="form-check mb-2"><input class="form-check-input auto-submit" type="checkbox" name="availability[]" value="in_stock" id="m_avail1" {{ in_array('in_stock', request('availability', [])) ? 'checked' : '' }}><label class="form-check-label text-muted" for="m_avail1">In Stock</label></div>
     </div>
 
     <a href="{{ route('shop') }}" class="btn btn-outline-primary w-100 rounded-pill fw-semibold mb-4">Reset Filters</a>

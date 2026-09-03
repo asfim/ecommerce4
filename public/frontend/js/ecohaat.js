@@ -68,7 +68,7 @@ const DELIVERY_OUTSIDE = 120;
    ========================================================= */
 let cart = JSON.parse(localStorage.getItem("ecohaat_cart") || "[]");
 let wishlist = JSON.parse(localStorage.getItem("ecohaat_wishlist") || "[]");
-let currentFilter = "সব";
+let currentFilter = "All";
 let currentSort = "popular";
 let visibleCount = 8;
 let deliveryFee = DELIVERY_INSIDE;
@@ -122,10 +122,10 @@ function renderCategories() {
   grid.innerHTML = CATEGORIES.map(cat => {
     const count = PRODUCTS.filter(p => p.category === cat.filter).length;
     return `
-      <div class="category-card" data-filter="${cat.filter}" tabindex="0" role="button" aria-label="${cat.name} দেখুন">
+      <div class="category-card" data-filter="${cat.filter}" tabindex="0" role="button" aria-label="View ${cat.name}">
         <div class="category-card-img"><img src="${cat.image}" alt="${cat.name}" loading="lazy"></div>
         <h3>${cat.name}</h3>
-        <span class="cat-count">${count}+ পণ্য</span>
+        <span class="cat-count">${count}+ Products</span>
       </div>`;
   }).join("");
 
@@ -280,7 +280,7 @@ setInterval(() => {
    ========================================================= */
 function getFilteredProducts(searchTerm = "") {
   let list = PRODUCTS.slice();
-  if (currentFilter !== "সব") {
+  if (currentFilter !== "All") {
     list = list.filter(p => p.category === currentFilter);
   }
   if (searchTerm) {
@@ -330,13 +330,13 @@ function productCardHTML(p) {
           ${p.price < p.oldPrice ? `<span class="price-old">${formatTaka(p.oldPrice)}</span>` : ''}
         </div>
         <div class="product-actions">
-          <button class="add-to-cart-btn ${inCart ? "is-added" : ""}" data-action="add-cart" data-id="${p.id}" title="কার্টে যোগ করুন">
+          <button class="add-to-cart-btn ${inCart ? "is-added" : ""}" data-action="add-cart" data-id="${p.id}" title="Add to Cart">
             <svg viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>${inCart ? "যোগ হয়েছে" : "কার্টে যোগ"}</span>
+            <span>${inCart ? "Added" : "Add to Cart"}</span>
           </button>
           <a href="/product/${p.slug || p.id}" class="buy-now-btn" style="text-decoration: none;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            <span>অর্ডার করুন</span>
+            <span>Order Now</span>
           </a>
         </div>
       </div>
@@ -390,7 +390,7 @@ function bindProductCardEvents() {
       }
       saveState();
       updateCartUI();
-      showToast("পণ্যটি কার্টে যোগ করা হয়েছে");
+      showToast("Item added to cart");
       
       const searchInput = document.getElementById("searchInput");
       if (typeof renderProducts === 'function') {
@@ -423,7 +423,7 @@ function applyFilter(filter, scroll = false) {
   
   const mobileBtnText = document.getElementById("mobileFilterSelectedText");
   if (mobileBtnText) {
-      mobileBtnText.textContent = filter === 'সব' ? 'সব ক্যাটাগরি' : filter;
+      mobileBtnText.textContent = filter === 'All' ? 'All Categories' : filter;
       document.querySelectorAll(".mobile-filter .dropdown-item").forEach(item => {
           item.classList.toggle("active", item.dataset.filter === filter);
       });
@@ -459,7 +459,7 @@ function addToCart(id) {
   updateCartUI();
   const searchInput = document.getElementById("searchInput");
   renderProducts(searchInput ? searchInput.value : "");
-  showToast("পণ্যটি কার্টে যোগ করা হয়েছে");
+  showToast("Item added to cart");
 }
 
 function buyNow(id) {
@@ -489,7 +489,7 @@ function removeFromCart(id) {
   if (typeof renderProducts === 'function') {
       renderProducts(searchInput ? searchInput.value : "");
   }
-  showToast("পণ্যটি কার্ট থেকে সরানো হয়েছে");
+  showToast("Item removed from cart");
 }
 
 // Global functions for Product Details Page
@@ -510,7 +510,7 @@ window.addToCartGlobal = function(id, name, price, image, qty, variants, origina
   }
   saveState();
   updateCartUI();
-  showToast("পণ্যটি কার্টে যোগ করা হয়েছে");
+  showToast("Item added to cart");
 };
 
 window.checkoutSingleItemGlobal = function(id, name, price, image, qty, variants, originalPrice) {
@@ -566,7 +566,7 @@ function updateCartUI() {
     itemsEl.innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p>আপনার কার্ট খালি</p>
+        <p>Your cart is empty</p>
       </div>`;
     footerEl.style.display = "none";
   } else {
@@ -586,7 +586,7 @@ function updateCartUI() {
                 <span>${item.qty}</span>
                 <button data-qty="plus" data-id="${p.id}" aria-label="বাড়ান">+</button>
               </div>
-              <button class="remove-item-btn" data-remove="${p.id}">সরান</button>
+              <button class="remove-item-btn" data-remove="${p.id}">Remove</button>
             </div>
           </div>
         </div>`;
@@ -611,10 +611,10 @@ function toggleWishlist(id) {
   const idx = wishlist.indexOf(id);
   if (idx > -1) {
     wishlist.splice(idx, 1);
-    showToast("পছন্দের তালিকা থেকে সরানো হয়েছে");
+    showToast("Removed from wishlist");
   } else {
     wishlist.push(id);
-    showToast("পছন্দের তালিকায় যোগ করা হয়েছে");
+    showToast("Added to wishlist");
   }
   saveState();
   updateWishlistUI();
@@ -632,7 +632,7 @@ function updateWishlistUI() {
     itemsEl.innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.5-4.7-9.8-9.4C.6 7.6 2.3 4 6 4c2.1 0 3.6 1.1 4.5 2.4.3.4.9.4 1.2 0C12.6 5.1 14.1 4 16.2 4c3.7 0 5.4 3.6 3.8 7.1C17.5 15.8 12 20.5 12 20.5Z" stroke="currentColor" stroke-width="1.5"/></svg>
-        <p>পছন্দের তালিকা খালি</p>
+        <p>Wishlist is empty</p>
       </div>`;
     return;
   }
@@ -646,8 +646,8 @@ function updateWishlistUI() {
           <span class="cart-item-name">${p.name}</span>
           <span class="cart-item-price">${formatTaka(p.price)}</span>
           <div class="cart-item-controls">
-            <button class="btn btn-primary" style="padding:8px 16px;font-size:13px;" data-wtc="${p.id}">কার্টে যোগ করুন</button>
-            <button class="remove-item-btn" data-wremove="${p.id}">সরান</button>
+            <button class="btn btn-primary" style="padding:8px 16px;font-size:13px;" data-wtc="${p.id}">Add to Cart</button>
+            <button class="remove-item-btn" data-wremove="${p.id}">Remove</button>
           </div>
         </div>
       </div>`;
@@ -696,7 +696,7 @@ function openQuickView(id) {
     <div class="qv-info">
       <span class="qv-cat">${p.category}</span>
       <h2 class="qv-title" id="qvTitle">${p.name}</h2>
-      <div class="product-rating"><span class="stars">${starString(p.rating)}</span><span>${p.rating} (${p.reviews} রিভিউ)</span></div>
+      <div class="product-rating"><span class="stars">${starString(p.rating)}</span><span>${p.rating} (${p.reviews} Reviews)</span></div>
       <div class="product-price-row">
         <span class="price-current">${formatTaka(p.price)}</span>
         <span class="price-old">${formatTaka(p.oldPrice)}</span>
@@ -705,17 +705,17 @@ function openQuickView(id) {
       <p class="qv-desc">${p.desc}</p>
       ${variantsHTML}
       <div class="qv-qty-row">
-        <span>পরিমাণ:</span>
+        <span>Quantity:</span>
         <div class="qty-control">
-          <button id="qvMinus" aria-label="কমান">−</button>
+          <button id="qvMinus" aria-label="Decrease">−</button>
           <span id="qvQty">1</span>
-          <button id="qvPlus" aria-label="বাড়ান">+</button>
+          <button id="qvPlus" aria-label="Increase">+</button>
         </div>
       </div>
       <div class="qv-actions" style="display:flex;gap:8px;">
-        <button class="btn btn-primary" id="qvAddCart" style="flex:1;">কার্টে যোগ করুন</button>
-        <button class="btn btn-primary" id="qvBuyNow" style="flex:1;">অর্ডার করুন</button>
-        <button class="btn btn-outline" id="qvWishlist" style="flex:1;">${isWished ? "পছন্দ থেকে সরান" : "পছন্দে যোগ করুন"}</button>
+        <button class="btn btn-primary" id="qvAddCart" style="flex:1;">Add to Cart</button>
+        <button class="btn btn-primary" id="qvBuyNow" style="flex:1;">Order Now</button>
+        <button class="btn btn-outline" id="qvWishlist" style="flex:1;">${isWished ? "Remove from Wishlist" : "Add to Wishlist"}</button>
       </div>
     </div>`;
 
@@ -853,7 +853,7 @@ if(document.getElementById("viewCartBtn")) document.getElementById("viewCartBtn"
 if (document.getElementById("checkoutBtn")) {
     document.getElementById("checkoutBtn").addEventListener("click", () => {
     if (cart.length === 0) {
-        showToast("আপনার কার্ট খালি, প্রথমে পণ্য যোগ করুন");
+        showToast("Your cart is empty, please add items first");
         return;
     }
     
@@ -923,7 +923,7 @@ if(document.getElementById("closeSuccessBtn")) document.getElementById("closeSuc
 if(document.getElementById("loginForm")) {
     document.getElementById("loginForm").addEventListener("submit", e => {
     e.preventDefault();
-    showToast("এটি একটি ডেমো — লগইন সংযুক্ত নয়");
+    showToast("This is a demo — login is not connected");
     closeModal("loginOverlay");
     });
 }
@@ -936,7 +936,7 @@ function searchDropdownHTML(term) {
     p.name.toLowerCase().includes(term.toLowerCase()) || p.category.toLowerCase().includes(term.toLowerCase())
   ).slice(0, 6);
   if (matches.length === 0) {
-    return `<div class="search-empty">কোনো পণ্য পাওয়া যায়নি</div>`;
+    return `<div class="search-empty">No products found</div>`;
   }
   return matches.map(p => `
     <div class="search-result-item" data-id="${p.id}">
@@ -1074,11 +1074,11 @@ if(document.getElementById("newsletterForm")) {
     const msg = document.getElementById("newsletterMsg");
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!re.test(email)) {
-        msg.textContent = "সঠিক ইমেইল ঠিকানা লিখুন";
+        msg.textContent = "Please enter a valid email address";
         msg.className = "form-msg is-error";
         return;
     }
-    msg.textContent = "ধন্যবাদ! আপনি সফলভাবে সাবস্ক্রাইব করেছেন।";
+    msg.textContent = "Thank you! You have successfully subscribed.";
     msg.className = "form-msg is-success";
     document.getElementById("newsletterEmail").value = "";
     });

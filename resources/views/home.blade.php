@@ -33,22 +33,22 @@
                 </div>
                 <div class="hero-panel hero-panel--story">
                     <div class="hero-story-content">
-                        <span class="hero-eyebrow">{{ \App\Models\HomepageSetting::get('hero_badge', '১০০% হাতে তৈরি') }}</span>
-                        <h1>{!! nl2br(\App\Models\HomepageSetting::get('hero_title', "ঐতিহ্যবাহী বাংলাদেশ\nআপনার ঘরে আনুন")) !!}</h1>
+                        <span class="hero-eyebrow">{{ \App\Models\HomepageSetting::get('hero_badge', '100% Handcrafted') }}</span>
+                        <h1>{!! nl2br(\App\Models\HomepageSetting::get('hero_title', "Traditional Bangladesh\nBring it to your home")) !!}</h1>
                         <p>{!! nl2br(
                             \App\Models\HomepageSetting::get(
                                 'hero_subtitle',
-                                'কারিগরের হাতে তৈরি বাংলার অনন্য সব পণ্য, সরাসরি পৌঁছে যাক আপনার দোরগোড়ায়।',
+                                'Unique handcrafted products from Bengal artisans, delivered straight to your door.',
                             ),
                         ) !!}</p>
                         <div class="hero-cta-group">
                             @if (\App\Models\HomepageSetting::get('hero_btn1_text'))
                                 <a href="{{ \App\Models\HomepageSetting::get('hero_btn1_link', '#products') }}"
-                                    class="btn btn-primary">{{ \App\Models\HomepageSetting::get('hero_btn1_text', 'শপ নাও') }}</a>
+                                    class="btn btn-primary">{{ \App\Models\HomepageSetting::get('hero_btn1_text', 'Shop Now') }}</a>
                             @endif
                             @if (\App\Models\HomepageSetting::get('hero_btn2_text'))
                                 <a href="{{ \App\Models\HomepageSetting::get('hero_btn2_link', '#collections') }}"
-                                    class="btn btn-outline">{{ \App\Models\HomepageSetting::get('hero_btn2_text', 'সংগ্রহ দেখুন') }}</a>
+                                    class="btn btn-outline">{{ \App\Models\HomepageSetting::get('hero_btn2_text', 'View Collections') }}</a>
                             @endif
                         </div>
                     </div>
@@ -58,13 +58,13 @@
     </section>
         <div class="hero-strip">
             <div class="hero-strip-inner">
-                <span>৫০০+ শিল্পী</span>
+                <span>500+ Artisans</span>
                 <span class="dot">•</span>
-                <span>ফ্রি ডেলিভারি</span>
+                <span>Free Delivery</span>
                 <span class="dot">•</span>
-                <span>১০০% হ্যান্ডমেড</span>
+                <span>100% Handmade</span>
                 <span class="dot">•</span>
-                <span>ক্যাশ অন ডেলিভারি</span>
+                <span>Cash on Delivery</span>
             </div>
         </div>
     </section>
@@ -73,11 +73,11 @@
     <section class="section category-section" id="categories">
         <div class="container">
             <div class="section-head">
-                <h2 class="reveal">শপ বাই ক্যাটাগরি</h2>
-                <p class="section-sub reveal">আপনার পছন্দের ঐতিহ্যবাহী পণ্য খুঁজে নিন</p>
+                <h2 class="reveal">Shop by Category</h2>
+                <p class="section-sub reveal">Find your favorite traditional products</p>
             </div>
             <div class="category-slider-container" style="position: relative;">
-                <button class="slider-arrow slider-arrow--prev" id="catPrev" aria-label="আগের"
+                <button class="slider-arrow slider-arrow--prev" id="catPrev" aria-label="Prev"
                     style="left: 10px; display: flex;">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -85,7 +85,7 @@
                     </svg>
                 </button>
                 <div class="category-grid" id="categoryGrid"></div>
-                <button class="slider-arrow slider-arrow--next" id="catNext" aria-label="পরের"
+                <button class="slider-arrow slider-arrow--next" id="catNext" aria-label="Next"
                     style="right: 10px; display: flex;">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -100,13 +100,13 @@
     <section class="section collection-section" id="collections">
         <div class="container">
             <div class="section-head">
-                <h2 class="reveal">ফ্ল্যাশ সেল</h2>
-                <p class="section-sub reveal">অবিশ্বাস্য ডিসকাউন্টে সেরা পণ্যগুলো লুফে নিন</p>
+                <h2 class="reveal">Flash Sale</h2>
+                <p class="section-sub reveal">Grab the best products at incredible discounts</p>
             </div>
             <div class="product-grid" id="discountGrid"></div>
             <div class="text-center" style="margin-top: 30px;">
                 <button class="btn btn-outline" id="loadMoreDiscountBtn"
-                    style="display: none; margin: 0 auto; padding: 10px 24px;">আরও দেখুন</button>
+                    style="display: none; margin: 0 auto; padding: 10px 24px;">View More</button>
             </div>
         </div>
     </section>
@@ -115,13 +115,13 @@
     <section class="section product-section" id="products">
         <div class="container">
             <div class="section-head">
-                <h2 class="reveal">জনপ্রিয় পণ্য</h2>
-                <p class="section-sub reveal">কারিগরের হাতে গড়া প্রতিটি পণ্য, আপনার জন্য</p>
+                <h2 class="reveal">Popular Products</h2>
+                <p class="section-sub reveal">Every product handcrafted by artisans, just for you</p>
             </div>
 
             <div class="product-toolbar">
                 <div class="filter-chips d-none d-md-flex" id="filterChips">
-                    <button class="chip is-active" data-filter="সব">সব</button>
+                    <button class="chip is-active" data-filter="All">All</button>
                     @foreach ($categories as $cat)
                         <button class="chip" data-filter="{{ $cat->name }}">{{ $cat->name }}</button>
                     @endforeach
@@ -130,12 +130,12 @@
                     <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center"
                         type="button" id="mobileFilterBtn" data-bs-toggle="dropdown" aria-expanded="false"
                         style="border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; background: white; text-align: left;">
-                        <span id="mobileFilterSelectedText">সব ক্যাটাগরি</span>
+                        <span id="mobileFilterSelectedText">All Categories</span>
                     </button>
                     <ul class="dropdown-menu w-100 shadow-sm border-0" aria-labelledby="mobileFilterBtn"
                         style="border-radius: 8px; max-height: 250px; overflow-y: auto;">
-                        <li><button class="dropdown-item active" data-filter="সব"
-                                onclick="handleMobileFilterClick(event, 'সব')">সব ক্যাটাগরি</button></li>
+                        <li><button class="dropdown-item active" data-filter="All"
+                                onclick="handleMobileFilterClick(event, 'All')">All Categories</button></li>
                         @foreach ($categories as $cat)
                             <li><button class="dropdown-item" data-filter="{{ $cat->name }}"
                                     onclick="handleMobileFilterClick(event, '{{ $cat->name }}')">{{ $cat->name }}</button>
@@ -144,13 +144,13 @@
                     </ul>
                 </div>
                 <label class="sort-select">
-                    <span>সাজান:</span>
+                    <span>Sort By:</span>
                     <select id="sortSelect">
-                        <option value="popular">জনপ্রিয়তা</option>
-                        <option value="price-low">দাম: কম থেকে বেশি</option>
-                        <option value="price-high">দাম: বেশি থেকে কম</option>
-                        <option value="rating">সেরা রেটিং</option>
-                        <option value="discount">সর্বোচ্চ ছাড়</option>
+                        <option value="popular">Popularity</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Top Rated</option>
+                        <option value="discount">Highest Discount</option>
                     </select>
                 </label>
             </div>
@@ -165,10 +165,10 @@
             @endpush
 
             <div class="product-grid" id="productGrid"></div>
-            <p class="no-results" id="noResults" hidden>কোনো পণ্য পাওয়া যায়নি</p>
+            <p class="no-results" id="noResults" hidden>No products found</p>
 
             <div class="load-more-wrap">
-                <button class="btn btn-outline" id="loadMoreBtn">আরও দেখুন</button>
+                <button class="btn btn-outline" id="loadMoreBtn">View More</button>
             </div>
         </div>
     </section>
@@ -183,23 +183,23 @@
                         $features = [
                             [
                                 'icon' => 'bi-hand-thumbs-up',
-                                'title' => '১০০% হ্যান্ডমেড',
-                                'subtitle' => 'প্রতিটি পণ্য কারিগরের হাতে তৈরি, কোনো মেশিন প্রোডাকশন নয়।',
+                                'title' => '100% Handmade',
+                                'subtitle' => 'Each product is handcrafted by artisans, no machine production.',
                             ],
                             [
                                 'icon' => 'bi-patch-check',
-                                'title' => 'যাচাইকৃত কারিগর',
-                                'subtitle' => 'আমরা সরাসরি যাচাইকৃত কারিগর পরিবারের সাথে কাজ করি।',
+                                'title' => 'Verified Artisans',
+                                'subtitle' => 'We work directly with verified artisan families.',
                             ],
                             [
                                 'icon' => 'bi-shield-check',
-                                'title' => 'নিরাপদ পেমেন্ট',
-                                'subtitle' => 'ক্যাশ অন ডেলিভারি, bKash, Nagad ও কার্ডে নিরাপদ পেমেন্ট।',
+                                'title' => 'Secure Payment',
+                                'subtitle' => 'Secure payment via Cash on Delivery, bKash, Nagad & Card.',
                             ],
                             [
                                 'icon' => 'bi-truck',
-                                'title' => 'দ্রুত ডেলিভারি',
-                                'subtitle' => 'সারাদেশে দ্রুত ও নির্ভরযোগ্য হোম ডেলিভারি সুবিধা।',
+                                'title' => 'Fast Delivery',
+                                'subtitle' => 'Fast and reliable home delivery across the country.',
                             ],
                         ];
                     }
@@ -221,8 +221,8 @@
     <section class="section testimonial-section">
         <div class="container">
             <div class="section-head">
-                <h2 class="reveal">ক্রেতাদের মতামত</h2>
-                <p class="section-sub reveal">আমাদের ক্রেতারা যা বলছেন</p>
+                <h2 class="reveal">Customer Reviews</h2>
+                <p class="section-sub reveal">What our customers are saying</p>
             </div>
             <div class="testimonial-slider">
                 <div class="testimonial-track" id="testimonialTrack">
@@ -231,29 +231,29 @@
                         if (empty($testimonials)) {
                             $testimonials = [
                                 [
-                                    'name' => 'ফারজানা আক্তার',
-                                    'role' => 'ঢাকা',
+                                    'name' => 'Farjana Akter',
+                                    'role' => 'Dhaka',
                                     'rating' => 5,
                                     'text' =>
-                                        'জামদানি শাড়িটা হাতে পেয়ে সত্যিই মুগ্ধ হয়েছি। কাপড়ের মান এবং কাজ দুটোই অসাধারণ।',
+                                        'Truly impressed with the Jamdani saree. Both fabric and work are outstanding.',
                                     'avatar' =>
                                         'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
                                 ],
                                 [
-                                    'name' => 'রাকিবুল হাসান',
-                                    'role' => 'চট্টগ্রাম',
+                                    'name' => 'Rakibul Hasan',
+                                    'role' => 'Chittagong',
                                     'rating' => 5,
                                     'text' =>
-                                        'মাটির চায়ের সেটটা দেখতে যেমন সুন্দর, ব্যবহার করেও তেমনই আরামদায়ক। ডেলিভারিও দ্রুত ছিল।',
+                                        'The clay tea set is as comfortable to use as it looks beautiful. Delivery was fast too.',
                                     'avatar' =>
                                         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80',
                                 ],
                                 [
-                                    'name' => 'নুসরাত জাহান',
-                                    'role' => 'সিলেট',
+                                    'name' => 'Nusrat Jahan',
+                                    'role' => 'Sylhet',
                                     'rating' => 4,
                                     'text' =>
-                                        'নকশি কাঁথাটা উপহার হিসেবে দিয়েছিলাম, সবাই খুব পছন্দ করেছে। প্যাকেজিংও চমৎকার ছিল।',
+                                        'Gifted the Nakshi Kantha, everyone loved it. The packaging was excellent.',
                                     'avatar' =>
                                         'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=150&q=80',
                                 ],
@@ -279,9 +279,9 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="slider-dots" id="testimonialDots" role="tablist" aria-label="মতামত নির্বাচন">
+                <div class="slider-dots" id="testimonialDots" role="tablist" aria-label="Select Review">
                     @foreach ($testimonials as $index => $t)
-                        <button aria-label="মতামত {{ $index + 1 }}"
+                        <button aria-label="Review {{ $index + 1 }}"
                             class="{{ $index === 0 ? 'is-active' : '' }}"></button>
                     @endforeach
                 </div>

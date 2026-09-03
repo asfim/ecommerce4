@@ -12,7 +12,7 @@
                             stroke-width="1.6" />
                         <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6" />
                     </svg>
-                    {{ $company['address'] ?? 'ঢাকা, বাংলাদেশ' }}
+                    {{ $company['address'] ?? 'Dhaka, Bangladesh' }}
                 </span>
                 <span class="topbar-item">
                     <svg class="icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:14px;height:14px;">
@@ -28,32 +28,32 @@
                     {{ $company['phone'] ?? '+৮৮০ ১XXX-XXXXXX' }}
                 </span>
             </div>
-            <nav class="topbar-links" aria-label="অ্যাকাউন্ট মেনু">
+            <nav class="topbar-links" aria-label="Account Menu">
                 @if(auth('admin')->check())
-                    <a href="{{ route('admin.dashboard') }}" class="topbar-link">অ্যাডমিন প্যানেল</a>
+                    <a href="{{ route('admin.dashboard') }}" class="topbar-link">Admin Panel</a>
                     <form id="logout-form-admin" action="{{ route('admin.logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                    <a href="#" class="topbar-link" onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">লগআউট</a>
+                    <a href="#" class="topbar-link" onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">Logout</a>
                 @elseif(auth('web')->check())
-                    <a href="{{ route('user.dashboard') }}" class="topbar-link">মাই অ্যাকাউন্ট</a>
+                    <a href="{{ route('user.dashboard') }}" class="topbar-link">My Account</a>
                     <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-                    <a href="#" class="topbar-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">লগআউট</a>
+                    <a href="#" class="topbar-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 @else
-                    <a href="{{ route('user.login') }}" class="topbar-link">লগইন</a>
-                    <a href="{{ route('user.register') }}" class="topbar-link">রেজিস্টার</a>
+                    <a href="{{ route('user.login') }}" class="topbar-link">Login</a>
+                    <a href="{{ route('user.register') }}" class="topbar-link">Register</a>
                 @endif
-                <a href="#footer">সহায়তা</a>
-                <a href="#story">আমাদের সম্পর্কে</a>
+                <a href="#footer">Support</a>
+                
             </nav>
         </div>
     </div>
 
     <div class="main-header">
         <div class="main-header-inner">
-            <button class="hamburger" id="hamburgerBtn" aria-label="মেনু খুলুন" aria-expanded="false">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open Menu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
 
@@ -71,7 +71,7 @@
 
             <nav class="main-nav" id="mainNav" aria-label="প্রধান মেনু">
                 <div class="mobile-nav-header d-flex justify-content-between align-items-center d-md-none p-3 border-bottom mb-2">
-                    <span class="fs-5 fw-bold text-dark">মেনু</span>
+                    <span class="fs-5 fw-bold text-dark">Menu</span>
                     <button class="btn-close" id="mobileNavCloseBtn" aria-label="Close"></button>
                 </div>
                 <ul>
@@ -89,9 +89,9 @@
             </nav>
 
             <div class="header-search" role="search">
-                <input type="search" id="searchInput" placeholder="পণ্য, ক্যাটাগরি খুঁজুন..." aria-label="পণ্য খুঁজুন"
+                <input type="search" id="searchInput" placeholder="Search products, categories..." aria-label="Search products"
                     autocomplete="off">
-                <button class="search-btn" id="searchBtn" aria-label="খুঁজুন">
+                <button class="search-btn" id="searchBtn" aria-label="Search">
                     <svg class="icon" viewBox="0 0 24 24" fill="none">
                         <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" />
                         <path d="m21 21-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
@@ -101,13 +101,13 @@
             </div>
 
             <div class="header-actions">
-                <button class="icon-btn mobile-search-toggle" id="mobileSearchToggle" aria-label="খুঁজুন">
+                <button class="icon-btn mobile-search-toggle" id="mobileSearchToggle" aria-label="Search">
                     <svg class="icon" viewBox="0 0 24 24" fill="none">
                         <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" />
                         <path d="m21 21-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
                     </svg>
                 </button>
-                <button class="icon-btn" id="wishlistBtn" aria-label="পছন্দ তালিকা">
+                <button class="icon-btn" id="wishlistBtn" aria-label="Wishlist">
                     <svg class="icon" viewBox="0 0 24 24" fill="none">
                         <path
                             d="M12 20.5s-7.5-4.7-9.8-9.4C.6 7.6 2.3 4 6 4c2.1 0 3.6 1.1 4.5 2.4.3.4.9.4 1.2 0C12.6 5.1 14.1 4 16.2 4c3.7 0 5.4 3.6 3.8 7.1C17.5 15.8 12 20.5 12 20.5Z"
@@ -120,11 +120,11 @@
                         $is_admin = auth('admin')->check();
                         $dash_route = $is_admin ? route('admin.dashboard') : route('user.dashboard');
                         $logout_route = $is_admin ? route('admin.logout') : route('user.logout');
-                        $dash_text = $is_admin ? 'অ্যাডমিন প্যানেল' : 'ড্যাশবোর্ড';
+                        $dash_text = $is_admin ? 'Admin Panel' : 'Dashboard';
                         $form_id = $is_admin ? 'logout-form-icon-admin' : 'logout-form-icon-user';
                     @endphp
                     <div class="account-dropdown-wrapper" style="position: relative; display: inline-block;">
-                        <a href="javascript:void(0);" class="icon-btn" id="accountBtn" aria-label="অ্যাকাউন্ট" onclick="document.getElementById('accDropdown').classList.toggle('show');">
+                        <a href="javascript:void(0);" class="icon-btn" id="accountBtn" aria-label="Account" onclick="document.getElementById('accDropdown').classList.toggle('show');">
                             <svg class="icon" viewBox="0 0 24 24" fill="none">
                                 <circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7" />
                                 <path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor"
@@ -136,7 +136,7 @@
                             <form id="{{ $form_id }}" action="{{ $logout_route }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('{{ $form_id }}').submit();" style="display: block; padding: 10px 16px; color: #d9534f; text-decoration: none; font-size: 15px; text-align: left;">লগআউট</a>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('{{ $form_id }}').submit();" style="display: block; padding: 10px 16px; color: #d9534f; text-decoration: none; font-size: 15px; text-align: left;">Logout</a>
                         </div>
                         <style>
                             .account-dropdown-menu.show { display: block !important; }
@@ -153,7 +153,7 @@
                         </script>
                     </div>
                 @else
-                    <a href="{{ route('user.login') }}" class="icon-btn" id="accountBtn" aria-label="অ্যাকাউন্ট">
+                    <a href="{{ route('user.login') }}" class="icon-btn" id="accountBtn" aria-label="Account">
                         <svg class="icon" viewBox="0 0 24 24" fill="none">
                             <circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7" />
                             <path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor"
@@ -161,7 +161,7 @@
                         </svg>
                     </a>
                 @endif
-                <button class="icon-btn cart-btn" id="cartBtn" aria-label="কার্ট">
+                <button class="icon-btn cart-btn" id="cartBtn" aria-label="Cart">
                     <svg class="icon" viewBox="0 0 24 24" fill="none">
                         <path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor"
                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
@@ -174,7 +174,7 @@
         </div>
 
         <div class="mobile-search-bar" id="mobileSearchBar" hidden>
-            <input type="search" id="mobileSearchInput" placeholder="পণ্য খুঁজুন..." aria-label="পণ্য খুঁজুন">
+            <input type="search" id="mobileSearchInput" placeholder="Search products..." aria-label="Search products">
         </div>
     </div>
 </header>
