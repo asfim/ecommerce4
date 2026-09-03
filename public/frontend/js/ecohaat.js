@@ -398,9 +398,12 @@ function applyFilter(filter, scroll = false) {
   visibleCount = 8;
   document.querySelectorAll(".chip").forEach(c => c.classList.toggle("is-active", c.dataset.filter === filter));
   
-  const mobileSelect = document.getElementById("mobileFilterChips");
-  if (mobileSelect && mobileSelect.value !== filter) {
-      mobileSelect.value = filter;
+  const mobileBtnText = document.getElementById("mobileFilterSelectedText");
+  if (mobileBtnText) {
+      mobileBtnText.textContent = filter === 'সব' ? 'সব ক্যাটাগরি' : filter;
+      document.querySelectorAll(".mobile-filter .dropdown-item").forEach(item => {
+          item.classList.toggle("active", item.dataset.filter === filter);
+      });
   }
 
   const searchInput = document.getElementById("searchInput");

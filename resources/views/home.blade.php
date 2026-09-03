@@ -187,14 +187,16 @@
                         <button class="chip" data-filter="{{ $cat->name }}">{{ $cat->name }}</button>
                     @endforeach
                 </div>
-                
-                <div class="mobile-filter d-block d-md-none w-100 mb-3">
-                    <select id="mobileFilterChips" class="form-select" onchange="applyFilter(this.value, false)">
-                        <option value="সব">সব ক্যাটাগরি</option>
+                <div class="mobile-filter custom-mobile-dropdown d-block d-md-none w-100 mb-3 dropdown">
+                    <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="mobileFilterBtn" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; background: white; text-align: left;">
+                        <span id="mobileFilterSelectedText">সব ক্যাটাগরি</span>
+                    </button>
+                    <ul class="dropdown-menu w-100 shadow-sm border-0" aria-labelledby="mobileFilterBtn" style="border-radius: 8px; max-height: 250px; overflow-y: auto;">
+                        <li><button class="dropdown-item active" data-filter="সব" onclick="handleMobileFilterClick(event, 'সব')">সব ক্যাটাগরি</button></li>
                         @foreach ($categories as $cat)
-                            <option value="{{ $cat->name }}">{{ $cat->name }}</option>
+                            <li><button class="dropdown-item" data-filter="{{ $cat->name }}" onclick="handleMobileFilterClick(event, '{{ $cat->name }}')">{{ $cat->name }}</button></li>
                         @endforeach
-                    </select>
+                    </ul>
                 </div>
                 <label class="sort-select">
                     <span>সাজান:</span>
@@ -207,6 +209,15 @@
                     </select>
                 </label>
             </div>
+            
+            @push('scripts')
+            <script>
+            function handleMobileFilterClick(event, filterVal) {
+                event.preventDefault();
+                applyFilter(filterVal, false);
+            }
+            </script>
+            @endpush
 
             <div class="product-grid" id="productGrid"></div>
             <p class="no-results" id="noResults" hidden>কোনো পণ্য পাওয়া যায়নি</p>

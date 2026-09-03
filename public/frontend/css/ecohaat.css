@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    ECOHAAT â€” DESIGN TOKENS
    ========================================================= */
 :root {
@@ -2407,6 +2407,18 @@ textarea {
     .toolbar {
         flex-wrap: wrap;
         gap: 8px;
+    }
+
+    /* Custom Mobile Dropdown Styles */
+    .custom-mobile-dropdown .dropdown-item:hover,
+    .custom-mobile-dropdown .dropdown-item:focus {
+        background-color: rgba(30, 74, 59, 0.1) !important;
+        color: var(--green) !important;
+    }
+    .custom-mobile-dropdown .dropdown-item.active,
+    .custom-mobile-dropdown .dropdown-item:active {
+        background-color: var(--green) !important;
+        color: white !important;
     }
 
     /* Checkout page mobile */
