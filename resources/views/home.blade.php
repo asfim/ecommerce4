@@ -181,11 +181,20 @@
             </div>
 
             <div class="product-toolbar">
-                <div class="filter-chips" id="filterChips">
+                <div class="filter-chips d-none d-md-flex" id="filterChips">
                     <button class="chip is-active" data-filter="সব">সব</button>
                     @foreach ($categories as $cat)
                         <button class="chip" data-filter="{{ $cat->name }}">{{ $cat->name }}</button>
                     @endforeach
+                </div>
+                
+                <div class="mobile-filter d-block d-md-none w-100 mb-3">
+                    <select id="mobileFilterChips" class="form-select" onchange="applyFilter(this.value, false)">
+                        <option value="সব">সব ক্যাটাগরি</option>
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat->name }}">{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <label class="sort-select">
                     <span>সাজান:</span>

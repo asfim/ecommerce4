@@ -397,6 +397,12 @@ function applyFilter(filter, scroll = false) {
   currentFilter = filter;
   visibleCount = 8;
   document.querySelectorAll(".chip").forEach(c => c.classList.toggle("is-active", c.dataset.filter === filter));
+  
+  const mobileSelect = document.getElementById("mobileFilterChips");
+  if (mobileSelect && mobileSelect.value !== filter) {
+      mobileSelect.value = filter;
+  }
+
   const searchInput = document.getElementById("searchInput");
   renderProducts(searchInput ? searchInput.value : "");
   if (scroll) {
