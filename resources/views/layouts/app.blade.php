@@ -82,11 +82,11 @@
         @forelse($footerCategories as $cat)
           <li><a href="{{ url('/shop') }}?category={{ urlencode($cat->name) }}">{{ $cat->name }}</a></li>
         @empty
-          <li><a href="#" data-filter="শাড়ি">Jamdani</a></li>
-          <li><a href="#" data-filter="হস্তশিল্প">Handicrafts</a></li>
-          <li><a href="#" data-filter="পাট">Jute Products</a></li>
-          <li><a href="#" data-filter="মাটির পণ্য">Pottery</a></li>
-          <li><a href="#" data-filter="গয়না">Jewelry</a></li>
+          <li><a href="#" data-filter="Saree">Jamdani</a></li>
+          <li><a href="#" data-filter="Handicraft">Handicrafts</a></li>
+          <li><a href="#" data-filter="Jute">Jute Products</a></li>
+          <li><a href="#" data-filter="Pottery">Pottery</a></li>
+          <li><a href="#" data-filter="Jewelry">Jewelry</a></li>
         @endforelse
       </ul>
     </div>

@@ -184,7 +184,7 @@
             </div>
 
             <div class="mt-auto pt-2 d-flex gap-2 justify-content-center align-items-center product-card-actions">
-                <a href="#"
+                <a href="{{ route('product.details', $product->slug) }}"
                     class="btn btn-buy-now w-100 py-2 d-inline-flex align-items-center justify-content-center gap-1 btn-bid"
                     data-id="{{ $product->id }}" data-name="{{ $product->name }}"
                     data-price="{{ $hasDiscount ? $discountedPrice : $minPrice }}"

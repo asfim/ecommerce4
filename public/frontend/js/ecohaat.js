@@ -2,48 +2,48 @@
    ECOHAAT — DATA
    ========================================================= */
 let PRODUCTS = window.PRODUCTS || [
-  { id: 1, name: "হ্যান্ডলুম জামদানি শাড়ি", category: "শাড়ি", price: 4500, oldPrice: 6200, rating: 4.8, reviews: 132, image: "https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=600&q=80", desc: "খাঁটি সুতি সুতায় হাতে বোনা ঐতিহ্যবাহী জামদানি শাড়ি, বিশেষ অনুষ্ঠানের জন্য উপযুক্ত।" },
-  { id: 2, name: "নকশি কাঁথা - রাজকীয় নকশা", category: "হস্তশিল্প", price: 2800, oldPrice: 3500, rating: 4.9, reviews: 98, image: "https://images.unsplash.com/photo-1621243804936-775306a8f2e3?auto=format&fit=crop&w=600&q=80", desc: "গ্রামীণ শিল্পীদের হাতে সেলাই করা ঐতিহ্যবাহী নকশি কাঁথা, ঘর সাজাতে বা উপহার দিতে আদর্শ।" },
-  { id: 3, name: "হাতের তৈরি মাটির ফুলদানি", category: "মাটির পণ্য", price: 950, oldPrice: 1300, rating: 4.6, reviews: 64, image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=80", desc: "কুমারের চাকায় হাতে তৈরি মাটির ফুলদানি, প্রাকৃতিক রঙে চূড়ান্ত করা।" },
-  { id: 4, name: "জুট হ্যান্ডব্যাগ - প্রিমিয়াম", category: "পাট", price: 1250, oldPrice: 1600, rating: 4.7, reviews: 210, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80", desc: "টেকসই পাট দিয়ে তৈরি স্টাইলিশ হ্যান্ডব্যাগ, দৈনন্দিন ব্যবহারের জন্য উপযুক্ত।" },
-  { id: 5, name: "বাঁশের ঝুড়ি সেট (৩ পিস)", category: "হস্তশিল্প", price: 1100, oldPrice: 1450, rating: 4.5, reviews: 57, image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=600&q=80", desc: "ঘর গোছানোর জন্য হালকা ও টেকসই বাঁশের ঝুড়ির সেট।" },
-  { id: 6, name: "হ্যান্ডমেড কাঠের শোপিস", category: "ঘর সাজানো", price: 1800, oldPrice: 2400, rating: 4.8, reviews: 45, image: "https://images.unsplash.com/photo-1601924638867-3ec2ba13c94a?auto=format&fit=crop&w=600&q=80", desc: "শিমুল কাঠে হাতে খোদাই করা শৌখিন শোপিস, বসার ঘরের শোভা বাড়াবে।" },
-  { id: 7, name: "মাটির চায়ের সেট (৬ কাপ)", category: "মাটির পণ্য", price: 1400, oldPrice: 1800, rating: 4.6, reviews: 88, image: "https://images.unsplash.com/photo-1610701596010-006dcae65fee?auto=format&fit=crop&w=600&q=80", desc: "ঐতিহ্যবাহী মাটির কাপে চা পরিবেশনের অভিজ্ঞতা নিন পরিবার-বন্ধুদের সাথে।" },
-  { id: 8, name: "হস্তনির্মিত কানের দুল", category: "গয়না", price: 650, oldPrice: 900, rating: 4.9, reviews: 176, image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80", desc: "রূপার তার ও পুঁতি দিয়ে হাতে তৈরি ঐতিহ্যবাহী কানের দুল।" },
-  { id: 9, name: "সিল্ক জামদানি শাড়ি - সোনালি পাড়", category: "শাড়ি", price: 6800, oldPrice: 8900, rating: 4.9, reviews: 61, image: "https://images.unsplash.com/photo-1596496181848-3091d4878b24?auto=format&fit=crop&w=600&q=80", desc: "সিল্ক সুতায় বোনা প্রিমিয়াম জামদানি, সোনালি পাড়ের অভিজাত ডিজাইন।" },
-  { id: 10, name: "পাটের টেবিল ম্যাট (৪ পিস)", category: "পাট", price: 480, oldPrice: 650, rating: 4.4, reviews: 39, image: "https://images.unsplash.com/photo-1591129841117-3adfd313e34f?auto=format&fit=crop&w=600&q=80", desc: "খাবার টেবিলে পরিবেশবান্ধব ছোঁয়া দিতে হাতে বোনা পাটের ম্যাট।" },
-  { id: 11, name: "মাটির টব - সবুজায়নের জন্য", category: "মাটির পণ্য", price: 350, oldPrice: 480, rating: 4.5, reviews: 52, image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80", desc: "বারান্দা বা বাগানের গাছ লাগানোর জন্য হাতে তৈরি মাটির টব।" },
-  { id: 12, name: "রূপার নূপুর - ঐতিহ্যবাহী নকশা", category: "গয়না", price: 1200, oldPrice: 1600, rating: 4.7, reviews: 73, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80", desc: "খাঁটি রূপায় তৈরি চিরায়ত নকশার নূপুর, যেকোনো শাড়ির সাথে মানানসই।" },
-  { id: 13, name: "কাঠের গহনার বাক্স", category: "ঘর সাজানো", price: 950, oldPrice: 1250, rating: 4.6, reviews: 34, image: "https://images.unsplash.com/photo-1596205250792-1ff958ba1a8c?auto=format&fit=crop&w=600&q=80", desc: "হাতে খোদাই করা নকশাসহ টেকসই কাঠের গহনার বাক্স।" },
-  { id: 14, name: "নকশি কাঁথা - কোলবালিশ কভার", category: "হস্তশিল্প", price: 750, oldPrice: 1000, rating: 4.5, reviews: 41, image: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=600&q=80", desc: "নরম কাপড়ে হাতে সেলাই করা নকশি নকশার কোলবালিশ কভার।" },
-  { id: 15, name: "বাঁশের ল্যাম্পশেড", category: "ঘর সাজানো", price: 1600, oldPrice: 2100, rating: 4.7, reviews: 29, image: "https://images.unsplash.com/photo-1517705600644-9a5c4b7a5e1a?auto=format&fit=crop&w=600&q=80", desc: "প্রাকৃতিক আলো ছড়ানো হাতে বোনা বাঁশের ল্যাম্পশেড।" },
-  { id: 16, name: "সুতি হ্যান্ডলুম শাড়ি - দৈনন্দিন", category: "শাড়ি", price: 1850, oldPrice: 2400, rating: 4.6, reviews: 154, image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=600&q=80", desc: "আরামদায়ক সুতি সুতায় হাতে বোনা দৈনন্দিন ব্যবহারের শাড়ি।" }
+  { id: 1, name: "Handloom Jamdani Saree", category: "Saree", price: 4500, oldPrice: 6200, rating: 4.8, reviews: 132, image: "https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=600&q=80", desc: "Pure cotton hand-woven traditional Jamdani saree, suitable for special occasions." },
+  { id: 2, name: "Nakshi Kantha - Royal Design", category: "Handicraft", price: 2800, oldPrice: 3500, rating: 4.9, reviews: 98, image: "https://images.unsplash.com/photo-1621243804936-775306a8f2e3?auto=format&fit=crop&w=600&q=80", desc: "Hand-stitched traditional Nakshi Kantha by rural artisans, ideal for home decor or gifting." },
+  { id: 3, name: "Handmade Clay Vase", category: "Pottery", price: 950, oldPrice: 1300, rating: 4.6, reviews: 64, image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=80", desc: "Handmade clay vase made on potter's wheel, finished with natural colors." },
+  { id: 4, name: "Jute Handbag - Premium", category: "Jute", price: 1250, oldPrice: 1600, rating: 4.7, reviews: 210, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80", desc: "Stylish handbag made of durable jute, suitable for daily use." },
+  { id: 5, name: "Bamboo Basket Set (3 Pcs)", category: "Handicraft", price: 1100, oldPrice: 1450, rating: 4.5, reviews: 57, image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=600&q=80", desc: "Light and durable bamboo basket set for home organization." },
+  { id: 6, name: "Handmade Wooden Showpiece", category: "Home Decor", price: 1800, oldPrice: 2400, rating: 4.8, reviews: 45, image: "https://images.unsplash.com/photo-1601924638867-3ec2ba13c94a?auto=format&fit=crop&w=600&q=80", desc: "Hand-carved elegant showpiece in Shimul wood, enhances living room beauty." },
+  { id: 7, name: "Clay Tea Set (6 Cups)", category: "Pottery", price: 1400, oldPrice: 1800, rating: 4.6, reviews: 88, image: "https://images.unsplash.com/photo-1610701596010-006dcae65fee?auto=format&fit=crop&w=600&q=80", desc: "Experience serving tea in traditional clay cups with family and friends." },
+  { id: 8, name: "Handmade Earrings", category: "Jewelry", price: 650, oldPrice: 900, rating: 4.9, reviews: 176, image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80", desc: "Traditional handmade earrings made with silver wire and beads." },
+  { id: 9, name: "Silk Jamdani Saree - Golden Border", category: "Saree", price: 6800, oldPrice: 8900, rating: 4.9, reviews: 61, image: "https://images.unsplash.com/photo-1596496181848-3091d4878b24?auto=format&fit=crop&w=600&q=80", desc: "Premium Jamdani woven in silk thread, aristocratic design with golden border." },
+  { id: 10, name: "Jute Table Mats (4 Pcs)", category: "Jute", price: 480, oldPrice: 650, rating: 4.4, reviews: 39, image: "https://images.unsplash.com/photo-1591129841117-3adfd313e34f?auto=format&fit=crop&w=600&q=80", desc: "Hand-woven jute mats to give an eco-friendly touch to the dining table." },
+  { id: 11, name: "Clay Tub - For Greenery", category: "Pottery", price: 350, oldPrice: 480, rating: 4.5, reviews: 52, image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80", desc: "Handmade clay tub for planting trees in balcony or garden." },
+  { id: 12, name: "Silver Anklet - Traditional Design", category: "Jewelry", price: 1200, oldPrice: 1600, rating: 4.7, reviews: 73, image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=600&q=80", desc: "Classic design anklet made in pure silver, suitable with any saree." },
+  { id: 13, name: "Wooden Jewelry Box", category: "Home Decor", price: 950, oldPrice: 1250, rating: 4.6, reviews: 34, image: "https://images.unsplash.com/photo-1596205250792-1ff958ba1a8c?auto=format&fit=crop&w=600&q=80", desc: "Durable wooden jewelry box with hand-carved design." },
+  { id: 14, name: "Nakshi Kantha - Pillow Cover", category: "Handicraft", price: 750, oldPrice: 1000, rating: 4.5, reviews: 41, image: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=600&q=80", desc: "Hand-stitched Nakshi design pillow cover on soft fabric." },
+  { id: 15, name: "Bamboo Lampshade", category: "Home Decor", price: 1600, oldPrice: 2100, rating: 4.7, reviews: 29, image: "https://images.unsplash.com/photo-1517705600644-9a5c4b7a5e1a?auto=format&fit=crop&w=600&q=80", desc: "Hand-woven bamboo lampshade spreading natural light." },
+  { id: 16, name: "Cotton Handloom Saree - Daily", category: "Saree", price: 1850, oldPrice: 2400, rating: 4.6, reviews: 154, image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=600&q=80", desc: "Hand-woven daily wear saree in comfortable cotton thread." }
 ];
 
 let CATEGORIES = window.CATEGORIES || [
-  { name: "জামদানি", filter: "শাড়ি", image: "https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=300&q=80" },
-  { name: "নকশি কাঁথা", filter: "হস্তশিল্প", image: "https://images.unsplash.com/photo-1621243804936-775306a8f2e3?auto=format&fit=crop&w=300&q=80" },
-  { name: "মাটির পণ্য", filter: "মাটির পণ্য", image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=300&q=80" },
-  { name: "পাটজাত পণ্য", filter: "পাট", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=300&q=80" },
-  { name: "বাঁশের কারুশিল্প", filter: "হস্তশিল্প", image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=300&q=80" },
-  { name: "কাঠের কাজ", filter: "ঘর সাজানো", image: "https://images.unsplash.com/photo-1601924638867-3ec2ba13c94a?auto=format&fit=crop&w=300&q=80" },
-  { name: "হস্তনির্মিত গয়না", filter: "গয়না", image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=300&q=80" },
-  { name: "ঘর সাজানোর পণ্য", filter: "ঘর সাজানো", image: "https://images.unsplash.com/photo-1596205250792-1ff958ba1a8c?auto=format&fit=crop&w=300&q=80" }
+  { name: "Jamdani", filter: "Saree", image: "https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=300&q=80" },
+  { name: "Nakshi Kantha", filter: "Handicraft", image: "https://images.unsplash.com/photo-1621243804936-775306a8f2e3?auto=format&fit=crop&w=300&q=80" },
+  { name: "Pottery", filter: "Pottery", image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=300&q=80" },
+  { name: "Jute Products", filter: "Jute", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=300&q=80" },
+  { name: "Bamboo Crafts", filter: "Handicraft", image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=300&q=80" },
+  { name: "Woodwork", filter: "Home Decor", image: "https://images.unsplash.com/photo-1601924638867-3ec2ba13c94a?auto=format&fit=crop&w=300&q=80" },
+  { name: "Handmade Jewelry", filter: "Jewelry", image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=300&q=80" },
+  { name: "Home Decor", filter: "Home Decor", image: "https://images.unsplash.com/photo-1596205250792-1ff958ba1a8c?auto=format&fit=crop&w=300&q=80" }
 ];
 
 let COLLECTIONS = window.COLLECTIONS || [
-  { name: "সেরা সংগ্রহ", desc: "সবচেয়ে পছন্দের পণ্যসমূহ", image: "https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=500&q=80" },
-  { name: "ঐতিহ্যের গল্প", desc: "প্রজন্ম থেকে প্রজন্মে বাহিত শিল্প", image: "https://images.unsplash.com/photo-1596496181848-3091d4878b24?auto=format&fit=crop&w=500&q=80" },
-  { name: "কারিগরের হাত", desc: "নিখুঁত হাতের কারুকাজ", image: "https://images.unsplash.com/photo-1595531222252-a12d886d63b0?auto=format&fit=crop&w=500&q=80" },
-  { name: "বাংলার রঙ", desc: "রঙিন ঐতিহ্যবাহী বুনন", image: "https://images.unsplash.com/photo-1618221639031-8f0f0dfd0a83?auto=format&fit=crop&w=500&q=80" },
-  { name: "প্রকৃতির ছোঁয়া", desc: "পরিবেশবান্ধব উপকরণে তৈরি", image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=500&q=80" }
+  { name: "Best Collection", desc: "Most loved products", image: "https://images.unsplash.com/photo-1610030181087-540f1495ea89?auto=format&fit=crop&w=500&q=80" },
+  { name: "Tales of Tradition", desc: "Art passed down through generations", image: "https://images.unsplash.com/photo-1596496181848-3091d4878b24?auto=format&fit=crop&w=500&q=80" },
+  { name: "Artisan's Hand", desc: "Perfect craftsmanship", image: "https://images.unsplash.com/photo-1595531222252-a12d886d63b0?auto=format&fit=crop&w=500&q=80" },
+  { name: "Colors of Bengal", desc: "Colorful traditional weaving", image: "https://images.unsplash.com/photo-1618221639031-8f0f0dfd0a83?auto=format&fit=crop&w=500&q=80" },
+  { name: "Touch of Nature", desc: "Made from eco-friendly materials", image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=500&q=80" }
 ];
 
 const WHY_US = [
-  { title: "১০০% হ্যান্ডমেড", desc: "প্রতিটি পণ্য কারিগরের হাতে তৈরি, কোনো মেশিন প্রোডাকশন নয়।", icon: "hand" },
-  { title: "যাচাইকৃত কারিগর", desc: "আমরা সরাসরি যাচাইকৃত কারিগর পরিবারের সাথে কাজ করি।", icon: "check" },
-  { title: "নিরাপদ পেমেন্ট", desc: "ক্যাশ অন ডেলিভারি, bKash, Nagad ও কার্ডে নিরাপদ পেমেন্ট।", icon: "shield" },
-  { title: "দ্রুত ডেলিভারি", desc: "সারাদেশে দ্রুত ও নির্ভরযোগ্য হোম ডেলিভারি সুবিধা।", icon: "truck" }
+  { title: "100% Handmade", desc: "Each product is crafted by artisan hands, no machine production.", icon: "hand" },
+  { title: "Verified Artisans", desc: "We work directly with verified artisan families.", icon: "check" },
+  { title: "Secure Payment", desc: "Secure payment via Cash on Delivery, bKash, Nagad & Cards.", icon: "shield" },
+  { title: "Fast Delivery", desc: "Fast and reliable home delivery service nationwide.", icon: "truck" }
 ];
 
 const WHY_ICONS = {
@@ -54,10 +54,10 @@ const WHY_ICONS = {
 };
 
 const TESTIMONIALS = [
-  { name: "ফারজানা আক্তার", role: "ঢাকা", rating: 5, text: "জামদানি শাড়িটা হাতে পেয়ে সত্যিই মুগ্ধ হয়েছি। কাপড়ের মান এবং কাজ দুটোই অসাধারণ।", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" },
-  { name: "রাকিবুল হাসান", role: "চট্টগ্রাম", rating: 5, text: "মাটির চায়ের সেটটা দেখতে যেমন সুন্দর, ব্যবহার করেও তেমনই আরামদায়ক। ডেলিভারিও দ্রুত ছিল।", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" },
-  { name: "নুসরাত জাহান", role: "সিলেট", rating: 4, text: "নকশি কাঁথাটা উপহার হিসেবে দিয়েছিলাম, সবাই খুব পছন্দ করেছে। প্যাকেজিংও চমৎকার ছিল।", avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=150&q=80" },
-  { name: "ইমরান খান", role: "রাজশাহী", rating: 5, text: "কাঠের শোপিসটা আমার বসার ঘরের সৌন্দর্য বাড়িয়ে দিয়েছে। EcoHaat থেকে আবারও কিনবো।", avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=150&q=80" }
+  { name: "Farjana Akter", role: "Dhaka", rating: 5, text: "Truly impressed with the Jamdani saree. Both fabric and work are outstanding.", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" },
+  { name: "Rakibul Hasan", role: "Chittagong", rating: 5, text: "The clay tea set is as comfortable to use as it looks beautiful. Delivery was fast too.", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" },
+  { name: "Nusrat Jahan", role: "Sylhet", rating: 4, text: "Gifted the Nakshi Kantha, everyone loved it. The packaging was excellent.", avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=150&q=80" },
+  { name: "Imran Khan", role: "Rajshahi", rating: 5, text: "The wooden showpiece enhanced the beauty of my living room. Will buy from EcoHaat again.", avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=150&q=80" }
 ];
 
 const DELIVERY_INSIDE = 60;
