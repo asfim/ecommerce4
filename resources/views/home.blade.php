@@ -332,8 +332,8 @@
                         }
 
                         $displayImage = $product->image;
+                        $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
                         if (empty($displayImage)) {
-                            $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
                             if (!empty($variants) && is_array($variants)) {
                                 foreach ($variants as $v) {
                                     if (!empty($v['image'])) {
@@ -425,8 +425,8 @@
                 @foreach (\App\Models\Product::frontendActive()->with('category')->orderBy('sales_count', 'desc')->take(100)->get() as $product)
                     @php
                         $displayImage = $product->image;
+                        $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
                         if (empty($displayImage)) {
-                            $variants = is_string($product->variants) ? json_decode($product->variants, true) : $product->variants;
                             if (!empty($variants) && is_array($variants)) {
                                 foreach ($variants as $v) {
                                     if (!empty($v['image'])) {
