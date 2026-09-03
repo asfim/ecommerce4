@@ -226,14 +226,7 @@ function renderDiscountProducts() {
    RENDER: WHY US
    ========================================================= */
 function renderWhyUs() {
-  const grid = document.getElementById("whyGrid");
-  if (!grid) return;
-  grid.innerHTML = WHY_US.map(w => `
-    <div class="why-card reveal">
-      <div class="why-icon">${WHY_ICONS[w.icon]}</div>
-      <h3>${w.title}</h3>
-      <p>${w.desc}</p>
-    </div>`).join("");
+  // Now rendered dynamically in home.blade.php
 }
 
 /* =========================================================
@@ -241,18 +234,8 @@ function renderWhyUs() {
    ========================================================= */
 let testimonialIndex = 0;
 function renderTestimonials() {
-  const track = document.getElementById("testimonialTrack");
   const dots = document.getElementById("testimonialDots");
-  if (!track || !dots) return;
-  track.innerHTML = TESTIMONIALS.map(t => `
-    <div class="testimonial-card">
-      <img class="testimonial-avatar" src="${t.avatar}" alt="${t.name}" loading="lazy">
-      <div class="testimonial-stars">${starString(t.rating)}</div>
-      <p class="testimonial-text">"${t.text}"</p>
-      <p class="testimonial-name">${t.name}</p>
-      <p class="testimonial-role">${t.role}</p>
-    </div>`).join("");
-  dots.innerHTML = TESTIMONIALS.map((_, i) => `<button aria-label="মতামত ${i + 1}" class="${i === 0 ? "is-active" : ""}"></button>`).join("");
+  if (!dots) return;
   dots.querySelectorAll("button").forEach((btn, i) => btn.addEventListener("click", () => goToTestimonial(i)));
 }
 function goToTestimonial(i) {

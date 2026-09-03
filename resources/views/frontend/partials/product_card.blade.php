@@ -113,10 +113,15 @@
         <a href="{{ route('product.details', $product->slug) }}" class="text-decoration-none">
             <div class="prod-img-wrap">
                 @if ($hasDiscount && $displayDiscountValue > 0)
+                    @php
+                        $bnNumbers = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+                        $enNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                        $bnDiscount = str_replace($enNumbers, $bnNumbers, round($displayDiscountValue));
+                    @endphp
                     @if ($displayDiscountType === 'percent')
-                        <span class="badge-new-arrival">{{ round($displayDiscountValue) }}% OFF</span>
+                        <span class="badge-new-arrival">-{{ $bnDiscount }}%</span>
                     @else
-                        <span class="badge-new-arrival">৳{{ round($displayDiscountValue) }} OFF</span>
+                        <span class="badge-new-arrival">-৳{{ $bnDiscount }}</span>
                     @endif
                 @endif
 

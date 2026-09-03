@@ -1,18 +1,50 @@
+@php
+    $company = \App\Models\HomepageSetting::get('company_settings', []);
+@endphp
 <!-- ================= HEADER ================= -->
 <header class="site-header" id="siteHeader">
     <div class="topbar">
         <div class="topbar-inner">
-            <span class="topbar-item topbar-location">
-                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 21s7-6.2 7-11.5A7 7 0 1 0 5 9.5C5 14.8 12 21 12 21Z" stroke="currentColor"
-                        stroke-width="1.6" />
-                    <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6" />
-                </svg>
-                ঢাকা, বাংলাদেশ
-            </span>
+            <div class="topbar-info" style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <span class="topbar-item topbar-location">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 21s7-6.2 7-11.5A7 7 0 1 0 5 9.5C5 14.8 12 21 12 21Z" stroke="currentColor"
+                            stroke-width="1.6" />
+                        <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6" />
+                    </svg>
+                    {{ $company['address'] ?? 'ঢাকা, বাংলাদেশ' }}
+                </span>
+                <span class="topbar-item">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:14px;height:14px;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.6" />
+                        <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.6" />
+                    </svg>
+                    {{ $company['email'] ?? 'support@ecohaat.com' }}
+                </span>
+                <span class="topbar-item">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:14px;height:14px;">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.6" />
+                    </svg>
+                    {{ $company['phone'] ?? '+৮৮০ ১XXX-XXXXXX' }}
+                </span>
+            </div>
             <nav class="topbar-links" aria-label="অ্যাকাউন্ট মেনু">
-                <a href="#" class="topbar-link" data-modal="loginModal">লগইন</a>
-                <a href="#" class="topbar-link" data-modal="loginModal">রেজিস্টার</a>
+                @if(auth('admin')->check())
+                    <a href="{{ route('admin.dashboard') }}" class="topbar-link">অ্যাডমিন প্যানেল</a>
+                    <form id="logout-form-admin" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <a href="#" class="topbar-link" onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">লগআউট</a>
+                @elseif(auth('web')->check())
+                    <a href="{{ route('user.dashboard') }}" class="topbar-link">মাই অ্যাকাউন্ট</a>
+                    <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <a href="#" class="topbar-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">লগআউট</a>
+                @else
+                    <a href="{{ route('user.login') }}" class="topbar-link">লগইন</a>
+                    <a href="{{ route('user.register') }}" class="topbar-link">রেজিস্টার</a>
+                @endif
                 <a href="#footer">সহায়তা</a>
                 <a href="#story">আমাদের সম্পর্কে</a>
             </nav>
@@ -79,13 +111,52 @@
                     </svg>
                     <span class="badge" id="wishlistCount" hidden>0</span>
                 </button>
-                <button class="icon-btn" id="accountBtn" aria-label="অ্যাকাউন্ট" data-modal="loginModal">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7" />
-                        <path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor"
-                            stroke-width="1.7" stroke-linecap="round" />
-                    </svg>
-                </button>
+                @if(auth('admin')->check() || auth('web')->check())
+                    @php
+                        $is_admin = auth('admin')->check();
+                        $dash_route = $is_admin ? route('admin.dashboard') : route('user.dashboard');
+                        $logout_route = $is_admin ? route('admin.logout') : route('user.logout');
+                        $dash_text = $is_admin ? 'অ্যাডমিন প্যানেল' : 'ড্যাশবোর্ড';
+                        $form_id = $is_admin ? 'logout-form-icon-admin' : 'logout-form-icon-user';
+                    @endphp
+                    <div class="account-dropdown-wrapper" style="position: relative; display: inline-block;">
+                        <a href="javascript:void(0);" class="icon-btn" id="accountBtn" aria-label="অ্যাকাউন্ট" onclick="document.getElementById('accDropdown').classList.toggle('show');">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7" />
+                                <path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor"
+                                    stroke-width="1.7" stroke-linecap="round" />
+                            </svg>
+                        </a>
+                        <div id="accDropdown" class="account-dropdown-menu" style="display: none; position: absolute; right: 0; top: 100%; min-width: 150px; background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 5px 0; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <a href="{{ $dash_route }}" style="display: block; padding: 10px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #f1f1f1; font-size: 15px; text-align: left;">{{ $dash_text }}</a>
+                            <form id="{{ $form_id }}" action="{{ $logout_route }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('{{ $form_id }}').submit();" style="display: block; padding: 10px 16px; color: #d9534f; text-decoration: none; font-size: 15px; text-align: left;">লগআউট</a>
+                        </div>
+                        <style>
+                            .account-dropdown-menu.show { display: block !important; }
+                            .account-dropdown-menu a:hover { background-color: #f8f9fa !important; }
+                        </style>
+                        <script>
+                            document.addEventListener('click', function(e) {
+                                var dropdown = document.getElementById('accDropdown');
+                                var btn = document.getElementById('accountBtn');
+                                if (dropdown && btn && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+                                    dropdown.classList.remove('show');
+                                }
+                            });
+                        </script>
+                    </div>
+                @else
+                    <a href="{{ route('user.login') }}" class="icon-btn" id="accountBtn" aria-label="অ্যাকাউন্ট">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.7" />
+                            <path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor"
+                                stroke-width="1.7" stroke-linecap="round" />
+                        </svg>
+                    </a>
+                @endif
                 <button class="icon-btn cart-btn" id="cartBtn" aria-label="কার্ট">
                     <svg class="icon" viewBox="0 0 24 24" fill="none">
                         <path d="M3 4h2l2.2 11.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6.4" stroke="currentColor"

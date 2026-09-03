@@ -23,6 +23,7 @@ class HomepageSettingController extends Controller implements HasMiddleware
         'best_selling_banners' => 3,
         'discounted_products_banner' => 1,
         'features' => 0, // 0 means no images
+        'testimonials' => 0,
     ];
 
     public function index()
@@ -32,9 +33,13 @@ class HomepageSettingController extends Controller implements HasMiddleware
             $settings[$key] = HomepageSetting::get($key, []);
         }
 
-        $settings['hero_badge'] = HomepageSetting::get('hero_badge', '✨ NEW COLLECTION ' . date('Y'));
-        $settings['hero_title'] = HomepageSetting::get('hero_title', "বাংলাদেশের\n<span>রঙে</span><br>\nআপনার Fashion");
-        $settings['hero_subtitle'] = HomepageSetting::get('hero_subtitle', "Premium Panjabi, Saree, Three Piece, T-Shirt,\nShirt এবং নতুন Fashion Collection এখন এক জায়গায়।");
+        $settings['hero_badge'] = HomepageSetting::get('hero_badge', '১০০% হাতে তৈরি');
+        $settings['hero_title'] = HomepageSetting::get('hero_title', "ঐতিহ্যবাহী বাংলাদেশ\nআপনার ঘরে আনুন");
+        $settings['hero_subtitle'] = HomepageSetting::get('hero_subtitle', "কারিগরের হাতে তৈরি বাংলার অনন্য সব পণ্য, সরাসরি পৌঁছে যাক আপনার দোরগোড়ায়।");
+        $settings['hero_btn1_text'] = HomepageSetting::get('hero_btn1_text', 'শপ নাও');
+        $settings['hero_btn1_link'] = HomepageSetting::get('hero_btn1_link', '#products');
+        $settings['hero_btn2_text'] = HomepageSetting::get('hero_btn2_text', 'সংগ্রহ দেখুন');
+        $settings['hero_btn2_link'] = HomepageSetting::get('hero_btn2_link', '#collections');
         
         if (empty($settings['features'])) {
             $settings['features'] = [
@@ -42,6 +47,14 @@ class HomepageSettingController extends Controller implements HasMiddleware
                 ['icon' => 'bi-cash-stack', 'title' => 'Cash on Delivery', 'subtitle' => 'পণ্য পেয়ে মূল্য পরিশোধ', 'color' => 'icon-purple'],
                 ['icon' => 'bi-arrow-repeat', 'title' => 'Easy Exchange', 'subtitle' => 'সহজ Size Exchange', 'color' => 'icon-pink'],
                 ['icon' => 'bi-shield-check', 'title' => 'Secure Payment', 'subtitle' => 'bKash, Nagad & Card', 'color' => 'icon-green'],
+            ];
+        }
+
+        if (empty($settings['testimonials'])) {
+            $settings['testimonials'] = [
+                ['name' => 'ফারজানা আক্তার', 'role' => 'ঢাকা', 'rating' => '5', 'text' => 'জামদানি শাড়িটা হাতে পেয়ে সত্যিই মুগ্ধ হয়েছি। কাপড়ের মান এবং কাজ দুটোই অসাধারণ।', 'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80'],
+                ['name' => 'রাকিবুল হাসান', 'role' => 'চট্টগ্রাম', 'rating' => '5', 'text' => 'মাটির চায়ের সেটটা দেখতে যেমন সুন্দর, ব্যবহার করেও তেমনই আরামদায়ক। ডেলিভারিও দ্রুত ছিল।', 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'],
+                ['name' => 'নুসরাত জাহান', 'role' => 'সিলেট', 'rating' => '4', 'text' => 'নকশি কাঁথাটা উপহার হিসেবে দিয়েছিলাম, সবাই খুব পছন্দ করেছে। প্যাকেজিংও চমৎকার ছিল।', 'avatar' => 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=150&q=80'],
             ];
         }
 
@@ -67,6 +80,27 @@ class HomepageSettingController extends Controller implements HasMiddleware
                 }
             }
             HomepageSetting::set('features', $features);
+        } elseif ($section === 'testimonials') {
+            $testimonials = [];
+            if ($request->has('testimonials')) {
+                foreach ($request->input('testimonials') as $index => $testi) {
+                    $avatarPath = $testi['old_avatar'] ?? '';
+                    
+                    if ($request->hasFile("testimonials.{$index}.avatar")) {
+                        $file = $request->file("testimonials.{$index}.avatar");
+                        $avatarPath = $file->store('homepage/testimonials', 'public');
+                    }
+
+                    $testimonials[] = [
+                        'name' => $testi['name'] ?? '',
+                        'role' => $testi['role'] ?? '',
+                        'rating' => $testi['rating'] ?? '5',
+                        'text' => $testi['text'] ?? '',
+                        'avatar' => $avatarPath,
+                    ];
+                }
+            }
+            HomepageSetting::set('testimonials', $testimonials);
         } else {
             $maxImages = $this->sections[$section];
             $existing = HomepageSetting::get($section, []);
@@ -102,6 +136,10 @@ class HomepageSettingController extends Controller implements HasMiddleware
             if ($request->has('hero_badge')) HomepageSetting::set('hero_badge', $request->input('hero_badge'));
             if ($request->has('hero_title')) HomepageSetting::set('hero_title', $request->input('hero_title'));
             if ($request->has('hero_subtitle')) HomepageSetting::set('hero_subtitle', $request->input('hero_subtitle'));
+            if ($request->has('hero_btn1_text')) HomepageSetting::set('hero_btn1_text', $request->input('hero_btn1_text'));
+            if ($request->has('hero_btn1_link')) HomepageSetting::set('hero_btn1_link', $request->input('hero_btn1_link'));
+            if ($request->has('hero_btn2_text')) HomepageSetting::set('hero_btn2_text', $request->input('hero_btn2_text'));
+            if ($request->has('hero_btn2_link')) HomepageSetting::set('hero_btn2_link', $request->input('hero_btn2_link'));
         }
 
         return redirect()

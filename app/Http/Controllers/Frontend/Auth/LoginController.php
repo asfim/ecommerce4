@@ -54,6 +54,16 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        $previousUrl = url()->previous();
+
+        if (str_contains($previousUrl, '/account') || str_contains($previousUrl, 'dashboard')) {
+            return redirect()->route('user.login');
+        }
+
+        if ($previousUrl === url('/') || $previousUrl === route('home')) {
+            return redirect()->route('home');
+        }
+
+        return redirect($previousUrl);
     }
 }

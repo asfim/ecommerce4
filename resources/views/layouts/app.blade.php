@@ -22,25 +22,44 @@
     @yield('content')
 </main>
 
-<!-- ================= FOOTER ================= -->
+@php
+  $company = \App\Models\HomepageSetting::get('company_settings', []);
+  $footerCategories = \App\Models\Category::where('is_active', true)->take(5)->get();
+@endphp
 <footer class="site-footer" id="footer">
   <div class="container footer-grid">
     <div class="footer-col footer-brand">
-      <a href="{{ route('home') }}" class="logo logo--footer">
-        <span class="logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 40 40" fill="none"><path d="M20 4C11 9 6 16 6 23a14 14 0 0 0 28 0c0-7-5-14-14-19Z" stroke="currentColor" stroke-width="2"/><path d="M20 12v22M20 12c-5 3-8 7-8 11M20 12c5 3 8 7 8 11" stroke="currentColor" stroke-width="1.4"/></svg>
-        </span>
-        <span class="logo-text">Eco<em>Haat</em></span>
+      <a href="{{ url('/') }}" class="logo logo--footer">
+        @if(!empty($company['logo']))
+          <img src="{{ asset('storage/' . $company['logo']) }}" alt="{{ $company['site_name'] ?? 'EcoHaat' }}" style="height: 40px; margin-bottom: 10px;">
+        @else
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none"><path d="M20 4C11 9 6 16 6 23a14 14 0 0 0 28 0c0-7-5-14-14-19Z" stroke="currentColor" stroke-width="2"/><path d="M20 12v22M20 12c-5 3-8 7-8 11M20 12c5 3 8 7 8 11" stroke="currentColor" stroke-width="1.4"/></svg>
+          </span>
+          <span class="logo-text">{{ $company['site_name'] ?? 'EcoHaat' }}</span>
+        @endif
       </a>
       <p>বাংলাদেশের কারিগরদের হাতে তৈরি ঐতিহ্যবাহী ও পরিবেশবান্ধব পণ্যের বিশ্বস্ত মার্কেটপ্লেস।</p>
       <div class="social-icons">
-        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z" stroke="currentColor" stroke-width="1.5"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
-        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 9.5 4.5 2.5-4.5 2.5v-5Z" fill="currentColor"/></svg></a>
+        @if(!empty($company['facebook']))
+          <a href="{{ $company['facebook'] }}" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        @else
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        @endif
+        @if(!empty($company['instagram']))
+          <a href="{{ $company['instagram'] }}" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        @else
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        @endif
+        @if(!empty($company['youtube']))
+          <a href="{{ $company['youtube'] }}" target="_blank" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 9.5 4.5 2.5-4.5 2.5v-5Z" fill="currentColor"/></svg></a>
+        @else
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 9.5 4.5 2.5-4.5 2.5v-5Z" fill="currentColor"/></svg></a>
+        @endif
       </div>
     </div>
     <div class="footer-col">
-      <h3>EcoHaat</h3>
+      <h3>{{ $company['site_name'] ?? 'EcoHaat' }}</h3>
       <ul>
         <li><a href="#story">আমাদের সম্পর্কে</a></li>
         <li><a href="#story">কারিগরের গল্প</a></li>
@@ -60,24 +79,28 @@
     <div class="footer-col">
       <h3>ক্যাটাগরি</h3>
       <ul>
-        <li><a href="#" data-filter="শাড়ি">জামদানি</a></li>
-        <li><a href="#" data-filter="হস্তশিল্প">হস্তশিল্প</a></li>
-        <li><a href="#" data-filter="পাট">পাটজাত পণ্য</a></li>
-        <li><a href="#" data-filter="মাটির পণ্য">মাটির পণ্য</a></li>
-        <li><a href="#" data-filter="গয়না">গয়না</a></li>
+        @forelse($footerCategories as $cat)
+          <li><a href="{{ url('/shop') }}?category={{ urlencode($cat->name) }}">{{ $cat->name }}</a></li>
+        @empty
+          <li><a href="#" data-filter="শাড়ি">জামদানি</a></li>
+          <li><a href="#" data-filter="হস্তশিল্প">হস্তশিল্প</a></li>
+          <li><a href="#" data-filter="পাট">পাটজাত পণ্য</a></li>
+          <li><a href="#" data-filter="মাটির পণ্য">মাটির পণ্য</a></li>
+          <li><a href="#" data-filter="গয়না">গয়না</a></li>
+        @endforelse
       </ul>
     </div>
     <div class="footer-col">
       <h3>যোগাযোগ</h3>
       <ul class="footer-contact">
-        <li>ঢাকা, বাংলাদেশ</li>
-        <li>+৮৮০ ১XXX-XXXXXX</li>
-        <li>support@ecohaat.com</li>
+        <li>{{ $company['address'] ?? 'ঢাকা, বাংলাদেশ' }}</li>
+        <li>{{ $company['phone'] ?? '+৮৮০ ১XXX-XXXXXX' }}</li>
+        <li>{{ $company['email'] ?? 'support@ecohaat.com' }}</li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© {{ date('Y') }} EcoHaat. সর্বস্বত্ব সংরক্ষিত।</p>
+    <p>© {{ date('Y') }} {{ $company['site_name'] ?? 'EcoHaat' }}. সর্বস্বত্ব সংরক্ষিত।</p>
   </div>
 </footer>
 

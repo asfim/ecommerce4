@@ -22,6 +22,12 @@
       'icon' => 'bi-star',
       'recommendation' => ''
     ],
+    'testimonials'           => [
+      'label' => 'Testimonials Section',
+      'max' => 0,
+      'icon' => 'bi-chat-quote',
+      'recommendation' => ''
+    ],
     // 'best_selling_banners'   => [
     //   'label' => 'Best Selling Banner',
     //   'max' => 3,
@@ -66,12 +72,13 @@
             <div class="alert alert-success py-2">{{ session('success') }}</div>
           @endif
 
-          {{-- Current Images --}}
-          @php $current = $settings[$key] ?? []; @endphp
-          @if(count($current) > 0)
-            <div class="mb-4">
-              <label class="form-label fw-semibold small">Current Images</label>
-              <form method="POST" action="{{ route('admin.settings.homepage.update', $key) }}" id="delete-form-{{ $key }}">
+          @if($info['max'] > 0)
+            {{-- Current Images --}}
+            @php $current = $settings[$key] ?? []; @endphp
+            @if(count($current) > 0)
+              <div class="mb-4">
+                <label class="form-label fw-semibold small">Current Images</label>
+                <form method="POST" action="{{ route('admin.settings.homepage.update', $key) }}" id="delete-form-{{ $key }}">
                 @csrf
                 <div class="d-flex flex-wrap gap-3">
                   @foreach($current as $img)
@@ -120,6 +127,7 @@
               Maximum images reached. Remove an existing image to upload a new one.
             </div>
           @endif
+          @endif
 
           @if($key === 'hero_banners')
             <hr class="my-4">
@@ -139,6 +147,26 @@
               <div class="mb-3">
                 <label class="form-label fw-semibold">Hero Subtitle</label>
                 <textarea name="hero_subtitle" class="form-control" rows="2">{{ old('hero_subtitle', $settings['hero_subtitle'] ?? '') }}</textarea>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Button 1 Text</label>
+                  <input type="text" name="hero_btn1_text" class="form-control" value="{{ old('hero_btn1_text', $settings['hero_btn1_text'] ?? '') }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Button 1 Link</label>
+                  <input type="text" name="hero_btn1_link" class="form-control" value="{{ old('hero_btn1_link', $settings['hero_btn1_link'] ?? '') }}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Button 2 Text</label>
+                  <input type="text" name="hero_btn2_text" class="form-control" value="{{ old('hero_btn2_text', $settings['hero_btn2_text'] ?? '') }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Button 2 Link</label>
+                  <input type="text" name="hero_btn2_link" class="form-control" value="{{ old('hero_btn2_link', $settings['hero_btn2_link'] ?? '') }}">
+                </div>
               </div>
               <button type="submit" class="btn btn-primary btn-sm">
                 <i class="bi bi-save me-1"></i> Save Texts
@@ -185,6 +213,57 @@
                 <i class="bi bi-save me-1"></i> Save Features
               </button>
             </form>
+          @elseif($key === 'testimonials')
+            <form method="POST" action="{{ route('admin.settings.homepage.update', $key) }}" enctype="multipart/form-data">
+              @csrf
+              @php $testimonials = $settings['testimonials'] ?? []; @endphp
+              
+              <div class="row g-3 mb-4" id="testimonials-container">
+                @php if(count($testimonials) == 0) $testimonials[] = []; @endphp
+                @foreach($testimonials as $i => $testi)
+                  <div class="col-md-6 testimonial-item">
+                    <div class="border rounded p-3 bg-light position-relative">
+                      <button type="button" class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2 remove-testimonial" title="Remove"><i class="bi bi-trash"></i></button>
+                      <h6 class="fw-bold mb-3 testimonial-title">Testimonial <span class="idx-text">{{ $i + 1 }}</span></h6>
+                      <div class="mb-2">
+                        <label class="form-label small fw-semibold">Name</label>
+                        <input type="text" name="testimonials[{{ $i }}][name]" class="form-control form-control-sm" value="{{ $testi['name'] ?? '' }}">
+                      </div>
+                      <div class="mb-2">
+                        <label class="form-label small fw-semibold">Role/Location</label>
+                        <input type="text" name="testimonials[{{ $i }}][role]" class="form-control form-control-sm" value="{{ $testi['role'] ?? '' }}">
+                      </div>
+                      <div class="mb-2">
+                        <label class="form-label small fw-semibold">Rating (1-5)</label>
+                        <input type="number" name="testimonials[{{ $i }}][rating]" class="form-control form-control-sm" value="{{ $testi['rating'] ?? '5' }}" min="1" max="5">
+                      </div>
+                      <div class="mb-2">
+                        <label class="form-label small fw-semibold">Avatar Image</label>
+                        @if(!empty($testi['avatar']))
+                          <div class="mb-2">
+                            <img src="{{ str_starts_with($testi['avatar'], 'http') ? $testi['avatar'] : asset('storage/' . $testi['avatar']) }}" alt="Avatar" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                          </div>
+                        @endif
+                        <input type="hidden" name="testimonials[{{ $i }}][old_avatar]" value="{{ $testi['avatar'] ?? '' }}">
+                        <input type="file" accept="image/*" name="testimonials[{{ $i }}][avatar]" class="form-control form-control-sm">
+                        <div class="form-text" style="font-size: 10px;">Upload a square image (e.g., 150x150).</div>
+                      </div>
+                      <div class="mb-2">
+                        <label class="form-label small fw-semibold">Text</label>
+                        <textarea name="testimonials[{{ $i }}][text]" class="form-control form-control-sm" rows="3">{{ $testi['text'] ?? '' }}</textarea>
+                      </div>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+              <div class="mb-3">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="add-testimonial-btn"><i class="bi bi-plus-circle me-1"></i> Add Another Testimonial</button>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-sm">
+                <i class="bi bi-save me-1"></i> Save Testimonials
+              </button>
+            </form>
           @endif
         </div>
       @endif
@@ -208,4 +287,57 @@
   }
   .list-group-item:first-child { border-top: none; }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('testimonials-container');
+    const addBtn = document.getElementById('add-testimonial-btn');
+
+    if(container && addBtn) {
+      addBtn.addEventListener('click', function() {
+        const items = container.querySelectorAll('.testimonial-item');
+        if(items.length === 0) return;
+        
+        const lastItem = items[items.length - 1];
+        const clone = lastItem.cloneNode(true);
+        const newIndex = items.length;
+        
+        clone.querySelectorAll('input, textarea, select').forEach(input => {
+          if(input.name) {
+            input.name = input.name.replace(/\[\d+\]/, `[${newIndex}]`);
+          }
+          if(input.type !== 'number' && input.name.includes('[rating]') === false) {
+            input.value = '';
+          }
+        });
+        
+        const titleSpan = clone.querySelector('.idx-text');
+        if(titleSpan) titleSpan.textContent = newIndex + 1;
+        
+        container.appendChild(clone);
+      });
+
+      container.addEventListener('click', function(e) {
+        if(e.target.closest('.remove-testimonial')) {
+          const items = container.querySelectorAll('.testimonial-item');
+          if(items.length > 1) {
+            e.target.closest('.testimonial-item').remove();
+            container.querySelectorAll('.testimonial-item').forEach((item, index) => {
+              item.querySelector('.idx-text').textContent = index + 1;
+              item.querySelectorAll('input, textarea, select').forEach(input => {
+                if(input.name) {
+                  input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
+                }
+              });
+            });
+          } else {
+            alert('At least one testimonial is required.');
+          }
+        }
+      });
+    }
+  });
+</script>
 @endpush
