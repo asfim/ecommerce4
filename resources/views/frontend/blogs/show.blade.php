@@ -3,7 +3,7 @@
 @section('title', $post->title . ' - Blog')
 
 @section('content')
-<div class="wrap py-4">
+<div class="container py-4">
     <!-- Breadcrumbs -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
