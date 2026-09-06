@@ -2211,8 +2211,8 @@ footer.main-footer h6 {
 }
 
 /* Custom Global Button Styling Override (Make all buttons orange background, white text & slight zoom on hover) */
-button:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid),
-.btn:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid),
+button:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid):not(.add-to-cart-detail):not(.buy-now-detail),
+.btn:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid):not(.add-to-cart-detail):not(.buy-now-detail),
 input[type="button"],
 input[type="submit"] {
     background-color: var(--green) !important;
@@ -2221,8 +2221,8 @@ input[type="submit"] {
     transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out !important;
 }
 
-button:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid):hover,
-.btn:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid):hover,
+button:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid):not(.add-to-cart-detail):not(.buy-now-detail):hover,
+.btn:not(.btn-close):not(.icon-btn):not(.navbar-toggler):not(.variant-btn):not(.btn-buy-now):not(.btn-bid):not(.add-to-cart-detail):not(.buy-now-detail):hover,
 input[type="button"]:hover,
 input[type="submit"]:hover {
     background-color: #e0471b !important;
