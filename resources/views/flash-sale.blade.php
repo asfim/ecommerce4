@@ -34,17 +34,61 @@
             </div>
         @else
             <!-- Products Grid -->
-            <div class="row g-3">
+            <div class="row g-3" id="productGrid">
                 @foreach($products as $product)
                     @include('frontend.partials.product_card', ['product' => $product])
                 @endforeach
             </div>
 
             <!-- Pagination -->
-            <div class="d-flex justify-content-center mt-5">
-                {{ $products->withQueryString()->links() }}
-            </div>
+            @if($products->hasMorePages())
+                <div class="d-flex justify-content-center mt-5">
+                    <button class="btn px-4 py-2 rounded-pill fw-semibold text-white" style="background-color: var(--green);" id="loadMoreBtn" data-page="2">Load More Products</button>
+                </div>
+            @endif
         @endif
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                const btn = this;
+                const page = btn.getAttribute('data-page');
+                const originalText = btn.innerHTML;
+                
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...';
+                btn.disabled = true;
+
+                fetch(`{{ url()->current() }}?page=${page}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const grid = document.getElementById('productGrid');
+                    grid.insertAdjacentHTML('beforeend', data.html);
+                    
+                    if (data.hasMore) {
+                        btn.setAttribute('data-page', parseInt(page) + 1);
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    } else {
+                        btn.parentElement.remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            });
+        }
+    });
+</script>
+@endpush

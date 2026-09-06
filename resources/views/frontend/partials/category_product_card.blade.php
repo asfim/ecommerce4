@@ -27,7 +27,7 @@
         $firstVariantImage = null;
         $now = now();
         foreach ($product->variants as $v) {
-            if (isset($v['combo'])) {
+            if (isset($v['combo']) || isset($v['value'])) {
                 if (isset($v['price']) && $v['price'] > 0) {
                     $originalP = (float) $v['price'];
                     $p = $originalP;
@@ -142,13 +142,13 @@
             @if ($hasMultiplePrices)
                 @if ($hasDiscount)
                     <span class="rcat-price"><span class="rcat-tk">৳</span> {{ number_format($minPrice, 0) }} – {{ number_format($maxPrice, 0) }}</span>
-                    <span class="rcat-price-old"><span class="rcat-tk-old">৳</span> {{ number_format($originalMinPrice, 0) }} – {{ number_format($originalMaxPrice, 0) }}</span>
+                    <del class="text-muted ms-1" style="font-size: 0.85em;"><span class="rcat-tk-old">৳</span> {{ number_format($originalMinPrice, 0) }} – {{ number_format($originalMaxPrice, 0) }}</del>
                 @else
                     <span class="rcat-price"><span class="rcat-tk">৳</span> {{ number_format($minPrice, 0) }} – {{ number_format($maxPrice, 0) }}</span>
                 @endif
             @elseif($hasDiscount)
                 <span class="rcat-price"><span class="rcat-tk">৳</span> {{ number_format($discountedPrice, 0) }}</span>
-                <span class="rcat-price-old"><span class="rcat-tk-old">৳</span> {{ number_format(isset($originalMinPrice) ? $originalMinPrice : $product->price, 0) }}</span>
+                <del class="text-muted ms-1" style="font-size: 0.85em;"><span class="rcat-tk-old">৳</span> {{ number_format(isset($originalMinPrice) ? $originalMinPrice : $product->price, 0) }}</del>
             @else
                 <span class="rcat-price"><span class="rcat-tk">৳</span> {{ number_format($minPrice, 0) }}</span>
             @endif

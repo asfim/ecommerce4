@@ -28,7 +28,7 @@
         $firstVariantImage = null;
         $now = now();
         foreach ($product->variants as $v) {
-            if (isset($v['combo'])) {
+            if (isset($v['combo']) || isset($v['value'])) {
                 $isVariant = true;
                 if (isset($v['price']) && $v['price'] > 0) {
                     $originalP = (float) $v['price'];
@@ -157,9 +157,9 @@
                         @if ($hasDiscount)
                             <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }} -
                             {{ number_format($maxPrice, 0) }}
-                            <span class="old"><span style="font-size: 1.2em;">৳</span>
+                            <del class="text-muted ms-1" style="font-size: 0.8em; font-weight: 400;"><span style="font-size: 1.1em;">৳</span>
                                 {{ number_format($originalMinPrice, 0) }} -
-                                {{ number_format($originalMaxPrice, 0) }}</span>
+                                {{ number_format($originalMaxPrice, 0) }}</del>
                         @else
                             <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }} -
                             {{ number_format($maxPrice, 0) }}
@@ -167,8 +167,8 @@
                     @else
                         @if ($hasDiscount)
                             <span style="font-size: 1.2em;">৳</span> {{ number_format($discountedPrice, 0) }}
-                            <span class="old"><span style="font-size: 1.2em;">৳</span>
-                                {{ number_format($isVariant ? $originalMinPrice : $product->price, 0) }}</span>
+                            <del class="text-muted ms-1" style="font-size: 0.8em; font-weight: 400;"><span style="font-size: 1.1em;">৳</span>
+                                {{ number_format($isVariant ? $originalMinPrice : $product->price, 0) }}</del>
                         @else
                             <span style="font-size: 1.2em;">৳</span> {{ number_format($minPrice, 0) }}
                         @endif

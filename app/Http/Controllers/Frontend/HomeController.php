@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\HomepageSetting;
 use App\Models\Product;
 use App\Models\SubCategory;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -61,17 +65,21 @@ class HomeController extends Controller
             if (is_array($p->variants)) {
                 $now = now();
                 foreach ($p->variants as $v) {
-                    if (isset($v['combo']) && !empty($v['discount_type']) && (float)($v['discount'] ?? 0) > 0) {
-                        $start = !empty($v['discount_start']) ? \Carbon\Carbon::parse($v['discount_start']) : null;
-                        $end = !empty($v['discount_end']) ? \Carbon\Carbon::parse($v['discount_end']) : null;
+                    if (isset($v['combo']) && ! empty($v['discount_type']) && (float) ($v['discount'] ?? 0) > 0) {
+                        $start = ! empty($v['discount_start']) ? Carbon::parse($v['discount_start']) : null;
+                        $end = ! empty($v['discount_end']) ? Carbon::parse($v['discount_end']) : null;
                         $isActive = true;
-                        if ($start && $start->gt($now)) $isActive = false;
-                        if ($end && $end->lt($now)) $isActive = false;
+                        if ($start && $start->gt($now)) {
+                            $isActive = false;
+                        }
+                        if ($end && $end->lt($now)) {
+                            $isActive = false;
+                        }
 
                         if ($isActive) {
                             if ($v['discount_type'] === 'percent') {
                                 $pMax = max($pMax, (float) $v['discount']);
-                            } elseif ($v['discount_type'] === 'fixed' && !empty($v['price']) && (float) $v['price'] > 0) {
+                            } elseif ($v['discount_type'] === 'fixed' && ! empty($v['price']) && (float) $v['price'] > 0) {
                                 $pMax = max($pMax, ((float) $v['discount'] / (float) $v['price']) * 100);
                             }
                         }
@@ -101,27 +109,29 @@ class HomeController extends Controller
         $discountedProducts = Product::frontendActive()
             ->with('category')
             ->where(function ($q) {
-                $q->where(function($sq) {
+                $q->where(function ($sq) {
                     $sq->whereNotNull('discount_type')
-                       ->where('discount_value', '>', 0);
+                        ->where('discount_value', '>', 0);
                 })
-                ->orWhere('variants', 'LIKE', '%"discount":"%')
-                ->orWhere('variants', 'LIKE', '%"discount": %')
-                ->orWhere('variants', 'LIKE', '%"discount":1%')
-                ->orWhere('variants', 'LIKE', '%"discount":2%')
-                ->orWhere('variants', 'LIKE', '%"discount":3%')
-                ->orWhere('variants', 'LIKE', '%"discount":4%')
-                ->orWhere('variants', 'LIKE', '%"discount":5%')
-                ->orWhere('variants', 'LIKE', '%"discount":6%')
-                ->orWhere('variants', 'LIKE', '%"discount":7%')
-                ->orWhere('variants', 'LIKE', '%"discount":8%')
-                ->orWhere('variants', 'LIKE', '%"discount":9%');
+                    ->orWhere('variants', 'LIKE', '%"discount":"%')
+                    ->orWhere('variants', 'LIKE', '%"discount": %')
+                    ->orWhere('variants', 'LIKE', '%"discount":1%')
+                    ->orWhere('variants', 'LIKE', '%"discount":2%')
+                    ->orWhere('variants', 'LIKE', '%"discount":3%')
+                    ->orWhere('variants', 'LIKE', '%"discount":4%')
+                    ->orWhere('variants', 'LIKE', '%"discount":5%')
+                    ->orWhere('variants', 'LIKE', '%"discount":6%')
+                    ->orWhere('variants', 'LIKE', '%"discount":7%')
+                    ->orWhere('variants', 'LIKE', '%"discount":8%')
+                    ->orWhere('variants', 'LIKE', '%"discount":9%');
             })
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->latest()
             ->get()
-            ->filter(function($p) { return $p->has_any_discount; })
+            ->filter(function ($p) {
+                return $p->has_any_discount;
+            })
             ->take(12);
         $newArrivalProducts = Product::frontendActive()
             ->where('is_new_arrival', true)
@@ -295,14 +305,15 @@ class HomeController extends Controller
             $html = '';
             foreach ($products as $product) {
                 $html .= '<div class="col-6 col-md-4 col-lg-3">'
-                    . view('frontend.partials.category_product_card', compact('product'))->render()
-                    . '</div>';
+                    .view('frontend.partials.category_product_card', compact('product'))->render()
+                    .'</div>';
             }
+
             return response()->json([
-                'html'       => $html,
+                'html' => $html,
                 'pagination' => (string) $products->links(),
-                'total'      => $products->total(),
-                'has_more'   => $products->hasMorePages(),
+                'total' => $products->total(),
+                'has_more' => $products->hasMorePages(),
             ]);
         }
 
@@ -328,7 +339,7 @@ class HomeController extends Controller
         return view('frontend.contact', compact('companySettings'));
     }
 
-    public function shop(): \Illuminate\View\View|\Illuminate\Http\JsonResponse
+    public function shop(): View|JsonResponse
     {
         $query = Product::frontendActive()
             ->withAvg('reviews', 'rating')
@@ -351,7 +362,7 @@ class HomeController extends Controller
         if (request()->has('max_price') && request('max_price') !== null) {
             $query->where('price', '<=', request('max_price'));
         }
-        
+
         // Apply Stock Filter
         if (request()->has('availability')) {
             if (in_array('in_stock', request('availability'))) {
@@ -375,7 +386,7 @@ class HomeController extends Controller
         $page = (int) request()->get('page', 1);
         $perPageInitial = 12;
         $perPageLoadMore = 4;
-        
+
         if ($page == 1) {
             $limit = $perPageInitial;
             $offset = 0;
@@ -388,8 +399,8 @@ class HomeController extends Controller
         $products = $query->offset($offset)->limit($limit)->get();
         $hasMore = ($offset + $limit) < $total;
 
-        $categories = \App\Models\Category::where('is_active', true)->get();
-        $brands = \App\Models\Brand::where('is_active', true)->get();
+        $categories = Category::where('is_active', true)->get();
+        $brands = Brand::where('is_active', true)->get();
 
         if ($sort === 'best_selling') {
             return view('bestsell', compact('products'));
@@ -397,32 +408,70 @@ class HomeController extends Controller
 
         if (request()->ajax()) {
             $html = '';
-            foreach($products as $product) {
+            foreach ($products as $product) {
                 $html .= view('frontend.partials.product_card', compact('product'))->render();
             }
+
             return response()->json([
-                'html' => $html, 
-                'hasMore' => $hasMore
+                'html' => $html,
+                'hasMore' => $hasMore,
             ]);
         }
 
         return view('shop', compact('products', 'categories', 'brands', 'hasMore', 'total'));
     }
 
-    public function flashSale(): View
+    public function flashSale(): View|JsonResponse
     {
-        $products = Product::frontendActive()
-            ->whereNotNull('discount_type')
-            ->where('discount_value', '>', 0)
+        $allDiscounted = Product::frontendActive()
             ->where(function ($q) {
-                $q->whereNull('variants')
-                  ->orWhere('variants', '[]')
-                  ->orWhere('variants', '');
+                $q->where(function ($sq) {
+                    $sq->whereNotNull('discount_type')
+                        ->where('discount_value', '>', 0);
+                })
+                    ->orWhere('variants', 'LIKE', '%"discount":"%')
+                    ->orWhere('variants', 'LIKE', '%"discount": %')
+                    ->orWhere('variants', 'LIKE', '%"discount":1%')
+                    ->orWhere('variants', 'LIKE', '%"discount":2%')
+                    ->orWhere('variants', 'LIKE', '%"discount":3%')
+                    ->orWhere('variants', 'LIKE', '%"discount":4%')
+                    ->orWhere('variants', 'LIKE', '%"discount":5%')
+                    ->orWhere('variants', 'LIKE', '%"discount":6%')
+                    ->orWhere('variants', 'LIKE', '%"discount":7%')
+                    ->orWhere('variants', 'LIKE', '%"discount":8%')
+                    ->orWhere('variants', 'LIKE', '%"discount":9%');
             })
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->latest()
-            ->paginate(12);
+            ->get()
+            ->filter(function ($p) {
+                return $p->has_any_discount;
+            })
+            ->values();
+
+        $page = Paginator::resolveCurrentPage() ?: 1;
+        $perPage = 12;
+        $paginatedItems = $allDiscounted->slice(($page - 1) * $perPage, $perPage);
+        $products = new LengthAwarePaginator(
+            $paginatedItems,
+            $allDiscounted->count(),
+            $perPage,
+            $page,
+            ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
+        );
+
+        if (request()->ajax()) {
+            $html = '';
+            foreach ($products as $product) {
+                $html .= view('frontend.partials.product_card', compact('product'))->render();
+            }
+
+            return response()->json([
+                'html' => $html,
+                'hasMore' => $products->hasMorePages(),
+            ]);
+        }
 
         return view('flash-sale', compact('products'));
     }
