@@ -378,7 +378,7 @@
 
             document.addEventListener('DOMContentLoaded', function() {
                 const track = document.getElementById('heroTrack');
-                const slides = document.querySelectorAll('.hero-slide');
+                const slides = track ? track.querySelectorAll('.hero-slide') : [];
                 const prevBtn = document.getElementById('heroPrevBtn');
                 const nextBtn = document.getElementById('heroNextBtn');
                 
